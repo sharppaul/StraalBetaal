@@ -7,7 +7,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import nl.hr.project3_4.straalbetaal.server.resources.Resource;
-import nl.hr.project3_4.straalbetaal.server.services.Service;
 
 public class Server {
 
@@ -22,7 +21,7 @@ public class Server {
 
 
 	public static void main(String[] args) throws Exception {
-		new Service();
+		new Server();
 	}
 
 	private HttpServer initWebserver() {
