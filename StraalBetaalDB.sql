@@ -18,45 +18,67 @@ USE `straalbetaal`;
 
 -- Dumping structure for table straalbetaal.betaalgeschiedenis
 CREATE TABLE IF NOT EXISTS `betaalgeschiedenis` (
-  `userID` char(50) NOT NULL,
+  `IBAN` char(50) NOT NULL,
   `af_bij_geschreven` int(11) DEFAULT NULL,
   `datum` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`userID`)
+  PRIMARY KEY (`IBAN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table straalbetaal.betaalgeschiedenis: ~0 rows (approximately)
+DELETE FROM `betaalgeschiedenis`;
 /*!40000 ALTER TABLE `betaalgeschiedenis` DISABLE KEYS */;
 /*!40000 ALTER TABLE `betaalgeschiedenis` ENABLE KEYS */;
 
 
--- Dumping structure for table straalbetaal.saldo
-CREATE TABLE IF NOT EXISTS `saldo` (
-  `userID` varchar(50) NOT NULL,
-  `userSaldo` int(11) NOT NULL,
-  PRIMARY KEY (`userID`)
+-- Dumping structure for table straalbetaal.cards
+CREATE TABLE IF NOT EXISTS `cards` (
+  `IBAN` char(50) NOT NULL,
+  `userID` char(50) NOT NULL,
+  `pincode` char(4) NOT NULL,
+  PRIMARY KEY (`IBAN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table straalbetaal.saldo: ~0 rows (approximately)
+-- Dumping data for table straalbetaal.cards: ~2 rows (approximately)
+DELETE FROM `cards`;
+/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
+INSERT INTO `cards` (`IBAN`, `userID`, `pincode`) VALUES
+	('123456789', 'JasonP', '3025'),
+	('9999', 'GarePaul', '4200');
+/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
+
+
+-- Dumping structure for table straalbetaal.saldo
+CREATE TABLE IF NOT EXISTS `saldo` (
+  `IBAN` char(50) NOT NULL,
+  `cardSaldo` int(11) NOT NULL,
+  PRIMARY KEY (`IBAN`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table straalbetaal.saldo: ~3 rows (approximately)
+DELETE FROM `saldo`;
 /*!40000 ALTER TABLE `saldo` DISABLE KEYS */;
-INSERT INTO `saldo` (`userID`, `userSaldo`) VALUES
-	('jasonPhillips69', 1000);
+INSERT INTO `saldo` (`IBAN`, `cardSaldo`) VALUES
+	('123456789', 1000),
+	('55551', 0),
+	('9999', 50);
 /*!40000 ALTER TABLE `saldo` ENABLE KEYS */;
 
 
 -- Dumping structure for table straalbetaal.users
 CREATE TABLE IF NOT EXISTS `users` (
   `userID` char(50) NOT NULL,
-  `firstName` varchar(50) NOT NULL,
-  `lastName` varchar(50) NOT NULL,
-  `userPassword` smallint(4) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `registeredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table straalbetaal.users: ~1 rows (approximately)
+DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`userID`, `firstName`, `lastName`, `userPassword`, `registeredDate`) VALUES
-	('jasonPhillips69', 'Jason', 'Phillips', 6663, '2016-03-06 15:15:07');
+INSERT INTO `users` (`userID`, `firstname`, `lastname`, `email`, `registeredDate`) VALUES
+	('JasonP', 'Jason', 'Phillips', 'stupidnerd69@gmail.com', '2016-03-09 18:30:26');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
