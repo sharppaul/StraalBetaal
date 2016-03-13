@@ -18,10 +18,17 @@ USE `straalbetaal`;
 
 -- Dumping structure for table straalbetaal.betaalgeschiedenis
 CREATE TABLE IF NOT EXISTS `betaalgeschiedenis` (
+<<<<<<< HEAD
   `IBAN` char(50) NOT NULL,
   `af_bij_geschreven` int(11) DEFAULT NULL,
   `datum` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`IBAN`)
+=======
+  `cardID` char(50) NOT NULL,
+  `af_bij_geschreven` int(11) DEFAULT NULL,
+  `datum` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`cardID`)
+>>>>>>> origin/master
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table straalbetaal.betaalgeschiedenis: ~0 rows (approximately)
@@ -32,33 +39,56 @@ DELETE FROM `betaalgeschiedenis`;
 
 -- Dumping structure for table straalbetaal.cards
 CREATE TABLE IF NOT EXISTS `cards` (
+<<<<<<< HEAD
   `IBAN` char(50) NOT NULL,
   `userID` char(50) NOT NULL,
   `pincode` char(4) NOT NULL,
   PRIMARY KEY (`IBAN`)
+=======
+  `cardID` char(50) NOT NULL,
+  `userID` char(50) NOT NULL,
+  `pincode` char(4) NOT NULL,
+  PRIMARY KEY (`cardID`)
+>>>>>>> origin/master
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table straalbetaal.cards: ~2 rows (approximately)
 DELETE FROM `cards`;
 /*!40000 ALTER TABLE `cards` DISABLE KEYS */;
+<<<<<<< HEAD
 INSERT INTO `cards` (`IBAN`, `userID`, `pincode`) VALUES
 	('123456789', 'JasonP', '3025'),
+=======
+INSERT INTO `cards` (`cardID`, `userID`, `pincode`) VALUES
+	('12345', 'JasonP', '3025'),
+>>>>>>> origin/master
 	('9999', 'GarePaul', '4200');
 /*!40000 ALTER TABLE `cards` ENABLE KEYS */;
 
 
 -- Dumping structure for table straalbetaal.saldo
 CREATE TABLE IF NOT EXISTS `saldo` (
+<<<<<<< HEAD
   `IBAN` char(50) NOT NULL,
   `cardSaldo` int(11) NOT NULL,
   PRIMARY KEY (`IBAN`)
+=======
+  `cardID` char(50) NOT NULL,
+  `cardSaldo` int(11) NOT NULL,
+  PRIMARY KEY (`cardID`)
+>>>>>>> origin/master
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table straalbetaal.saldo: ~3 rows (approximately)
 DELETE FROM `saldo`;
 /*!40000 ALTER TABLE `saldo` DISABLE KEYS */;
+<<<<<<< HEAD
 INSERT INTO `saldo` (`IBAN`, `cardSaldo`) VALUES
 	('123456789', 1000),
+=======
+INSERT INTO `saldo` (`cardID`, `cardSaldo`) VALUES
+	('12345', 1000),
+>>>>>>> origin/master
 	('55551', 0),
 	('9999', 50);
 /*!40000 ALTER TABLE `saldo` ENABLE KEYS */;
