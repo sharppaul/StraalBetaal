@@ -1,62 +1,81 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <modelVersion>4.0.0</modelVersion>
+  <groupId>nl.hr.project3_4</groupId>
+  <artifactId>straalbetaal</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
 
-    <groupId>org.hr.project3_4</groupId>
-    <artifactId>straalBetaal</artifactId>
-    <packaging>war</packaging>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>straalBetaal</name>
+  <modules>
+  	<module>client</module>
+  	<module>api</module>
+  	<module>server</module>
+  </modules>
 
-    <build>
-        <finalName>straalBetaal</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.glassfish.jersey</groupId>
-                <artifactId>jersey-bom</artifactId>
-                <version>${jersey.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+  <repositories>
+    <repository>
+      <name>SpareTimeLabs</name>
+      <id>SpareTimeLabs</id>
+      <url>http://www.sparetimelabs.com/maven2</url>
+    </repository>
+    <repository>
+      <id>4thline-repo</id>
+      <url>http://4thline.org/m2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-            <!-- use the following artifactId if you don't need servlet 2.x compatibility -->
-            <!-- artifactId>jersey-container-servlet</artifactId -->
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.34</version>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <!--  Logging - slf4j - The Simple Logging Facade for Java (SLF4J)
+    serves as a simple facade or abstraction for various logging frameworks
+    (e.g. java.util.logging, logback, log4j) allowing the end user to
+    plug in the desired logging framework at deployment time. -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <!--  Logging - log4j -
+    Leren werken met log4j: http://www.mkyong.com/logging/log4j-hello-world-example -->
+    <!-- A log request of level p in a logger with level q is enabled if p >= q.
+    This rule is at the heart of log4j. It assumes that levels are ordered.
+    For the standard levels, we have ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF.-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.1</version>
+    </dependency>
 
-    <properties>
-        <jersey.version>2.22.2</jersey.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <!-- "This project aims to implement a thread safe, Open Source, pure Java,
+    drop-in replacement for Sun's and RXTX project's JavaComm SerialPort on
+    Mac OS X, Linux and Windows platforms. If you are reading this you probably
+    know already what JavaComm is but in short it is a platform indepent way
+    to access serial ports (RS232) from Java applications."
+    http://www.sparetimelabs.com/purejavacomm/purejavacomm.php-->
+    <dependency>
+      <groupId>com.sparetimelabs</groupId>
+      <artifactId>purejavacomm</artifactId>
+      <version>0.0.22</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+
 </project>
