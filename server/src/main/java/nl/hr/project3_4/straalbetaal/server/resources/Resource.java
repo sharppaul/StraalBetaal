@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 public class Resource {
 
 	private Service serv = new Service();
-
+	// Implement this with THIS.... 
 
 	@GET
 	@Path("/{IBAN}&{pincode}")
