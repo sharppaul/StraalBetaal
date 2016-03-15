@@ -6,7 +6,7 @@ import nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject;
 public class Service {
 
 	private static DataAccessObject dao = new DataAccessObject();
-	private boolean pincodeChecked = false;
+	private boolean pincodeChecked = true; // (Testing with true for now) -> Mostlikely this whole class is instantiated every time a request is sent, so it will stay on false.
 	private long balance = 0;
 
 
