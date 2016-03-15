@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class DataAccessObject extends DbTemplate {
 
-	private Connection con = getConnection();
+	private Connection con;
 	private PreparedStatement stmt;
 	private ResultSet rs;
 
@@ -19,6 +19,7 @@ public class DataAccessObject extends DbTemplate {
 		String userID = null;
 		String getUserSQL = "SELECT cards.userID FROM cards WHERE cards.IBAN = ? AND cards.pincode = ?";
 
+		con = getConnection();
 		stmt = con.prepareStatement(getUserSQL);
 		stmt.setString(1, iban);
 		stmt.setLong(2, pincode);
@@ -37,6 +38,7 @@ public class DataAccessObject extends DbTemplate {
 		long balance;
 		String getBalanceSQL = "SELECT saldo.cardSaldo FROM saldo WHERE saldo.IBAN = ?";
 
+		con = getConnection();
 		stmt = con.prepareStatement(getBalanceSQL);
 		stmt.setString(1, iban);
 		rs = stmt.executeQuery();
@@ -55,6 +57,7 @@ public class DataAccessObject extends DbTemplate {
 		String getMoneySQL = "UPDATE saldo SET saldo.cardSaldo = ? WHERE cardID = ?";
 		String betaalGeschiedenisSQL = "INSERT INTO betaalgeschiedenis (iban, af_bij_geschreven, datum) VALUE( ?, ?, ?)";
 
+		con = getConnection();
 		stmt = con.prepareStatement(getMoneySQL);
 		stmt.setLong(1, currentSaldo);
 		stmt.setString(2, iban);
