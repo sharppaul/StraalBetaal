@@ -85,6 +85,7 @@ void rfid() {
     Serial.print(uid2);
     Serial.print(uid3);
     Serial.print(uid4);
+    Serial.println("");
 
     //String lol(str);
     tagRead = true;
@@ -99,7 +100,6 @@ void encrypt() {
   pincodePlain.toCharArray(data, 5);
   uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 985, 798, 789, 165, 48, 15, 984, 51, 64, 894, 4, 65, 654, 4, 6};
   aes256_enc_single(key, data);
-  Serial.println("");
   Serial.print("pin: ");
   Serial.println(data);
   aes256_dec_single(key, data);
@@ -202,6 +202,7 @@ void wrongCharacter() {
 void pincodeKeyInvoer() {
   pincodePlain += key;
   pincodeLength ++;
+  Serial.println("*");
 }
 //_______________________lololol________________________________________________________________________________________________//
 void keuzeMenu() {
