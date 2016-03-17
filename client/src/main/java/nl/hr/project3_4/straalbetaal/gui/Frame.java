@@ -1,4 +1,4 @@
-package client.gui;
+package nl.hr.project3_4.straalbetaal.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ public class Frame extends JFrame {
 		f.setContentPane(new Background());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		f.setUndecorated(true);
+		//f.setUndecorated(true);
 
 		f.setLayout(new GridBagLayout());
 
@@ -104,9 +104,10 @@ public class Frame extends JFrame {
 	public void manageMenu() {
 		mainPanel.removeAll();
 		// choiceMenu();
-		pinMenu();
+		// pinMenu();
 		// saldoMenu((float) 2.1233);
 		// bonMenu();
+		// startMenu();
 		mainPanel.updateUI();
 	}
 
@@ -148,7 +149,7 @@ public class Frame extends JFrame {
 		instr = new JLabel("Saldo: ");
 		instr.setFont(bigfont);
 
-		saldotxt = new JLabel("Saldo: €" + saldo);
+		saldotxt = new JLabel("€" + saldo);
 		saldotxt.setFont(bigfont);
 
 		// GENERAL CONSTRAINTS:
@@ -380,7 +381,7 @@ public class Frame extends JFrame {
 	}
 
 	private JButton snelPinButton() {
-		JButton btn = new JButton("Snel Pinnen (70,- €)");
+		JButton btn = new JButton("Snel Pinnen (€ 70,-)");
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

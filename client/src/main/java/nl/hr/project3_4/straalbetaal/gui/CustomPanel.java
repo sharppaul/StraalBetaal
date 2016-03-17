@@ -1,4 +1,4 @@
-package client.gui;
+package nl.hr.project3_4.straalbetaal.gui;
 
 import java.awt.Graphics;
 import javax.swing.JPanel;
