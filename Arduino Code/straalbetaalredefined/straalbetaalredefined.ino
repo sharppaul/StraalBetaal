@@ -2,39 +2,43 @@
 #include <AESLib.h>
 #include <AddicoreRFID.h>
 #include <SPI.h>
-String pincodePlain;
+
 #define  uchar unsigned char
 #define uint  unsigned int
-int uid1;
-int uid2;
-int uid3;
-int uid4;
-//4 bytes tag serial number, the first 5 bytes for the checksum byte
-uchar serNumA[5];
-int pincodeLength = 0;
+#define MAX_LEN 16//Maximum length of the array
+
+uchar serNumA[5];//4 bytes tag serial number, the first 5 bytes for the checksum byte
 uchar fifobytes;
 uchar fifoValue;
-boolean tagReaded;
-char key;
 
 AddicoreRFID myRFID; // create AddicoreRFID object to control the RFID module
-/////////////////////////////////////////////////////////////////////
-//set the pins
-/////////////////////////////////////////////////////////////////////
-const int chipSelectPin = 10;
-const int NRSTPD = 5;
-//Maximum length of the array
-#define MAX_LEN 16
+
 const byte ROWS = 4;
 const byte COLS = 4;
+byte colPins[COLS] = {A0, A1, A2, A3}; //connect to row pinouts
+byte rowPins[ROWS] = {7, 6, 4, 3}; //connect to column pinouts
+
+char key;
 char keys[ROWS][COLS] = {
   {'1', '2', '3', 'A'},
   {'4', '5', '6', 'B'},
   {'7', '8', '9', 'C'},
   {'*', '0', '#', 'D'}
 };
-byte colPins[COLS] = {A0, A1, A2, A3}; //connect to row pinouts
-byte rowPins[ROWS] = {7, 6, 4, 3}; //connect to column pinouts
+
+String pincodePlain;
+
+int uid1;
+int uid2;
+int uid3;
+int uid4;
+int pincodeLength = 0;
+
+const int chipSelectPin = 10;
+const int NRSTPD = 5;
+
+boolean tagRead;
+boolean pincodeOk = false;// this value needs to be true, the client sends a bool with an ok
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
@@ -48,11 +52,15 @@ void setup() {
   digitalWrite(NRSTPD, HIGH);
 
   myRFID.AddicoreRFID_Init();
-  tagReaded = false;
+  tagRead = false;
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
   pincodeInvoer();
+  //waits for pincodeOk from client
+  while (pincodeOk == true) {
+    keuzeMenu();
+  }
 }
 
 //_______________________________________________________keyPad_______________________________________________________//
@@ -79,7 +87,7 @@ void rfid() {
     Serial.print(uid4);
 
     //String lol(str);
-    tagReaded = true;
+    tagRead = true;
   }
 
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
@@ -101,11 +109,11 @@ void aes256_enc_single(const uint8_t* key, void* data);
 void aes256_dec_single(const uint8_t* key, void* data);
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
-  if (tagReaded == false) {
+  if (tagRead == false) {
     rfid();
     pincodePlain = "";
   }
-  else if (tagReaded == true) {
+  else if (tagRead == true) {
     keyPad();
 
     switch (key) {
@@ -135,7 +143,8 @@ void pincodeInvoer() {
           Serial.println("pincode verzonden");
           pincodePlain = "";
           pincodeLength = 0;
-          tagReaded = false;//kan nog meer achter staan
+          pincodeOk = true;
+          //tagRead = false;//kan nog meer achter staan
         }
         break;
       case '1':
@@ -169,7 +178,7 @@ void pincodeInvoer() {
         pincodeKeyInvoer();
         break;
       case '*':
-        tagReaded = false;
+        tagRead = false;
         pincodePlain = "";
         pincodeLength = 0;
         Serial.println("Betaling afgebroken");
@@ -195,3 +204,26 @@ void pincodeKeyInvoer() {
   pincodeLength ++;
 }
 //_______________________lololol________________________________________________________________________________________________//
+void keuzeMenu() {
+  keyPad();
+  switch (key) {
+    case 'A':
+      Serial.println("snelpinnen");
+      break;
+    case 'B':
+      Serial.println("saldo bekijken");
+      break;
+    case 'C':
+      Serial.println("pinnen");
+      break;
+    case '*':
+      tagRead = false;
+      pincodeOk = false;
+      Serial.println("stoppen");
+      delay(3000); //waits some time before the payment terminal accepts a new pas
+      break;
+    default:
+      break;
+  }
+}
+
