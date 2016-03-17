@@ -2,7 +2,7 @@ package nl.hr.project3_4.straalbetaal.client;
 
 import nl.hr.project3_4.straalbetaal.api.WithdrawRequest;
 
-public class MyClient {
+public class Client {
 
 	public static void main(String[] args) {
 		/* 
