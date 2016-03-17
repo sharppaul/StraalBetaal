@@ -103,7 +103,7 @@ public class Frame extends JFrame {
 
 	public void manageMenu() {
 		mainPanel.removeAll();
-		// choiceMenu();
+		choiceMenu();
 		// pinMenu();
 		// saldoMenu((float) 2.1233);
 		// bonMenu();
