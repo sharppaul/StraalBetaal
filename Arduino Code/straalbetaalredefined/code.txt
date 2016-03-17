@@ -1,0 +1,11 @@
+OK,
+je flikkert er dus de kaart in.
+
+Het eerste wat hij doet is de kaart lezen en de code printen.
+daarna vul jij je pincode in, als dit goed gaat stuurt hij de pincode encrypted op. daarna stuurt hij nog een keer de pasid op
+als de pincode tekort is zegtie dat de pincode te kort is. de pincode wordt op 0 gezet.
+als de pincode te lang is: ""
+als er op de verkeerde knop geduwt is wordt de pincode op 0 gezet.
+als er een correctie wordt uitgevoerd: de pincode wordt op 0 gezet
+als de betaling wordt afgebroken wordt de bool tagreaded op false getzet en zegtie dat de betaling is afgebroken en gaat hij pas verder als er een nieuwe pas inzit.
+
