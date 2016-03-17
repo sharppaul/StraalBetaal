@@ -191,7 +191,7 @@ void wrongCharacter() {
   Serial.println("Verkeerde tjaracter");
 }
 void pincodeKeyInvoer() {
-  pincodePlain += key;s
+  pincodePlain += key;
   pincodeLength ++;
 }
 //_______________________lololol________________________________________________________________________________________________//
