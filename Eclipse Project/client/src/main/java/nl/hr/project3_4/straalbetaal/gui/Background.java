@@ -1,5 +1,6 @@
 package nl.hr.project3_4.straalbetaal.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,12 +29,8 @@ public class Background extends JComponent {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		int width = getWidth();  
-        int height = getHeight();  
-        for (int x = 0; x < width; x += bgImage.getWidth()) {  
-            for (int y = 0; y < height; y += bgImage.getHeight()) {  
-                g.drawImage(bgImage, x, y, this);  
-            }  
-        }  
+		g.setColor(new Color(224,224,224));
+		g.fillRect(0, 0, getWidth(), getHeight());
+        g.drawImage(bgImage, getWidth()/10, getHeight()/10, this);   
 	}
 }

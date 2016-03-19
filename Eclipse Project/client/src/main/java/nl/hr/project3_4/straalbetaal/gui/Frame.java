@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 public class Frame extends JFrame {
@@ -19,7 +21,14 @@ public class Frame extends JFrame {
 	private GridBagConstraints c;
 	private Font bigfont;
 	private JLabel pin;
+
+	private final String[] modes = { "start", "login", "choice", "error", "pin", "billselect", "quickpin", "saldo",
+			"ticket", "success" };
+	private String mode = "start";
+	private String error = "Er is iets misgegaan...";
 	private boolean ticket;
+	private float saldo = (float) 0.0;
+	private boolean errored;
 
 	public Frame() {
 		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
@@ -27,26 +36,113 @@ public class Frame extends JFrame {
 		f.setContentPane(new Background());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//f.setUndecorated(true);
+		// f.setUndecorated(true);
 
 		f.setLayout(new GridBagLayout());
 
 		mainPanel = new CustomPanel();
 		mainPanel.setLayout(l);
 		mainPanel.setSize(new Dimension(1000, 1000));
-		mainPanel.setBackground(new Color(100, 100, 100, 12));
+		mainPanel.setBackground(new Color(0, 0, 0, 0));
 
 		f.getContentPane().add(mainPanel, new GridBagConstraints());
 		f.pack();
 		f.setVisible(true);
 		// f.setResizable(false);
 
-		manageMenu();
+		loadMenu();
+	}
+
+	// MANAGES WHICH MENU LOADS:
+
+	public void loadMenu() {
+		mainPanel.removeAll();
+		if (!isErrored()) {
+			if (mode == "start")
+				startMenu();
+			if (mode == "login")
+				loginMenu();
+			if (mode == "choice")
+				choiceMenu();
+			if (mode == "saldo")
+				saldoMenu(getSaldo());
+
+			if (mode == "ticket")
+				ticketMenu();
+		
+
+			if (mode == "success")
+				successMenu();
+		} else {
+			mode = "error";
+			errorMenu(error);
+		}
+
+		mainPanel.updateUI();
+		mainPanel.repaint();
+	}
+
+	public void setMode(String mode) {
+		if (Arrays.asList(modes).contains(mode)) {
+			this.mode = mode;
+			loadMenu();
+		} else {
+			System.err.println("setMode Error: Mode specified does not exist: " + mode + "\nAvailable modes: "
+					+ Arrays.toString(modes));
+		}
+	}
+
+	public String getMode() {
+		return this.mode;
+	}
+
+	public boolean isErrored() {
+		return errored;
+	}
+
+	public void setErrored(boolean errored) {
+		this.errored = errored;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public String getError() {
+		return this.error;
+	}
+
+	public boolean wantsTicket() {
+		return this.ticket;
+	}
+
+	public void setTicket(boolean ticket) {
+		this.ticket = ticket;
+	}
+
+	public float getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(float saldo) {
+		this.saldo = saldo;
+	}
+
+	// PANEL TOOLS:
+
+	public void updatePanel() {
+		mainPanel.updateUI();
 	}
 
 	public void clearPanel() {
 		mainPanel.removeAll();
 		mainPanel.updateUI();
+	}
+
+	// PIN TEXTFIELD TOOLS:
+
+	public void resetPin() {
+		pin.setText(" ");
 	}
 
 	public void addDotToPin() {
@@ -57,6 +153,8 @@ public class Frame extends JFrame {
 			pin.setText(pin.getText() + " ●");
 		}
 	}
+
+	// BUTTON FUNCTION HANDLERS
 
 	public void doesWantTicket() {
 		System.out.println("doesWantTicket()");
@@ -99,21 +197,29 @@ public class Frame extends JFrame {
 		System.out.println("back()");
 	}
 
-	// MANAGES WHICH MENU LOADS:
-
-	public void manageMenu() {
-		mainPanel.removeAll();
-		choiceMenu();
-		// pinMenu();
-		// saldoMenu((float) 2.1233);
-		// bonMenu();
-		// startMenu();
-		mainPanel.updateUI();
-	}
-
 	// MENU LAYOUTS:
 
-	public void bonMenu() {
+	private void successMenu() {
+		c = new GridBagConstraints();
+		clearPanel();
+		JLabel message = new JLabel("Opdracht voltooid, verwijder uw pas.");
+		message.setFont(bigfont);
+		Image img = new Image("check.png");
+
+		// MESSAGE:
+		c.gridy = 0;
+		c.fill = GridBagConstraints.CENTER;
+		c.insets = new Insets(40, 50, 40, 50);
+		mainPanel.add(message);
+
+		// check mark
+		c.gridy++;
+		c.ipadx = img.getWidth();
+		c.ipady = img.getHeight();
+		mainPanel.add(img, c);
+	}
+
+	public void ticketMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
 
@@ -149,7 +255,7 @@ public class Frame extends JFrame {
 		instr = new JLabel("Saldo: ");
 		instr.setFont(bigfont);
 
-		saldotxt = new JLabel("€" + saldo);
+		saldotxt = new JLabel("€" + Float.toString((float) Math.round(saldo * 100) / 100).replace(".", ","));
 		saldotxt.setFont(bigfont);
 
 		// GENERAL CONSTRAINTS:
@@ -172,7 +278,7 @@ public class Frame extends JFrame {
 
 	}
 
-	public void amountMenu() {
+	public void pinMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
 
@@ -249,7 +355,6 @@ public class Frame extends JFrame {
 
 		// IMAGE:
 		c.gridy = 0;
-		c.fill = GridBagConstraints.CENTER;
 		c.ipadx = img.getWidth();
 		c.ipady = img.getHeight();
 		mainPanel.add(img, c);
@@ -258,7 +363,7 @@ public class Frame extends JFrame {
 	public void errorMenu(String message) {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel error = new JLabel("Vul uw pincode in:");
+		JLabel error = new JLabel();
 		error.setFont(bigfont);
 		error.setText("Fout: \n" + message);
 		// MESSAGE:
@@ -277,7 +382,7 @@ public class Frame extends JFrame {
 
 	}
 
-	public void pinMenu() {
+	public void loginMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
 		pin = new JLabel();
