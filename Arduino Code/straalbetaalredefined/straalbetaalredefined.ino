@@ -27,6 +27,7 @@ char keys[ROWS][COLS] = {
 };
 
 String pincodePlain;
+String bedrag;
 
 int uid1;
 int uid2;
@@ -37,8 +38,11 @@ int pincodeLength = 0;
 const int chipSelectPin = 10;
 const int NRSTPD = 5;
 
-boolean tagRead;
 boolean pincodeOk = false;// this value needs to be true, the client sends a bool with an ok
+boolean keuzeOk = false;
+boolean pinnenOk = false;
+boolean saldoBekijkenOk = false;
+
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
@@ -52,14 +56,21 @@ void setup() {
   digitalWrite(NRSTPD, HIGH);
 
   myRFID.AddicoreRFID_Init();
-  tagRead = false;
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
-  pincodeInvoer();
-  //waits for pincodeOk from client
+    rfid();
   while (pincodeOk == true) {
+    pincodeInvoer();
+  }
+  while (keuzeOk == true) {
     keuzeMenu();
+  }
+  while (saldoBekijkenOk == true) {
+    saldoBekijken();
+  }
+  while (pinnenOk == true) {
+    pinnen();
   }
 }
 
@@ -86,13 +97,11 @@ void rfid() {
     Serial.print(uid3);
     Serial.print(uid4);
     Serial.println("");
-
     //String lol(str);
-    tagRead = true;
   }
 
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
-
+  pincodeOk = true;
 }
 //_______________________________________________________AES_______________________________________________________//
 void encrypt() {
@@ -109,89 +118,76 @@ void aes256_enc_single(const uint8_t* key, void* data);
 void aes256_dec_single(const uint8_t* key, void* data);
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
-  if (tagRead == false) {
-    rfid();
-    pincodePlain = "";
-  }
-  else if (tagRead == true) {
-    keyPad();
+  pincodePlain = "";
 
-    switch (key) {
-      case 'A':
-        wrongCharacter();
-        break;
-      case 'B':
-        wrongCharacter();
-        break;
-      case 'C':
-        wrongCharacter();
-        break;
-      case 'D':
-        if (pincodeLength < 4) {
-          pincodePlain = "";
-          pincodeLength = 0;
-          Serial.println("pincode te kort");
-        }
-        else if (pincodeLength > 4) {
-          pincodePlain = "";
-          pincodeLength = 0;
-          Serial.println("pincode te lang");
-        }
-        else {
-          encrypt();
-          rfid();
-          Serial.println("pincode verzonden");
-          pincodePlain = "";
-          pincodeLength = 0;
-          pincodeOk = true;
-          //tagRead = false;//kan nog meer achter staan
-        }
-        break;
-      case '1':
-        pincodeKeyInvoer();
-        break;
-      case '2':
-        pincodeKeyInvoer();
-        break;
-      case '3':
-        pincodeKeyInvoer();
-        break;
-      case '4':
-        pincodeKeyInvoer();
-        break;
-      case '5':
-        pincodeKeyInvoer();
-        break;
-      case '6':
-        pincodeKeyInvoer();
-        break;
-      case '7':
-        pincodeKeyInvoer();
-        break;
-      case '8':
-        pincodeKeyInvoer();
-        break;
-      case '9':
-        pincodeKeyInvoer();
-        break;
-      case '0':
-        pincodeKeyInvoer();
-        break;
-      case '*':
-        tagRead = false;
+  keyPad();
+
+  switch (key) {
+    case 'D':
+      if (pincodeLength < 4) {
         pincodePlain = "";
         pincodeLength = 0;
-        Serial.println("Betaling afgebroken");
-        delay(3000); //waits some time before the payment terminal accepts a new pas
-        break;
-      case '#':
+        Serial.println("pincode te kort");
+      }
+      else if (pincodeLength > 4) {
         pincodePlain = "";
         pincodeLength = 0;
-        Serial.println("pincode correctie");
-        break;
-      default:
-        break;
-    }
+        Serial.println("pincode te lang");
+      }
+      else {
+        encrypt();
+        rfid();
+        Serial.println("pincode verzonden");
+        pincodePlain = "";
+        pincodeLength = 0;
+        pincodeOk = false;
+        keuzeOk = true;
+        //tagReadOk = false;//kan nog meer achter staan
+      }
+      break;
+    case '1':
+      pincodeKeyInvoer();
+      break;
+    case '2':
+      pincodeKeyInvoer();
+      break;
+    case '3':
+      pincodeKeyInvoer();
+      break;
+    case '4':
+      pincodeKeyInvoer();
+      break;
+    case '5':
+      pincodeKeyInvoer();
+      break;
+    case '6':
+      pincodeKeyInvoer();
+      break;
+    case '7':
+      pincodeKeyInvoer();
+      break;
+    case '8':
+      pincodeKeyInvoer();
+      break;
+    case '9':
+      pincodeKeyInvoer();
+      break;
+    case '0':
+      pincodeKeyInvoer();
+      break;
+    case '*':
+      pincodePlain = "";
+      pincodeLength = 0;
+      Serial.println("Betaling afgebroken");
+      delay(3000); //waits some time before the payment terminal accepts a new pas
+      break;
+    case '#':
+      pincodePlain = "";
+      pincodeLength = 0;
+      Serial.println("pincode correctie");
+      break;
+    default:
+      break;
   }
 }
 void wrongCharacter() {
@@ -204,27 +200,114 @@ void pincodeKeyInvoer() {
   pincodeLength ++;
   Serial.println("*");
 }
-//_______________________lololol________________________________________________________________________________________________//
+//________________________________________________keuzemenu_______________________________________________________________________//
 void keuzeMenu() {
   keyPad();
   switch (key) {
     case 'A':
+      keuzeOk = false;
       Serial.println("snelpinnen");
       break;
     case 'B':
+      keuzeOk = false;
       Serial.println("saldo bekijken");
+      saldoBekijkenOk = true;
       break;
     case 'C':
+      keuzeOk = false;
+      pinnenOk = true;
       Serial.println("pinnen");
       break;
     case '*':
-      tagRead = false;
-      pincodeOk = false;
+    keuzeOk = false;
       Serial.println("stoppen");
       delay(3000); //waits some time before the payment terminal accepts a new pas
       break;
     default:
       break;
   }
+}
+//_______________________________________________________saldo bekijken________________________________________________________________//
+void saldoBekijken() {
+  keyPad();
+  switch (key) {
+    case 'C':
+      pinnenOk = true;
+      saldoBekijkenOk = false;
+      Serial.println("pinnen");
+      break;
+    case '*':
+      saldoBekijkenOk = false;
+      Serial.println("stoppen");
+      delay(3000); //waits some time before the payment terminal accepts a new pas
+      break;
+    default:
+      break;
+  }
+}
+//_______________________________________________________________pinnen________________________________________________________________//
+void pinnen() {
+  keyPad();
+  switch (key) {
+    case 'A':
+
+      break;
+    case 'B':
+
+      break;
+    case 'C':
+
+      break;
+    case 'D':
+      pinnenOk = false;
+      Serial.println(bedrag);
+      bedrag = "";
+      break;
+    case '1':
+      bedragInvullen();
+      break;
+    case '2':
+      bedragInvullen();
+      break;
+    case '3':
+      bedragInvullen();
+      break;
+    case '4':
+      bedragInvullen();
+      break;
+    case '5':
+      bedragInvullen();
+      break;
+    case '6':
+      bedragInvullen();
+      break;
+    case '7':
+      bedragInvullen();
+      break;
+    case '8':
+      bedragInvullen();
+      break;
+    case '9':
+      bedragInvullen();
+      break;
+    case '0':
+      bedragInvullen();
+      break;
+    case '*':
+     pinnenOk = false;
+      bedrag = "";
+      Serial.println("Betaling afgebroken");
+      delay(3000); //waits some time before the payment terminal accepts a new pas
+      break;
+    case '#':
+      bedrag = "";
+      Serial.println("bedrag correctie");
+      break;
+    default:
+      break;
+  }
+}
+void bedragInvullen() {
+  bedrag += key;
 }
 
