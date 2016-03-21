@@ -6,10 +6,14 @@ import nl.hr.project3_4.straalbetaal.server.services.Service;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class Resource {
+
+	private static final Logger LOG = Logger.getLogger(Resource.class.getName());
 
 	private Service serv = new Service();
 	// Implement this with THIS.... 
@@ -18,6 +22,7 @@ public class Resource {
 	@Path("/{IBAN}&{pincode}")
 	public String getUserID(@PathParam("IBAN") String iban,
 						  @PathParam("pincode") long pincode) {
+		LOG.info("Get request for userID with IBAN: " + iban + " and pincode: " + pincode);
 		return serv.getUserID(iban, pincode);
 	}
 
@@ -29,6 +34,7 @@ public class Resource {
 	@GET
 	@Path("/{IBAN}&{pincode}/balance")
 	public Long getBalance(@PathParam("IBAN") String iban) {
+		LOG.info("Get request for balance with IBAN: " + iban);
 		return serv.getBalance(iban);
 	}
 
@@ -36,6 +42,8 @@ public class Resource {
 	@Path("/{IBAN}&{pincode}/withdraw")
 	public WithdrawResponse withdraw(@PathParam("IBAN") String iban, WithdrawRequest request) {
 		WithdrawResponse response = new WithdrawResponse();
+
+		LOG.info("Post request for withdraw with IBAN: " + iban + " and amount: " + request.getAmount());
 
 		if(serv.withdraw(iban, request.getAmount())) {
 			response.setResponse("Dank u voor pinnen.");

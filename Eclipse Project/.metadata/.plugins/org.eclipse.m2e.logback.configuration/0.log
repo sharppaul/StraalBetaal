@@ -1,0 +1,159 @@
+2016-03-21 23:33:39,473 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: nl.hr.project3_4:client:1.0 @ D:\GitHub\StraalBetaal\Eclipse Project\client\pom.xml.
+2016-03-21 23:33:40,533 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: nl.hr.project3_4:api:1.0 @ D:\GitHub\StraalBetaal\Eclipse Project\api\pom.xml.
+2016-03-21 23:33:40,727 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: nl.hr.project3_4:server:1.0 @ D:\GitHub\StraalBetaal\Eclipse Project\server\pom.xml.
+2016-03-21 23:33:43,311 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /api/src/main/java
+2016-03-21 23:33:43,312 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /api/src/test/java
+2016-03-21 23:33:43,530 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /client/src/main/java
+2016-03-21 23:33:43,531 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /client/src/test/java
+2016-03-21 23:33:43,710 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /server/src/main/java
+2016-03-21 23:33:43,711 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /server/src/test/java
+2016-03-21 23:33:43,824 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 3 project(s) in 8 sec
+2016-03-21 23:33:50,084 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:33:50,086 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\api\src\main\resources
+2016-03-21 23:33:50,091 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:33:50,091 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\api\src\test\resources
+2016-03-21 23:33:51,281 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:33:51,281 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\client\src\main\resources
+2016-03-21 23:33:51,283 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:33:51,283 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\client\src\test\resources
+2016-03-21 23:33:51,952 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:33:51,956 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:33:51,958 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:33:51,958 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:35:16,040 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:35:16,040 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:35:16,041 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:35:16,042 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:38:40,712 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:38:40,712 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:38:40,714 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:38:40,715 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:41:50,152 [Worker-17] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: nl.hr.project3_4:server:1.0 @ D:\GitHub\StraalBetaal\Eclipse Project\server\pom.xml.
+2016-03-21 23:41:50,834 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://www.sparetimelabs.com/maven2/log4j/log4j/1.2.17/log4j-1.2.17.pom
+2016-03-21 23:41:51,039 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://4thline.org/m2/log4j/log4j/1.2.17/log4j-1.2.17.pom
+2016-03-21 23:41:51,231 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.pom
+2016-03-21 23:41:51,255 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.pom
+2016-03-21 23:41:51,383 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://www.sparetimelabs.com/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar
+2016-03-21 23:41:51,437 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://4thline.org/m2/log4j/log4j/1.2.17/log4j-1.2.17.jar
+2016-03-21 23:41:51,460 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar
+2016-03-21 23:41:51,800 [Worker-17] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar
+2016-03-21 23:41:52,187 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:41:52,187 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:41:52,188 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:41:52,189 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:41:54,222 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:41:54,223 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:41:54,224 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:41:54,225 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:42:44,097 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:42:44,097 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:42:44,100 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:42:44,101 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:42:53,995 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:42:53,995 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:42:53,996 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:42:53,997 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:44:21,070 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:21,071 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:44:21,072 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:21,072 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:44:28,388 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:28,388 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:44:28,389 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:28,389 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:44:43,959 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:43,959 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:44:43,961 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:43,961 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:44:54,925 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:54,926 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:44:54,928 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:44:54,928 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:45:49,628 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:45:49,628 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:45:49,630 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:45:49,630 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:46:42,042 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:46:42,042 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:46:42,043 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:46:42,044 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:47:21,069 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:47:21,070 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:47:21,074 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:47:21,074 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:49:02,525 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:49:02,526 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:49:02,527 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:49:02,527 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:51:26,819 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:51:26,819 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:51:26,821 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:51:26,821 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:51:46,157 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:51:46,158 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:51:46,159 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:51:46,159 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:53:26,750 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:53:26,750 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:53:26,752 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:53:26,752 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:55:36,450 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:55:36,451 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:55:36,452 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:55:36,453 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:56:09,681 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:09,681 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:56:09,682 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:09,683 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:56:38,257 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:38,257 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:56:38,258 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:38,259 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:56:45,368 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:45,368 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:56:45,369 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:45,369 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:56:49,464 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:49,465 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:56:49,466 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:49,466 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:56:59,204 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:59,204 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:56:59,206 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:56:59,207 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:59:39,870 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:59:39,871 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:59:39,873 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:59:39,873 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:59:49,012 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:59:49,013 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:59:49,014 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:59:49,015 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-21 23:59:54,896 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:59:54,896 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-21 23:59:54,898 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-21 23:59:54,898 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-22 00:03:47,002 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:03:47,003 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-22 00:03:47,004 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:03:47,004 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-22 00:04:26,936 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:04:26,937 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-22 00:04:26,938 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:04:26,939 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-22 00:04:30,479 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:04:30,480 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-22 00:04:30,481 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:04:30,481 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-22 00:05:18,431 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:05:18,431 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-22 00:05:18,433 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:05:18,433 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-22 00:05:41,905 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:05:41,905 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-22 00:05:41,907 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:05:41,907 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
+2016-03-22 00:05:52,034 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:05:52,034 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\main\resources
+2016-03-22 00:05:52,036 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-03-22 00:05:52,036 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\StraalBetaal\Eclipse Project\server\src\test\resources
