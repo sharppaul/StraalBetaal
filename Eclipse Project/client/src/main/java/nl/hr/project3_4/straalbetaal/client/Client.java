@@ -107,7 +107,7 @@ public class Client {
 	public float requestSaldo() {
 		//request saldo
 		//try { request } catch exc. { return (float)0.0 )
-		return (float)	13,37;
+		return (float)	13.37;
 	}
 
 	/*

@@ -7,7 +7,12 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
+
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
+
+import org.json.JSONObject;
 
 public class Read implements SerialPortEventListener {
 	SerialPort serialPort;
@@ -35,11 +40,12 @@ public class Read implements SerialPortEventListener {
 	
 	/** Stuff voor arduino data parsing: */
 	ArduinoData data;
-	String mode = "card";
+	
 	public Read(ArduinoData data){
 		this.data = data;
 		this.initialize();
 	}
+	
 	public void initialize() {
 		// the next line is for Raspberry Pi and
 		// gets us into the while loop and was suggested here was suggested
@@ -107,20 +113,9 @@ public class Read implements SerialPortEventListener {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				String inputLine = input.readLine();
-				//System.out.println(inputLine);
-				switch(mode){
-				case "pin":
-					data.setPinCode(inputLine);
-					mode = "done";
-					break;
-				case "card":
-					data.setCardID(inputLine);
-					mode = "pin";
-					break;
-				case "done":
-					
-					break;
-				}
+				System.out.println("Incoming data: " + inputLine);
+				JSONObject t = new JSONObject(inputLine);
+				System.out.println(Arrays.toString(t.keySet().toArray())); 
 			} catch (Exception e) {
 				//System.err.println(e.toString());
 				printFatalError();

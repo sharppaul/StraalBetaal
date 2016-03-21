@@ -231,20 +231,20 @@ void keuzeMenu() {
     case 'A':
       mode = "bon";
       Serial.println(
-        "\"event\":\"choice\",\"option\":\"snelpinnen\""
+        "{\"event\":\"choice\",\"option\":\"snelpinnen\"}"
         );
       break;
     case 'B':
       mode = "saldoview";
       Serial.println(
-        "\"event\":\"choice\",\"option\":\"saldo\""
+        "{\"event\":\"choice\",\"option\":\"saldo\"}"
         );
       saldoBekijkenOk = true;
       break;
     case 'C':
       mode = "amount";
       Serial.println(
-        "\"event\":\"choice\",\"option\":\"pinnen\""
+        "{\"event\":\"choice\",\"option\":\"pinnen\"}"
         );
       break;
     case '*':
@@ -335,19 +335,19 @@ void bankNotes() {
   switch (key) {
     case 'A':
       Serial.println(
-        "\"event\":\"billchoice\",\"option\":\"a\""
+        "{\"event\":\"billchoice\",\"option\":\"a\"}"
         );
       mode = "bon";
       break;
     case 'B':
       Serial.println(
-        "\"event\":\"billchoice\",\"option\":\"b\""
+        "{\"event\":\"billchoice\",\"option\":\"b\"}"
         );
       mode = "bon";
       break;
     case 'C':
       Serial.println(
-        "\"event\":\"billchoice\",\"option\":\"c\""
+        "{\"event\":\"billchoice\",\"option\":\"c\"}"
         );
       mode = "bon";
       break;
@@ -364,13 +364,13 @@ void bon() {
   switch (key) {
     case 'D':
       Serial.println(
-        "\"event\":\"bonchoice\",\"option\":\"true\""
+        "{\"event\":\"bonchoice\",\"option\":\"true\"}"
         );
       mode = "bon";
       break;
     case '*':
       Serial.println(
-        "\"event\":\"bonchoice\",\"option\":\"false\""
+        "{\"event\":\"bonchoice\",\"option\":\"false\"}"
         );
       mode = "bon";
       break;
