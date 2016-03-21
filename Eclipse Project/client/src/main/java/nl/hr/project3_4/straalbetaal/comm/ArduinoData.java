@@ -1,41 +1,18 @@
 package nl.hr.project3_4.straalbetaal.comm;
 
 public class ArduinoData {
-	private String pinCode;
-	private String cardID;
-	private String numbers = "\\d+";
-	private boolean ready;
+	//fields here. 
 	
-	public boolean isReady() {
-		return ready;
-	}
-	public void setReady(boolean ready) {
-		this.ready = ready;
-		if(this.ready){
-			System.out.println("CardID: " + getCardID() + "\nPinCode: " + getPinCode());
-		}
+	public ArduinoData(){
+		//stuff here
 	}
 	
-	public String getCardID() {
-		return cardID;
+	public void reset(){
+		//RESETS THE ARDUINO DATA AND ALL FIELDS, WILL REMOVE ALL INFORMATION. ONLY CALL WHEN ARDUINO IS AT "START" MODE, SO THE PROGRAMS GROW UP TOGETHER
 	}
 	
-	public void setCardID(String cardID) {
-		this.cardID = cardID;
-		System.out.println("Card read.");
-	}
-	
-	public String getPinCode() {
-		return pinCode;
-	}
-	
-	public void setPinCode(String pinCode) {
-		if(pinCode.length() == 4 && pinCode.matches(numbers) ){
-			this.pinCode = pinCode.substring(0,4);
-			System.out.println("Pincode received.");
-			this.setReady(true);
-		} else {
-			System.err.println("Pincode is not 4 characters long. Or is not only numbers.");
-		}
+	public boolean shouldReset(){
+		return false;
+		//add smart code that checks if something went wrong with arduino, or something. Can also be reached from client to trigger reset. (e.g. when pin is wrong)
 	}
 }

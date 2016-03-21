@@ -5,66 +5,72 @@ import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
 
 public class Client {
-
+	Frame frame;
+	ArduinoData data;
+	
 	public static void main(String[] args) {
-		// DEAR READER, FOR NOW MYCLIENT ONLY HANDLES THE VISUAL ASPECT OF THE
-		// CLIENT.
-		// IT WILL ALSO HANDLE THE BACK-END PART OF THE CLIENT, BUT THE ARDUINO
-		// READER PART SHOULD BE IN ANOTHER THREAD..
-		Client myClient = new Client();
-		if (myClient.toString().matches(""))
-			;
+
+		Client client = new Client();
+		
 	}
 
-	public Client() {
-		Frame f = new Frame();
-
-		while (!cardInserted()) {
-			// waits till card is inserted.
-		}
-
-		f.setMode("login");
-
-		while (!pinValid()) {
-
-		}
-
-		if (errorOccured())
-			;
-
-		f.setMode("choice");
-
-		while (!userIsReady()) {
-
-		}
-
-		if (f.getMode().equals("quickpin")) {
-			// execute quickpin() or something.
-			f.setMode("ticket");
-			
-		} else if (f.getMode().equals("pin")) {
-
-			while (!userIsReady()) { // user hasn't entered amount etc.
-
-			}
-			f.setMode("billselect");
-			
-			while (!userIsReady()) { // user hasn't chosen options etc.
-
-			}
-			f.setMode("ticket");
-			
-		} else if (f.getMode().equals("saldo")) {
-			
-			f.setSaldo(this.requestSaldo());
-			f.loadMenu();
-			
-		}
+	public Client(ArduinoData data) {
+		this.data = data;
+		frame = new Frame();
 		
-		while (!userIsReady()) { // user hasn't chosen options etc.
-			
+		while (true) {
+			try {
+
+				while (!cardInserted()) {
+					// waits till card is inserted.
+				}
+
+				frame.setMode("login");
+
+				while (!pinValid()) {
+
+				}
+
+				if (errorOccured())
+					;
+
+				frame.setMode("choice");
+
+				while (!userIsReady()) {
+
+				}
+
+				if (frame.getMode().equals("quickpin")) {
+					// execute quickpin() or something.
+					frame.setMode("ticket");
+
+				} else if (frame.getMode().equals("pin")) {
+
+					while (!userIsReady()) { // user hasn't entered amount etc.
+
+					}
+					frame.setMode("billselect");
+
+					while (!userIsReady()) { // user hasn't chosen options etc.
+
+					}
+					frame.setMode("ticket");
+
+				} else if (frame.getMode().equals("saldo")) {
+
+					frame.setSaldo(this.requestSaldo());
+					frame.loadMenu();
+
+				}
+
+				while (!userIsReady()) { // user hasn't chosen options etc.
+
+				}
+			} catch(Exception e){
+				
+			}
 		}
-		
+
 		/**
 		 * ClientBackEnd client = new ClientBackEnd("123456789", 3025);
 		 * 
@@ -105,11 +111,20 @@ public class Client {
 	}
 
 	public float requestSaldo() {
-		//request saldo
-		//try { request } catch exc. { return (float)0.0 )
-		return (float)	13.37;
+		// request saldo
+		// try { request } catch exc. { return (float)0.0 )
+		return (float) 13.37;
 	}
 
+	public boolean shouldReset() {
+		if(data.shouldReset()){
+			data.reset();
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
 	/*
 	 * There should also follow logic here, for example if pincode correct, and
 	 * user presses A (show saldo, the saldo method from ClientBackEnd needs to
