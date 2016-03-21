@@ -3,7 +3,7 @@
 #include <AddicoreRFID.h>
 #include <SPI.h>
 
-#define  uchar unsigned char
+#define uchar unsigned char
 #define uint  unsigned int
 #define MAX_LEN 16//Maximum length of the array
 
@@ -28,6 +28,7 @@ char keys[ROWS][COLS] = {
 
 String pincodePlain;
 String bedrag;
+String currentCardID = "none";
 
 int uid1;
 int uid2;
@@ -38,6 +39,8 @@ int pincodeLength = 0;
 const int chipSelectPin = 10;
 const int NRSTPD = 5;
 
+String mode = "start";
+//modes: start, pincode, choice, amount, banknotes, saldoview, bon, error
 boolean pincodeOk = false;// this value needs to be true, the client sends a bool with an ok
 boolean keuzeOk = false;
 boolean pinnenOk = false;
@@ -59,19 +62,28 @@ void setup() {
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
-    rfid();
-  while (pincodeOk == true) {
-    pincodeInvoer();
-  }
-  while (keuzeOk == true) {
-    keuzeMenu();
-  }
-  while (saldoBekijkenOk == true) {
-    saldoBekijken();
-  }
-  while (pinnenOk == true) {
-    pinnen();
-  }
+    if(mode == "start"){
+        rfid();
+    } else if(mode == "pincode"){
+        pincodeInvoer();
+    } else if(mode == "choice"){
+        keuzeMenu();
+    } else if(mode == "amount"){
+        pinnen();
+    } else if(mode == "banknotes"){
+        bankNotes();
+    } else if(mode == "saldoview"){
+        saldoBekijken();
+    } else if(mode == "bon"){
+        bon();
+    } else if(mode == "done"){
+        reset();
+    }
+    
+    if(!stillThere()){
+      Serial.println("{\"error\":\"cardremoved\"}");
+      mode = "start";
+    }
 }
 
 //_______________________________________________________keyPad_______________________________________________________//
@@ -87,38 +99,58 @@ void rfid() {
   status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
   status = myRFID.AddicoreRFID_Anticoll(str);
   if (status == MI_OK) {
-    Serial.print("uid: ");
     uid1 = str[1];
     uid2 = str[2];
     uid3 = str[3];
     uid4 = str[4];
-    Serial.print(uid1);
-    Serial.print(uid2);
-    Serial.print(uid3);
-    Serial.print(uid4);
-    Serial.println("");
-    //String lol(str);
+    currentCardID = String(uid1 + uid2 + uid3 + uid4);
+    if(currentCardID.length() > 4 && mode == "start"){
+      mode = "pincode";
+    }
   }
-
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
-  pincodeOk = true;
+}
+
+boolean stillThere(){ // checks if pas is still there.
+  uchar status;
+  uchar str[MAX_LEN];
+
+  str[1] = 0x4400;
+  status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
+  status = myRFID.AddicoreRFID_Anticoll(str);
+  while(true){
+    if (status == MI_OK) {
+      uid1 = str[1];
+      uid2 = str[2];
+      uid3 = str[3];
+      uid4 = str[4];
+      String(uid1 + uid2 + uid3 + uid4);
+      if(currentCardID == String(uid1 + uid2 + uid3 + uid4)){
+        return true;
+      } else {
+        return false;
+      }
+      break;
+    }
+  }
+  myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
 }
 //_______________________________________________________AES_______________________________________________________//
-void encrypt() {
+void encryptAndSend() {
   char data[4];
   pincodePlain.toCharArray(data, 5);
   uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 985, 798, 789, 165, 48, 15, 984, 51, 64, 894, 4, 65, 654, 4, 6};
   aes256_enc_single(key, data);
-  Serial.print("pin: ");
-  Serial.println(data);
-  aes256_dec_single(key, data);
-  //Serial.println(data);
+  
+  rfid();
+  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + String(data) + "\",\"card\":\"" + currentCardID + "\"}");
 }
 void aes256_enc_single(const uint8_t* key, void* data);
 void aes256_dec_single(const uint8_t* key, void* data);
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
-  pincodePlain = "";
+  if(pincodeLength < 1)
+    pincodePlain = "";
 
   keyPad();
 
@@ -127,21 +159,21 @@ void pincodeInvoer() {
       if (pincodeLength < 4) {
         pincodePlain = "";
         pincodeLength = 0;
-        Serial.println("pincode te kort");
+        Serial.println(
+          "{\"event\":\"error\",\"error\":\"pintooshort\"}"
+        );
       }
       else if (pincodeLength > 4) {
         pincodePlain = "";
         pincodeLength = 0;
-        Serial.println("pincode te lang");
+        Serial.println(
+          "{\"event\":\"error\",\"error\":\"pintoolong\"}"
+        );
       }
       else {
-        encrypt();
-        rfid();
-        Serial.println("pincode verzonden");
-        pincodePlain = "";
-        pincodeLength = 0;
-        pincodeOk = false;
-        keuzeOk = true;
+        encryptAndSend();
+        pinReset();
+        mode = "choice";
         //tagReadOk = false;//kan nog meer achter staan
       }
       break;
@@ -176,52 +208,47 @@ void pincodeInvoer() {
       pincodeKeyInvoer();
       break;
     case '*':
-      pincodePlain = "";
-      pincodeLength = 0;
-      Serial.println("Betaling afgebroken");
-      delay(3000); //waits some time before the payment terminal accepts a new pas
+      reset();
+      delay(3000);
       break;
     case '#':
-      pincodePlain = "";
-      pincodeLength = 0;
-      Serial.println("pincode correctie");
+      pinReset();
       break;
     default:
       break;
   }
 }
-void wrongCharacter() {
-  pincodePlain = "";
-  pincodeLength = 0;
-  Serial.println("Verkeerde tjaracter");
-}
+
 void pincodeKeyInvoer() {
   pincodePlain += key;
   pincodeLength ++;
-  Serial.println("*");
+  Serial.println("{\"event\":\"pindot\"}");
 }
 //________________________________________________keuzemenu_______________________________________________________________________//
 void keuzeMenu() {
   keyPad();
   switch (key) {
     case 'A':
-      keuzeOk = false;
-      Serial.println("snelpinnen");
+      mode = "bon";
+      Serial.println(
+        "\"event\":\"choice\",\"option\":\"snelpinnen\""
+        );
       break;
     case 'B':
-      keuzeOk = false;
-      Serial.println("saldo bekijken");
+      mode = "saldoview";
+      Serial.println(
+        "\"event\":\"choice\",\"option\":\"saldo\""
+        );
       saldoBekijkenOk = true;
       break;
     case 'C':
-      keuzeOk = false;
-      pinnenOk = true;
-      Serial.println("pinnen");
+      mode = "amount";
+      Serial.println(
+        "\"event\":\"choice\",\"option\":\"pinnen\""
+        );
       break;
     case '*':
-    keuzeOk = false;
-      Serial.println("stoppen");
-      delay(3000); //waits some time before the payment terminal accepts a new pas
+      reset();
       break;
     default:
       break;
@@ -231,15 +258,8 @@ void keuzeMenu() {
 void saldoBekijken() {
   keyPad();
   switch (key) {
-    case 'C':
-      pinnenOk = true;
-      saldoBekijkenOk = false;
-      Serial.println("pinnen");
-      break;
-    case '*':
-      saldoBekijkenOk = false;
-      Serial.println("stoppen");
-      delay(3000); //waits some time before the payment terminal accepts a new pas
+    case 'D':
+      reset();
       break;
     default:
       break;
@@ -250,17 +270,17 @@ void pinnen() {
   keyPad();
   switch (key) {
     case 'A':
-
+      Serial.println("{\"event\":\"amountkey\",\"key\":\"a\"}");
       break;
     case 'B':
-
+      Serial.println("{\"event\":\"amountkey\",\"key\":\"b\"}");
       break;
     case 'C':
-
+      Serial.println("{\"event\":\"amountkey\",\"key\":\"c\"}");
       break;
     case 'D':
-      pinnenOk = false;
-      Serial.println(bedrag);
+      mode = "banknotes";
+      Serial.println("{\"event\":\"amountdone\"}");
       bedrag = "";
       break;
     case '1':
@@ -294,20 +314,83 @@ void pinnen() {
       bedragInvullen();
       break;
     case '*':
-     pinnenOk = false;
-      bedrag = "";
-      Serial.println("Betaling afgebroken");
-      delay(3000); //waits some time before the payment terminal accepts a new pas
+      reset();
       break;
     case '#':
       bedrag = "";
-      Serial.println("bedrag correctie");
+      Serial.println("{\"event\":\"amountreset\"}");
       break;
     default:
       break;
   }
 }
+
 void bedragInvullen() {
   bedrag += key;
+  Serial.println("{\"event\":\"amountkey\" , \"key\" :\" "+String(key)+"\" } ");
+}
+//_______________________________________________________________banknotes________________________________________________________________//
+void bankNotes() {
+  keyPad();
+  switch (key) {
+    case 'A':
+      Serial.println(
+        "\"event\":\"billchoice\",\"option\":\"a\""
+        );
+      mode = "bon";
+      break;
+    case 'B':
+      Serial.println(
+        "\"event\":\"billchoice\",\"option\":\"b\""
+        );
+      mode = "bon";
+      break;
+    case 'C':
+      Serial.println(
+        "\"event\":\"billchoice\",\"option\":\"c\""
+        );
+      mode = "bon";
+      break;
+    case '*':
+      reset();
+      break;
+    default:
+      break;
+  }
+}
+//_______________________________________________________________bon________________________________________________________________//
+void bon() {
+  keyPad();
+  switch (key) {
+    case 'D':
+      Serial.println(
+        "\"event\":\"bonchoice\",\"option\":\"true\""
+        );
+      mode = "bon";
+      break;
+    case '*':
+      Serial.println(
+        "\"event\":\"bonchoice\",\"option\":\"false\""
+        );
+      mode = "bon";
+      break;
+    default:
+      break;
+  }
+}
+//_______________________________________________________________reset________________________________________________________________//
+void reset(){
+  Serial.println("{\"event\":\"reset\"}");
+  mode = "start";
+  pincodePlain = "";
+  pincodeLength = 0;
+  delay(3000);
+}
+
+void pinReset(){
+  pincodePlain = "";
+  pincodeLength = 0;
+  pincodePlain = "";
+  Serial.println("{\"event\":\"pinreset\"}");
 }
 
