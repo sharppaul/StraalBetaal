@@ -88,6 +88,15 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.34</version>
     </dependency>
+
+    <!-- This should be in main pom, cause I will
+    	 be implementing this in the entire project! -->
+    <dependency>
+	  <groupId>log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	  <version>1.2.17</version>
+    </dependency>
+
   </dependencies>
 
 </project>

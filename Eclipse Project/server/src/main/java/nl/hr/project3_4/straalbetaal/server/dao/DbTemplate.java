@@ -7,7 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 public abstract class DbTemplate {
+
+	private static final Logger LOG = Logger.getLogger(DbTemplate.class.getName());
+
 
 	protected Connection getConnection() {
 		Connection con = null;
@@ -21,8 +26,10 @@ public abstract class DbTemplate {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			System.out.println("Error in the DbTemplate - getConnection!");
+			LOG.error("Connection with mysql server FAILED!");
 		}
 
+		LOG.info("Connection with mysql server made sucessfully!");
 		return con;
 	}
 
@@ -34,6 +41,7 @@ public abstract class DbTemplate {
 				stmt.close();
 			if(rs != null)
 				rs.close();
+			LOG.info("Sql Resources closed succesfully.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Error in the DbTemplate - closeResources!");
@@ -47,6 +55,7 @@ public abstract class DbTemplate {
 				stmt.close();
 			if(rs != null)
 				rs.close();
+			LOG.info("Sql Resources closed succesfully.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Error in the DbTemplate - closeResources!");			
