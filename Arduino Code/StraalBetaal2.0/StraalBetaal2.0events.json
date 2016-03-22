@@ -79,4 +79,7 @@
     "event21": {
         "event": "pinreset"
     }
+	"event22": {
+		"event": "cardreceived"
+	}
 }

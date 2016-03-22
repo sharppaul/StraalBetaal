@@ -41,16 +41,12 @@ const int NRSTPD = 5;
 
 String mode = "start";
 //modes: start, pincode, choice, amount, banknotes, saldoview, bon, error
-boolean pincodeOk = false;// this value needs to be true, the client sends a bool with an ok
-boolean keuzeOk = false;
-boolean pinnenOk = false;
-boolean saldoBekijkenOk = false;
 
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(9600);
   SPI.begin();
 
   pinMode(chipSelectPin, OUTPUT);             // Set digital pin 10 as OUTPUT to connect it to the RFID /ENABLE pin
@@ -59,31 +55,32 @@ void setup() {
   digitalWrite(NRSTPD, HIGH);
 
   myRFID.AddicoreRFID_Init();
+  Serial.println("Program started");
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
-    if(mode == "start"){
-        rfid();
-    } else if(mode == "pincode"){
-        pincodeInvoer();
-    } else if(mode == "choice"){
-        keuzeMenu();
-    } else if(mode == "amount"){
-        pinnen();
-    } else if(mode == "banknotes"){
-        bankNotes();
-    } else if(mode == "saldoview"){
-        saldoBekijken();
-    } else if(mode == "bon"){
-        bon();
-    } else if(mode == "done"){
-        reset();
-    }
-    
-    if(!stillThere()){
-      Serial.println("{\"error\":\"cardremoved\"}");
-      mode = "start";
-    }
+  if (mode == "start") {
+    rfid();
+  } else if (mode == "pincode") {
+    pincodeInvoer();
+  } else if (mode == "choice") {
+    keuzeMenu();
+  } else if (mode == "amount") {
+    pinnen();
+  } else if (mode == "banknotes") {
+    bankNotes();
+  } else if (mode == "saldoview") {
+    saldoBekijken();
+  } else if (mode == "bon") {
+    bon();
+  } else if (mode == "done") {
+    reset();
+  }
+
+  if (!stillThere()) {
+    Serial.println("{\"error\":\"cardremoved\"}");
+    mode = "start";
+  }
 }
 
 //_______________________________________________________keyPad_______________________________________________________//
@@ -99,33 +96,35 @@ void rfid() {
   status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
   status = myRFID.AddicoreRFID_Anticoll(str);
   if (status == MI_OK) {
+    Serial.println("MI_OK");
     uid1 = str[1];
     uid2 = str[2];
     uid3 = str[3];
     uid4 = str[4];
     currentCardID = String(uid1 + uid2 + uid3 + uid4);
-    if(currentCardID.length() > 4 && mode == "start"){
+    if (mode == "start") {
       mode = "pincode";
+      Serial.println("{\"event\":\"cardreceived\"}");
     }
   }
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
 }
 
-boolean stillThere(){ // checks if pas is still there.
+boolean stillThere() { // checks if pas is still there.
   uchar status;
   uchar str[MAX_LEN];
 
   str[1] = 0x4400;
   status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
   status = myRFID.AddicoreRFID_Anticoll(str);
-  while(true){
+  while (true) {
     if (status == MI_OK) {
       uid1 = str[1];
       uid2 = str[2];
       uid3 = str[3];
       uid4 = str[4];
       String(uid1 + uid2 + uid3 + uid4);
-      if(currentCardID == String(uid1 + uid2 + uid3 + uid4)){
+      if (currentCardID == String(uid1 + uid2 + uid3 + uid4)) {
         return true;
       } else {
         return false;
@@ -141,7 +140,7 @@ void encryptAndSend() {
   pincodePlain.toCharArray(data, 5);
   uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 985, 798, 789, 165, 48, 15, 984, 51, 64, 894, 4, 65, 654, 4, 6};
   aes256_enc_single(key, data);
-  
+
   rfid();
   Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + String(data) + "\",\"card\":\"" + currentCardID + "\"}");
 }
@@ -149,7 +148,7 @@ void aes256_enc_single(const uint8_t* key, void* data);
 void aes256_dec_single(const uint8_t* key, void* data);
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
-  if(pincodeLength < 1)
+  if (pincodeLength < 1)
     pincodePlain = "";
 
   keyPad();
@@ -232,20 +231,19 @@ void keuzeMenu() {
       mode = "bon";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"snelpinnen\"}"
-        );
+      );
       break;
     case 'B':
       mode = "saldoview";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"saldo\"}"
-        );
-      saldoBekijkenOk = true;
+      );
       break;
     case 'C':
       mode = "amount";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"pinnen\"}"
-        );
+      );
       break;
     case '*':
       reset();
@@ -327,7 +325,7 @@ void pinnen() {
 
 void bedragInvullen() {
   bedrag += key;
-  Serial.println("{\"event\":\"amountkey\" , \"key\" :\" "+String(key)+"\" } ");
+  Serial.println("{\"event\":\"amountkey\" , \"key\" :\" " + String(key) + "\" } ");
 }
 //_______________________________________________________________banknotes________________________________________________________________//
 void bankNotes() {
@@ -336,19 +334,19 @@ void bankNotes() {
     case 'A':
       Serial.println(
         "{\"event\":\"billchoice\",\"option\":\"a\"}"
-        );
+      );
       mode = "bon";
       break;
     case 'B':
       Serial.println(
         "{\"event\":\"billchoice\",\"option\":\"b\"}"
-        );
+      );
       mode = "bon";
       break;
     case 'C':
       Serial.println(
         "{\"event\":\"billchoice\",\"option\":\"c\"}"
-        );
+      );
       mode = "bon";
       break;
     case '*':
@@ -365,13 +363,13 @@ void bon() {
     case 'D':
       Serial.println(
         "{\"event\":\"bonchoice\",\"option\":\"true\"}"
-        );
+      );
       mode = "bon";
       break;
     case '*':
       Serial.println(
         "{\"event\":\"bonchoice\",\"option\":\"false\"}"
-        );
+      );
       mode = "bon";
       break;
     default:
@@ -379,7 +377,7 @@ void bon() {
   }
 }
 //_______________________________________________________________reset________________________________________________________________//
-void reset(){
+void reset() {
   Serial.println("{\"event\":\"reset\"}");
   mode = "start";
   pincodePlain = "";
@@ -387,7 +385,7 @@ void reset(){
   delay(3000);
 }
 
-void pinReset(){
+void pinReset() {
   pincodePlain = "";
   pincodeLength = 0;
   pincodePlain = "";
