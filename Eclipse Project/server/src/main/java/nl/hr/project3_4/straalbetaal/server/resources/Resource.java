@@ -15,8 +15,7 @@ public class Resource {
 
 	private static final Logger LOG = Logger.getLogger(Resource.class.getName());
 
-	// Making Service static, making sure 1 Service instance is used for all request!
-	private static Service serv = new Service();
+	private Service serv = new Service();
 
 
 	@GET

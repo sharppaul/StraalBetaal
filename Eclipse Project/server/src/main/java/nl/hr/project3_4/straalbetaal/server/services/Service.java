@@ -10,7 +10,9 @@ public class Service {
 	private static final Logger LOG = Logger.getLogger(Service.class.getName());
 
 	private static DataAccessObject dao = new DataAccessObject();
-	private boolean pincodeChecked;
+	// Making pincodeChecked static, making sure 1 boolean instance is used for all request!
+	// When a withdraw is made I change this to false again, so that pincodeChecked wont stay true for next user!
+	private static boolean pincodeChecked;
 	private long balance = 0;
 
 
@@ -60,7 +62,8 @@ public class Service {
 		boolean enoughMoneyInAccount = false;
 		try {
 			if(pincodeChecked) {
-				long currentSaldo = balance - amount;
+				long currentSaldo = dao.getUserBalance(iban) - amount;
+				LOG.info("Database operation performed for balance *IN WITHDRAW*. Iban: " + iban + " and balance: " + balance);
 				LOG.info("Withdraw attempt. Iban: " + iban + " and current Saldo: " + currentSaldo);
 				if(currentSaldo > 0) {
 					enoughMoneyInAccount = dao.withdraw(iban, amount, currentSaldo);
@@ -73,6 +76,9 @@ public class Service {
 			e.printStackTrace();
 			LOG.error("DATABASE ERROR WHEN DOING WITHDRAW!!!");
 			LOG.error("ERROR MESSAGE: " + e.getMessage());
+		}
+		finally {
+			pincodeChecked = false;
 		}
 		return enoughMoneyInAccount;
 	}
