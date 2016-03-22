@@ -10,12 +10,12 @@ public class Service {
 	private static final Logger LOG = Logger.getLogger(Service.class.getName());
 
 	private static DataAccessObject dao = new DataAccessObject();
-	private boolean pincodeChecked;
+	private boolean pincodeChecked; // (Testing with true for now) -> Mostlikely this whole class is instantiated every time a request is sent, so it will stay on false.
 	private long balance = 0;
 
 
 	public Service() {
-		pincodeChecked = false;
+		this.pincodeChecked = false;
 	}
 
 
@@ -25,8 +25,7 @@ public class Service {
 			user = dao.getUserID(iban, pincode);
 		} catch(Exception e) {
 			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN GETTING USERID!!!");
-			LOG.error("ERROR MESSAGE: " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		if(user == null) {
 			LOG.warn("Database operation performed for userID, but incorrect credentials."
@@ -34,24 +33,23 @@ public class Service {
 			return "Wrong pincode!";
 		}
 		else {
-			pincodeChecked = true;
-			LOG.info("Database operation performed sucessfully for userID: " + user); 
+			this.pincodeChecked = true;
+			LOG.info("Database operation performed for userID sucessfully for userId:" + user); 
 			return user;	
 		}
 	}
 
 	public Long getBalance(String iban) {
 		try {
-			if(pincodeChecked) {
+			if(this.pincodeChecked) {
 				balance = dao.getUserBalance(iban);
 				LOG.info("Database operation performed for balance. Iban: " + iban + " and balance: " + balance);
 			}
 			else
-				LOG.warn("Database operation for get balance failed, pincodeChecked was: " + pincodeChecked);
+				LOG.warn("Get request for balance asked, without first checking pincode!!!");
 		} catch(Exception e) {
 			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN GETTING BALANCE!!!");
-			LOG.error("ERROR MESSAGE: " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		return balance;
 	}
@@ -59,20 +57,17 @@ public class Service {
 	public boolean withdraw(String iban, long amount) {
 		boolean enoughMoneyInAccount = false;
 		try {
-			if(pincodeChecked) {
+			if(this.pincodeChecked) {
 				long currentSaldo = balance - amount;
-				LOG.info("Withdraw attempt. Iban: " + iban + " and current Saldo: " + currentSaldo);
-				if(currentSaldo > 0) {
+				LOG.info("Withdraw amount. Iban: " + iban + " and current Saldo: " + currentSaldo);
+				if(currentSaldo < 0) {
 					enoughMoneyInAccount = dao.withdraw(iban, amount, currentSaldo);
-
-					LOG.info("Database operation for withdraw succeeded. Iban: " + iban + " and amount: " + amount);
+					LOG.info("Database operation performed for withdraw. Iban: " + iban + " and amount: " + amount);
 				}
-			} else
-				LOG.warn("Database Operation for withdraw failed, pincodeChecked was: " + pincodeChecked);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN DOING WITHDRAW!!!");
-			LOG.error("ERROR MESSAGE: " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		return enoughMoneyInAccount;
 	}

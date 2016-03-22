@@ -3,12 +3,9 @@ package nl.hr.project3_4.straalbetaal.server.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import org.apache.log4j.Logger;
+import java.util.Date;
 
 public class DataAccessObject extends DbTemplate {
-
-	private static final Logger LOG = Logger.getLogger(DataAccessObject.class.getName());
 
 	private Connection con;
 	private PreparedStatement stmt;
@@ -57,22 +54,19 @@ public class DataAccessObject extends DbTemplate {
 
 	public boolean withdraw(String iban, long amount, long currentSaldo) throws Exception {
 		boolean successfulWithdraw = false;
-		String getMoneySQL = "UPDATE saldo SET saldo.cardSaldo = ? WHERE IBAN = ?";
-		String betaalGeschiedenisSQL = "INSERT INTO betaalgeschiedenis (IBAN, af_bij_geschreven, datum) VALUE( ?, ?, ?)";
+		String getMoneySQL = "UPDATE saldo SET saldo.cardSaldo = ? WHERE cardID = ?";
+		String betaalGeschiedenisSQL = "INSERT INTO betaalgeschiedenis (iban, af_bij_geschreven, datum) VALUE( ?, ?, ?)";
 
 		con = getConnection();
 		stmt = con.prepareStatement(getMoneySQL);
 		stmt.setLong(1, currentSaldo);
 		stmt.setString(2, iban);
 		if(stmt.executeUpdate() == 1) {
-			closeResources(null, stmt, rs); // You dont have to close connection!
-			LOG.info("Withdraw method, updated saldo!");
 			stmt = con.prepareStatement(betaalGeschiedenisSQL);
 			stmt.setString(1, iban);
 			stmt.setLong(2, amount);
-			stmt.setTimestamp(3, java.sql.Timestamp.from(java.time.Instant.now()));
+			stmt.setDate(3, (java.sql.Date) new Date());
 			if(stmt.executeUpdate() == 1)
-				LOG.info("Withdraw method, inserted data into betaalgeschiedenis!");
 				successfulWithdraw = true;
 		}
 

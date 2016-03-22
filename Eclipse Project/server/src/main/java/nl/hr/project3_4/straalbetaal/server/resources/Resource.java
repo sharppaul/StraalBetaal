@@ -15,17 +15,15 @@ public class Resource {
 
 	private static final Logger LOG = Logger.getLogger(Resource.class.getName());
 
-	// Making Service static, making sure 1 Service instance is used for all request!
-	private static Service serv = new Service();
-
+	private Service serv = new Service();
+	// Implement this with THIS.... 
 
 	@GET
 	@Path("/{IBAN}&{pincode}")
 	public String getUserID(@PathParam("IBAN") String iban,
 						  @PathParam("pincode") long pincode) {
 		LOG.info("Get request for userID with IBAN: " + iban + " and pincode: " + pincode);
-		// JSON format -> Probably gonna use a Json format for clarity
-		return ("{\"userid\":\"" + serv.getUserID(iban, pincode) + "\"}");
+		return serv.getUserID(iban, pincode);
 	}
 
 	/*
@@ -55,7 +53,7 @@ public class Resource {
 			response.setResponse("Saldo ontoereikend");
 			// throw new BadRequestException(Response.status(Response.Status.BAD_REQUEST).entity(response).build());
 		}
-		return response;
+		return response; // CHANGE!
 	}
 
 }
