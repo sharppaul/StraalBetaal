@@ -1,0 +1,37 @@
+2016-03-22 16:34:26,327  INFO resources.Resource:26 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-03-22 16:34:26,860  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:34:26,897  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-22 16:34:26,898  INFO services.Service:38 - Database operation performed sucessfully for userID: garePaul
+2016-03-22 16:34:38,238  INFO resources.Resource:39 - Get request for balance with IBAN: 333333
+2016-03-22 16:34:38,253  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:34:38,254  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-22 16:34:38,256  INFO services.Service:47 - Database operation performed for balance. Iban: 333333 and balance: 1
+2016-03-22 16:35:14,111  INFO resources.Resource:48 - Post request for withdraw with IBAN: 333333 and amount: 4
+2016-03-22 16:35:14,112  INFO services.Service:64 - Withdraw attempt. Iban: 333333 and current Saldo: -3
+2016-03-22 16:36:43,467  INFO resources.Resource:26 - Get request for userID with IBAN: 123456789 and pincode: 3025
+2016-03-22 16:36:43,491  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:36:43,491  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-22 16:36:43,492  INFO services.Service:38 - Database operation performed sucessfully for userID: jasonP
+2016-03-22 16:36:48,863  INFO resources.Resource:39 - Get request for balance with IBAN: 123456789
+2016-03-22 16:36:48,888  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:36:48,894  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-22 16:36:48,894  INFO services.Service:47 - Database operation performed for balance. Iban: 123456789 and balance: 1000
+2016-03-22 16:37:14,844  INFO resources.Resource:48 - Post request for withdraw with IBAN: 123456789 and amount: 100
+2016-03-22 16:37:14,846  INFO services.Service:64 - Withdraw attempt. Iban: 123456789 and current Saldo: 900
+2016-03-22 16:37:14,852  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:37:14,857  INFO dao.DataAccessObject:68 - Withdraw method, updated saldo!
+2016-03-22 16:37:14,886  INFO dao.DataAccessObject:74 - Withdraw method, inserted data into betaalgeschiedenis!
+2016-03-22 16:37:14,887  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-22 16:37:14,887  INFO services.Service:68 - Database operation for withdraw succeeded. Iban: 123456789 and amount: 100
+2016-03-22 16:42:05,125  INFO resources.Resource:48 - Post request for withdraw with IBAN: 123456789 and amount: 200
+2016-03-22 16:42:05,125  INFO services.Service:64 - Withdraw attempt. Iban: 123456789 and current Saldo: 800
+2016-03-22 16:42:05,147  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:42:05,152  INFO dao.DataAccessObject:68 - Withdraw method, updated saldo!
+2016-03-22 16:42:05,178 ERROR services.Service:74 - DATABASE ERROR WHEN DOING WITHDRAW!!!
+2016-03-22 16:42:05,178 ERROR services.Service:75 - ERROR MESSAGE: Duplicate entry '123456789' for key 'PRIMARY'
+2016-03-22 16:42:14,815  INFO resources.Resource:48 - Post request for withdraw with IBAN: 123456789 and amount: 200
+2016-03-22 16:42:14,815  INFO services.Service:64 - Withdraw attempt. Iban: 123456789 and current Saldo: 800
+2016-03-22 16:42:14,832  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-22 16:42:14,838  INFO dao.DataAccessObject:68 - Withdraw method, updated saldo!
+2016-03-22 16:42:14,843 ERROR services.Service:74 - DATABASE ERROR WHEN DOING WITHDRAW!!!
+2016-03-22 16:42:14,844 ERROR services.Service:75 - ERROR MESSAGE: Duplicate entry '123456789' for key 'PRIMARY'
