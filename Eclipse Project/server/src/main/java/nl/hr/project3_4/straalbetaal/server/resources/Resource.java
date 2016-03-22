@@ -15,7 +15,7 @@ public class Resource {
 
 	private static final Logger LOG = Logger.getLogger(Resource.class.getName());
 
-	private Service serv = new Service();
+	private static Service serv = new Service();
 
 
 	@GET
