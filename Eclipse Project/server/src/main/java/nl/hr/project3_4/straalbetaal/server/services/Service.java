@@ -12,7 +12,7 @@ public class Service {
 	private static DataAccessObject dao = new DataAccessObject();
 	// Making pincodeChecked static, making sure 1 boolean instance is used for all request!
 	// When a withdraw is made I change this to false again, so that pincodeChecked wont stay true for next user!
-	private static boolean pincodeChecked;
+	private boolean pincodeChecked;
 	private long balance = 0;
 
 
