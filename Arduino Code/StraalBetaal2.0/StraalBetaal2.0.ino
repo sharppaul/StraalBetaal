@@ -46,7 +46,7 @@ String mode = "start";
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(57600);
   SPI.begin();
 
   pinMode(chipSelectPin, OUTPUT);             // Set digital pin 10 as OUTPUT to connect it to the RFID /ENABLE pin
@@ -55,7 +55,7 @@ void setup() {
   digitalWrite(NRSTPD, HIGH);
 
   myRFID.AddicoreRFID_Init();
-  Serial.println("Program started");
+  //Serial.println("Program started");
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
@@ -78,9 +78,9 @@ void loop() {
   }
 
   if (!stillThere()) {
-    Serial.println("{\"error\":\"cardremoved\"}");
-    mode = "start";
+    reset();
   }
+  delay(100);
 }
 
 //_______________________________________________________keyPad_______________________________________________________//
@@ -96,13 +96,17 @@ void rfid() {
   status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
   status = myRFID.AddicoreRFID_Anticoll(str);
   if (status == MI_OK) {
-    Serial.println("MI_OK");
+    currentCardID = "";
     uid1 = str[1];
     uid2 = str[2];
     uid3 = str[3];
     uid4 = str[4];
-    currentCardID = String(uid1 + uid2 + uid3 + uid4);
+    
     if (mode == "start") {
+      currentCardID += uid1;
+      currentCardID += uid2;
+      currentCardID += uid3;
+      currentCardID += uid4;
       mode = "pincode";
       Serial.println("{\"event\":\"cardreceived\"}");
     }
@@ -117,35 +121,43 @@ boolean stillThere() { // checks if pas is still there.
   str[1] = 0x4400;
   status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
   status = myRFID.AddicoreRFID_Anticoll(str);
-  while (true) {
+  for(int i = 0; i < 10; i++) {
     if (status == MI_OK) {
+      myRFID.AddicoreRFID_Halt();
+      String tempCardID = "";
       uid1 = str[1];
       uid2 = str[2];
       uid3 = str[3];
       uid4 = str[4];
-      String(uid1 + uid2 + uid3 + uid4);
-      if (currentCardID == String(uid1 + uid2 + uid3 + uid4)) {
+      tempCardID += uid1;
+      tempCardID += uid2;
+      tempCardID += uid3;
+      tempCardID += uid4;
+      if (currentCardID == tempCardID) {
         return true;
       } else {
         return false;
       }
-      break;
-    }
+    } 
   }
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
+  return false;
 }
 //_______________________________________________________AES_______________________________________________________//
 void encryptAndSend() {
-  char data[4];
-  pincodePlain.toCharArray(data, 5);
-  uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 985, 798, 789, 165, 48, 15, 984, 51, 64, 894, 4, 65, 654, 4, 6};
-  aes256_enc_single(key, data);
+  //char data[4];
+  //pincodePlain.toCharArray(data, 4);
+  //uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 985, 798, 789, 165, 48, 15, 984, 51, 64, 894, 4, 65, 654, 4, 6};
+  //aes256_enc_single(key, data);
 
-  rfid();
-  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + String(data) + "\",\"card\":\"" + currentCardID + "\"}");
+  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\",\"card\":\"" + currentCardID + "\"}");
+  mode = "choice";
 }
-void aes256_enc_single(const uint8_t* key, void* data);
-void aes256_dec_single(const uint8_t* key, void* data);
+
+//void aes256_enc_single(const uint8_t* key, void* data);
+
+//void aes256_dec_single(const uint8_t* key, void* data);
+
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
   if (pincodeLength < 1)
@@ -171,9 +183,7 @@ void pincodeInvoer() {
       }
       else {
         encryptAndSend();
-        pinReset();
-        mode = "choice";
-        //tagReadOk = false;//kan nog meer achter staan
+       
       }
       break;
     case '1':

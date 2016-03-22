@@ -27,10 +27,14 @@ public class Read implements SerialPortEventListener {
  	private BufferedReader input;
 	private OutputStream output;
 	private static final int TIME_OUT = 2000;
-	private static final int DATA_RATE = 9600;
+	private static final int DATA_RATE = 57600;
 	
 	/** Stuff voor arduino data parsing: */
 	ArduinoData data;
+	
+	public static void main(String[] args){
+		Read r = new Read(new ArduinoData());
+	}
 	
 	public Read(ArduinoData data){
 		this.data = data;
@@ -88,10 +92,11 @@ public class Read implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 				System.out.println("Incoming data: " + inputLine);
-				//JSONObject t = new JSONObject(inputLine);
-				//System.out.println(Arrays.toString(t.keySet().toArray())); 
+				JSONObject t = new JSONObject(inputLine);
+				System.out.println(Arrays.toString(t.keySet().toArray())); 
 			} catch (Exception e) {
-				printFatalError();
+				System.out.println(e.toString());
+				//printFatalError();
 			}
 		}
 	}

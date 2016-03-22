@@ -20,7 +20,6 @@ public class Client {
 		
 		while (true) {
 			try {
-
 				while (!cardInserted()) {
 					// waits till card is inserted.
 				}
