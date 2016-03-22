@@ -14,6 +14,24 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# Eclipse Core --> For eclipse specific code!
+.project
+# Locally stored "Eclipse launch configurations"
+*.launch
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
 # Windows shortcuts
 *.lnk
 
