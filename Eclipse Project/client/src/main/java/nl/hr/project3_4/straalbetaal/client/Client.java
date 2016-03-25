@@ -14,8 +14,7 @@ public class Client {
 		
 	}
 
-	public Client(ArduinoData data) {
-		this.data = data;
+	public Client() {
 		frame = new Frame();
 		
 		while (true) {
