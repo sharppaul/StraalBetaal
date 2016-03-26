@@ -1,46 +1,52 @@
 package nl.hr.project3_4.straalbetaal.client;
 
-import nl.hr.project3_4.straalbetaal.api.WithdrawRequest;
+import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
 
+@SuppressWarnings("unused")
 public class Client {
 	Frame frame;
 	ArduinoData data;
-	
+	Read reader;
+	private String errorMessage;
+	private boolean shouldUpdateGUI;
+
 	public static void main(String[] args) {
 
 		Client client = new Client();
-		
+
 	}
 
 	public Client() {
+		data = new ArduinoData();
+		reader = new Read(data);
 		frame = new Frame();
-		
+
 		while (true) {
 			try {
 				while (!cardInserted()) {
-					// waits till card is inserted.
+					// WAIT FOR CARD.
+					shouldReset();
 				}
 
 				frame.setMode("login");
 
 				while (!pinValid()) {
-
+					// WAIT TILL PIN IS VALID
+					pinErrorOccured();
+					shouldReset();
 				}
 
-				if (errorOccured())
-					;
-
+				shouldReset();
 				frame.setMode("choice");
 
-				while (!userIsReady()) {
-
+				while (!userMadeChoice()) {
+					// WAIT FOR USER
+					shouldReset();
 				}
 
-				if (frame.getMode().equals("quickpin")) {
-					// execute quickpin() or something.
-					frame.setMode("ticket");
+				if (data.getChoice().equals("quickpin")) {
 
 				} else if (frame.getMode().equals("pin")) {
 
@@ -64,8 +70,8 @@ public class Client {
 				while (!userIsReady()) { // user hasn't chosen options etc.
 
 				}
-			} catch(Exception e){
-				
+			} catch (ResetException e) {
+
 			}
 		}
 
@@ -89,8 +95,7 @@ public class Client {
 	}
 
 	public boolean cardInserted() {
-		// stuff that knows when card is inserted.
-		return false;
+		return data.isCardReceived();
 	}
 
 	public boolean pinValid() {
@@ -98,14 +103,25 @@ public class Client {
 		return false;
 	}
 
-	public boolean userIsReady() {
-		// stuff that checks if user is ready to go to next panel.
-		return false;
+	public boolean userMadeChoice() {
+		if (data.getChoice().equals("none")) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	public boolean errorOccured() {
-		// stuff that checks if something is wrong.
-		return false;
+	public void pinErrorOccured() {
+		if (data.isErrored()) {
+			this.errorMessage = data.getError();
+			this.shouldUpdateGUI = true;
+		}
+	}
+
+	public void shouldReset() throws ResetException {
+		if (data.isReset()) {
+			throw new ResetException();
+		}
 	}
 
 	public float requestSaldo() {
@@ -114,15 +130,6 @@ public class Client {
 		return (float) 13.37;
 	}
 
-	public boolean shouldReset() {
-		if(data.shouldReset()){
-			data.reset();
-			return true;
-			
-		} else {
-			return false;
-		}
-	}
 	/*
 	 * There should also follow logic here, for example if pincode correct, and
 	 * user presses A (show saldo, the saldo method from ClientBackEnd needs to
