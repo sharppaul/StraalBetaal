@@ -20,7 +20,7 @@ public class Frame extends JFrame {
 	private GridBagLayout l = new GridBagLayout();
 	private GridBagConstraints c;
 	private Font bigfont;
-	private JLabel pin;
+	private JLabel pin, customAmount;
 
 	private final String[] modes = { "start", "login", "choice", "error", "pin", "billselect", "quickpin", "saldo",
 			"ticket", "success" };
@@ -29,6 +29,7 @@ public class Frame extends JFrame {
 	private boolean ticket;
 	private float saldo = (float) 0.0;
 	private boolean errored;
+	private JLabel err = new JLabel("");
 
 	public Frame() {
 		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
@@ -66,11 +67,12 @@ public class Frame extends JFrame {
 				choiceMenu();
 			if (mode == "saldo")
 				saldoMenu(getSaldo());
-
+			if (mode == "pin")
+				pinMenu();
+			if (mode == "billselect")
+				billMenu();
 			if (mode == "ticket")
 				ticketMenu();
-		
-
 			if (mode == "success")
 				successMenu();
 		} else {
@@ -91,7 +93,15 @@ public class Frame extends JFrame {
 					+ Arrays.toString(modes));
 		}
 	}
-
+	
+	public void setPinErr(String error){
+		err.setText(error);
+	}
+	
+	public void setPinAmount(int amount){
+		customAmount.setText("€"+amount+",-");
+	}
+	
 	public String getMode() {
 		return this.mode;
 	}
@@ -155,6 +165,10 @@ public class Frame extends JFrame {
 	}
 
 	// BUTTON FUNCTION HANDLERS
+	
+	public void functie(String f) {
+		
+	}
 
 	public void doesWantTicket() {
 		System.out.println("doesWantTicket()");
@@ -282,16 +296,22 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		clearPanel();
 
-		JLabel instr, stuff;
+		JLabel instr,other;
 		instr = new JLabel("Maak uw keuze:");
 		instr.setFont(bigfont);
-		stuff = new JLabel("Whole lot of buttons will come here. ");
-		stuff.setFont(bigfont);
+		other = new JLabel("Of vul een bedrag in:");
+		other.setFont(bigfont);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
-
+		// customAmount
+		customAmount = new JLabel();
+		customAmount.setText(" ");
+		customAmount.setFont(bigfont);
+		customAmount.setHorizontalAlignment(JLabel.CENTER);
+		customAmount.setBackground(Color.white);
+		customAmount.setOpaque(true);
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
@@ -300,8 +320,22 @@ public class Frame extends JFrame {
 		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(stuff, c);
-
+		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,-"), c);
+		c.gridy++;
+		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,-"), c);
+		c.gridy++;
+		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,-"), c);
+		
+		c.ipady = 0;
+		c.gridy++;
+		
+		mainPanel.add(other,c);
+		
+		c.ipady = 35;
+		c.gridy++;
+		
+		mainPanel.add(customAmount,c);
+		
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
@@ -395,6 +429,9 @@ public class Frame extends JFrame {
 		JLabel instr = new JLabel("Vul uw pincode in:");
 		instr.setFont(bigfont);
 
+		
+		err.setFont(bigfont);
+
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
@@ -417,6 +454,12 @@ public class Frame extends JFrame {
 		mainPanel.add(cancelButton(), c);
 		c.gridx = 1;
 		mainPanel.add(okButton(), c);
+
+		// ERRORS:
+		err.setText("");
+		c.gridwidth = 2;
+		c.gridy++;
+		mainPanel.add(err, c);
 	}
 
 	// BUTTONS AND BUTTON FUNCTIONS:
@@ -514,6 +557,17 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				viewSaldo();
 			}
+		});
+		return btn;
+	}
+	
+	private JButton functionButton(String f, String inhoud) {
+		JButton btn = new JButton(inhoud);
+		btn.setFont(bigfont);
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				functie(f);
+			}			
 		});
 		return btn;
 	}

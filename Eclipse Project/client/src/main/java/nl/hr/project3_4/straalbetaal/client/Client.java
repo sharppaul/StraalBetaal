@@ -9,8 +9,8 @@ public class Client {
 	Frame frame;
 	ArduinoData data;
 	Read reader;
-	private String errorMessage;
-	private boolean shouldUpdateGUI;
+
+	private boolean shouldUpdateGUI = true;
 
 	public static void main(String[] args) {
 
@@ -31,12 +31,18 @@ public class Client {
 				}
 
 				frame.setMode("login");
-
-				while (!pinValid()) {
-					// WAIT TILL PIN IS VALID
+				int dots = 0;
+				shouldUpdateGUI = true;
+				while (!pinReceived()) {
+					if (dots < data.getPinLength()) {
+						frame.addDotToPin();
+						dots++;
+					}
 					pinErrorOccured();
 					shouldReset();
 				}
+
+				checkPinValid();
 
 				shouldReset();
 				frame.setMode("choice");
@@ -46,61 +52,107 @@ public class Client {
 					shouldReset();
 				}
 
-				if (data.getChoice().equals("quickpin")) {
+				shouldReset();
 
-				} else if (frame.getMode().equals("pin")) {
+				if (data.getChoice().equals("snelpinnen")) {
+					// QUICKPIN
+				} else if (data.getChoice().equals("pinnen")) {
 
-					while (!userIsReady()) { // user hasn't entered amount etc.
-
+					frame.setMode("pin");
+					while (!userEnteredAmount()) { // user hasn't entered amount
+						shouldReset();
 					}
+
+					shouldReset();
+					data.chooseBill(null);
 					frame.setMode("billselect");
-
-					while (!userIsReady()) { // user hasn't chosen options etc.
-
+					while (!billSelected()) { // user hasn't chosen bills
+						shouldReset();
 					}
+
+					shouldReset();
 					frame.setMode("ticket");
+					while (!ticketIsChosen()) { // user hasn't chosen ticket
+						shouldReset();
+					}
 
-				} else if (frame.getMode().equals("saldo")) {
-
+				} else if (data.getChoice().equals("saldo")) {
+					frame.setMode("loading");
 					frame.setSaldo(this.requestSaldo());
-					frame.loadMenu();
-
+					frame.setMode("saldo");
+				}
+				
+				shouldReset();
+				frame.setMode("success");
+				while(true){
+					finished();
 				}
 
-				while (!userIsReady()) { // user hasn't chosen options etc.
-
-				}
 			} catch (ResetException e) {
-
+				frame.setMode("error");
+				try {
+				    Thread.sleep(2500);                 
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+			} catch (SuccessException e) {
+				try {
+				    Thread.sleep(2500);                 
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
 			}
 		}
+	}
 
-		/**
-		 * ClientBackEnd client = new ClientBackEnd("123456789", 3025);
-		 * 
-		 * boolean clientWantsToCheckBalance = true; boolean
-		 * clientWantsToGet50Euros = false;
-		 * 
-		 * WithdrawRequest request = null; if(!client.checkPincode().equals(
-		 * "Wrong pincode!")) { if(clientWantsToCheckBalance) {
-		 * System.out.println("Uw actuele saldo is " +
-		 * client.checkBalance().getBalance() + " euro"); } else
-		 * if(clientWantsToGet50Euros) { request = new WithdrawRequest();
-		 * request.setAmount(50);
-		 * 
-		 * System.out.println("U wilt " + request.getAmount() + " euro pinnen."
-		 * ); System.out.println(client.withdrawMoney(request).getResponse().
-		 * toString()); } } // else retry!
-		 **/
+	private void finished() throws SuccessException {
+		if (data.isReset()) {
+			throw new SuccessException("Finished.");
+		}
+	}
+
+	private boolean pinReceived() {
+		if (data.getPinEncrypted() == null) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean userEnteredAmount() {
+		frame.setPinAmount(data.getAmount());
+		if (data.isAmountDone()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean billSelected() {
+		if (data.getBillOption() != null) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ticketIsChosen() {
+		if (data.getBon() == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public boolean cardInserted() {
 		return data.isCardReceived();
 	}
 
-	public boolean pinValid() {
+	public void checkPinValid() throws ResetException {
 		// stuff that checks if pincode is valid.`
-		return false;
+
+		if(false){
+			throw new ResetException("Pin is invalid.");
+		}
+
 	}
 
 	public boolean userMadeChoice() {
@@ -112,31 +164,21 @@ public class Client {
 	}
 
 	public void pinErrorOccured() {
-		if (data.isErrored()) {
-			this.errorMessage = data.getError();
-			this.shouldUpdateGUI = true;
+		if (data.isErrored() && shouldUpdateGUI) {
+			frame.setPinErr(data.getError());
+			this.shouldUpdateGUI = false;
 		}
 	}
 
 	public void shouldReset() throws ResetException {
 		if (data.isReset()) {
-			throw new ResetException();
+			throw new ResetException("Something went wrong on pin terminal.");
 		}
 	}
 
-	public float requestSaldo() {
+	public float requestSaldo() throws ResetException {
 		// request saldo
 		// try { request } catch exc. { return (float)0.0 )
 		return (float) 13.37;
 	}
-
-	/*
-	 * There should also follow logic here, for example if pincode correct, and
-	 * user presses A (show saldo, the saldo method from ClientBackEnd needs to
-	 * be called.
-	 * 
-	 * Something like this if(pressed A == true) client.balance(); else
-	 * if(pressed B == true) client.withdraw(); etc...
-	 */
-
 }

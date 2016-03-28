@@ -1,11 +1,11 @@
 package nl.hr.project3_4.straalbetaal.client;
 
-public class ResetException extends Exception {
+public class SuccessException extends Exception {
 	private static final long serialVersionUID = 1L;
-	public ResetException(){
+	public SuccessException(){
 		super();
 	}
-	public ResetException(String s){
+	public SuccessException(String s){
 		super(s);
 	}
 }

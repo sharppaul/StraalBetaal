@@ -279,12 +279,15 @@ void pinnen() {
   switch (key) {
     case 'A':
       Serial.println("{\"event\":\"amountkey\",\"key\":\"a\"}");
+	  mode = "banknotes";
       break;
     case 'B':
       Serial.println("{\"event\":\"amountkey\",\"key\":\"b\"}");
+	  mode = "banknotes";
       break;
     case 'C':
       Serial.println("{\"event\":\"amountkey\",\"key\":\"c\"}");
+	  mode = "banknotes";
       break;
     case 'D':
       mode = "banknotes";

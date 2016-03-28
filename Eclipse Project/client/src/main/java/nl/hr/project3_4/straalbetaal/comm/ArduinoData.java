@@ -3,13 +3,12 @@ package nl.hr.project3_4.straalbetaal.comm;
 public class ArduinoData {
 	private boolean cardReceived = false;
 	private int pinLength = 0;
-	private boolean wantsBon;
+	private Boolean wantsBon = null;
 	private String pinEncrypted;
 	private String cardId;
 	private String billOption;
 	private int pinAmount;
 	private boolean amountDone = false;
-	private boolean firstDigitAmount;
 	private String selectedChoice = "none";
 	private boolean isReset;
 	private String errorMessage;
@@ -22,16 +21,15 @@ public class ArduinoData {
 	public void reset() {
 		this.cardReceived = false;
 		this.pinLength = 0;
+		this.wantsBon = null;
 		this.pinEncrypted = "";
 		this.cardId = "";
 		this.billOption = "";
 		this.pinAmount = 0;
 		this.amountDone = false;
-		this.firstDigitAmount = true;
 		this.selectedChoice = "none";
-		
-	}
 
+	}
 
 	////////////////////// CARD RECEIVED::
 	public void cardReceived() {
@@ -71,11 +69,11 @@ public class ArduinoData {
 	}
 
 	////////////////////// BON STUFF:
-	public void setBon(boolean option) {
+	public void setBon(Boolean option) {
 		this.wantsBon = option;
 	}
 
-	public boolean getBon() {
+	public Boolean getBon() {
 		return this.wantsBon;
 	}
 
@@ -104,22 +102,25 @@ public class ArduinoData {
 	public void amountKey(String key) {
 		if (key.equals("a")) {
 			this.pinAmount = 50;
-			this.firstDigitAmount = true;
+			amountDone();
 		} else if (key.equals("b")) {
 			this.pinAmount = 100;
-			this.firstDigitAmount = true;
+			amountDone();
 		} else if (key.equals("c")) {
 			this.pinAmount = 200;
-			this.firstDigitAmount = true;
+			amountDone();
 		} else {
-			if (firstDigitAmount) {
-				this.pinAmount = 0;
-				firstDigitAmount = false;
+			if (this.pinAmount != 0) {
+				StringBuilder _sb = new StringBuilder(Integer.toString(this.pinAmount));
+				_sb.insert(0, key);
+				
+				this.pinAmount = Integer.parseInt(_sb.toString());
 			}
-			this.pinAmount = Integer.parseInt((Integer.toString(this.pinAmount) + key));
 		}
 	}
-
+	public int getAmount(){
+		return this.pinAmount;
+	}
 	public void setChoice(String option) {
 		this.selectedChoice = option;
 	}
@@ -127,26 +128,28 @@ public class ArduinoData {
 	public String getChoice() {
 		return this.selectedChoice;
 	}
-	//NON FATAL ERROR HANDLING:
+
+	// NON FATAL ERROR HANDLING:
 	public void error(String error) {
 		this.errorMessage = error;
 		this.errored = true;
 	}
-	
-	public boolean isErrored(){
+
+	public boolean isErrored() {
 		return this.errored;
 	}
-	
-	public String getError(){
+
+	public String getError() {
 		return this.errorMessage;
 	}
-	//////////////////////RESET STUFF:
+
+	////////////////////// RESET STUFF:
 	public void resetSession() {
 		reset();
 		this.isReset = true;
 	}
-	
-	public boolean isReset(){
+
+	public boolean isReset() {
 		return this.isReset;
 	}
 }
