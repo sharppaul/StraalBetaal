@@ -145,18 +145,19 @@ boolean stillThere() { // checks if pas is still there.
 }
 //_______________________________________________________AES_______________________________________________________//
 void encryptAndSend() {
-  //char data[4];
-  //pincodePlain.toCharArray(data, 4);
-  //uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 985, 798, 789, 165, 48, 15, 984, 51, 64, 894, 4, 65, 654, 4, 6};
-  //aes256_enc_single(key, data);
+  char data[4];
+  pincodePlain.toCharArray(data, 4);
+  uint8_t key[] = {5, 9, 7, 5, 7, 5, 4, 5, 5, 6, 4, 2, 2, 9, 4, 15, 5, 5, 6, 4, 6, 5, 9, 59, 59, 5, 95, 95, 95, 78, 79, 9};
+  aes256_enc_single(key, data);
 
-  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\",\"card\":\"" + currentCardID + "\"}");
+  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + String(data) + "\",\"card\":\"" + currentCardID + "\"}");
   mode = "choice";
+   aes256_dec_single(key, data);
 }
 
-//void aes256_enc_single(const uint8_t* key, void* data);
+void aes256_enc_single(const uint8_t* key, void* data);
 
-//void aes256_dec_single(const uint8_t* key, void* data);
+void aes256_dec_single(const uint8_t* key, void* data);
 
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
