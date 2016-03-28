@@ -22,13 +22,15 @@ public class ArduinoData {
 		this.cardReceived = false;
 		this.pinLength = 0;
 		this.wantsBon = null;
-		this.pinEncrypted = "";
-		this.cardId = "";
-		this.billOption = "";
+		this.pinEncrypted = null;
+		this.cardId = null;
+		this.billOption = null;
 		this.pinAmount = 0;
 		this.amountDone = false;
 		this.selectedChoice = "none";
-
+		this.isReset = false;
+		this.errorMessage = null;
+		this.errored = false;
 	}
 
 	////////////////////// CARD RECEIVED::

@@ -30,6 +30,7 @@ public class Frame extends JFrame {
 	private float saldo = (float) 0.0;
 	private boolean errored;
 	private JLabel err = new JLabel("");
+	private String[] billOption;
 
 	public Frame() {
 		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
@@ -94,6 +95,14 @@ public class Frame extends JFrame {
 		}
 	}
 	
+	public String[] getBillOption() {
+		return billOption;
+	}
+
+	public void setBillOption(String[] billOption) {
+		this.billOption = billOption;
+	}
+
 	public void setPinErr(String error){
 		err.setText(error);
 	}
@@ -292,6 +301,36 @@ public class Frame extends JFrame {
 
 	}
 
+	public void billMenu() {
+		c = new GridBagConstraints();
+		clearPanel();
+		
+		JLabel instr;
+		instr = new JLabel("Kies biljetten:");
+		instr.setFont(bigfont);
+				
+		// GENERAL CONSTRAINTS:
+		c.fill = GridBagConstraints.BOTH;
+		c.insets = new Insets(10, 50, 10, 50);
+		// INSTRUCTIES:
+		c.gridwidth = 2;
+		c.gridy = 0;
+		mainPanel.add(instr, c);
+		
+		// LOTTA BUTTONS:
+		c.ipady = 35;
+		c.gridy++;
+		mainPanel.add(this.functionButton("billkeuzeA", getBillOption()[0] + "\t(A)"), c);
+		c.gridy++;
+		mainPanel.add(this.functionButton("billkeuzeB", getBillOption()[1] + "\t(A)"), c);
+		c.gridy++;
+		mainPanel.add(this.functionButton("billkeuzeC", getBillOption()[2] + "\t(A)"), c);
+		
+		c.gridy++;
+		c.gridwidth = 1;
+		mainPanel.add(cancelButton(), c);
+	}
+	
 	public void pinMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
@@ -320,11 +359,11 @@ public class Frame extends JFrame {
 		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,-"), c);
+		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,- \t(A)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,-"), c);
+		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,- \t(A)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,-"), c);
+		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,- \t(A)"), c);
 		
 		c.ipady = 0;
 		c.gridy++;

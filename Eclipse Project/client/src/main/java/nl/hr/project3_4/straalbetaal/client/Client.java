@@ -3,6 +3,7 @@ package nl.hr.project3_4.straalbetaal.client;
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
+import nl.hr.project3_4.straalbetaal.exceptions.*;
 
 @SuppressWarnings("unused")
 public class Client {
@@ -65,6 +66,7 @@ public class Client {
 
 					shouldReset();
 					data.chooseBill(null);
+					calculateBills();
 					frame.setMode("billselect");
 					while (!billSelected()) { // user hasn't chosen bills
 						shouldReset();
@@ -103,6 +105,19 @@ public class Client {
 				}
 			}
 		}
+	}
+
+	private void calculateBills() {
+		int amount = data.getAmount();
+		//calculates some stuff, and will return a string with few amounts. 
+		//quite an interesting piece of software to make.
+		String[] options = new String[3];
+		
+		options[0] = "Keuze 1";
+		options[1] = "Keuze 2";
+		options[2] = "Keuze 3";
+		
+		frame.setBillOption(options);		
 	}
 
 	private void finished() throws SuccessException {
