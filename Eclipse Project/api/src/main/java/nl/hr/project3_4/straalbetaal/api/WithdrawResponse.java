@@ -7,7 +7,7 @@ public class WithdrawResponse {
 	@JsonProperty
 	private String response;
 	@JsonProperty
-	private Long transactionNumber = null;
+	private int transactionNumber = 0;
 
 
 	public WithdrawResponse() {}
@@ -20,10 +20,10 @@ public class WithdrawResponse {
 		this.response = response;
 	}
 
-	public Long getTransactionNumber() {
+	public int getTransactionNumber() {
 		return transactionNumber;
 	}
-	public void setTransactionNumber(Long transactionNumber) {
+	public void setTransactionNumber(int transactionNumber) {
 		this.transactionNumber = transactionNumber;
 	}
 

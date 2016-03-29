@@ -18,7 +18,7 @@ public class ClientBackEnd {
 
 	private static final Logger LOG = Logger.getLogger(ClientBackEnd.class.getName());
 
-	private static Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
+	private Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
 	private static final String target = "http://145.24.222.208:8025";
 
 	private String iban;
@@ -41,13 +41,21 @@ public class ClientBackEnd {
 	public static void main(String[] args) {
 		// ClientBackEnd backEnd = new ClientBackEnd();
 		ClientBackEnd backEnd = new ClientBackEnd("123456789", 3025);
-		System.out.println("UserId: " + backEnd.checkPincode().getUserID());
-		System.out.println("Balance: " + backEnd.checkBalance().getBalance());
+		
+		System.out.println("UserId: \t\t" + backEnd.checkPincode().getUserID());
+		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
 
 		WithdrawRequest request = new WithdrawRequest();
 		request.setAmount(5);
-		System.out.println("Withdraw Response: " + backEnd.withdrawMoney(request).getResponse());
-		System.out.println("Withdraw Transaction Number: " + backEnd.withdrawMoney(request).getTransactionNumber());
+		
+		WithdrawResponse response = backEnd.withdrawMoney(request);
+		
+		System.out.println("Withdraw Response: \t" + response.getResponse());
+		System.out.println("Transaction Number: \t" + response.getTransactionNumber());
+		
+		backEnd = new ClientBackEnd("123456789", 3025);
+		backEnd.checkPincode().getUserID();
+		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
 	}
 
 
@@ -75,7 +83,7 @@ public class ClientBackEnd {
 
 		WithdrawResponse response = client.target(target).path(path + "/withdraw").request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);
-		if(response.getTransactionNumber() == null) {
+		if(response.getTransactionNumber() == 0) {
 			response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");
 		}
 		LOG.info("Client - Withdraw Response send to server!");

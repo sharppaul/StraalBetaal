@@ -52,7 +52,7 @@ public class Resource {
 
 		if(serv.withdraw(iban, request.getAmount())) {
 			response.setResponse("Dank u voor pinnen.");
-			response.setTransactionNumber(12345L); // Dummy
+			response.setTransactionNumber(12345); // Dummy
 			return response;
 		} else {
 			response.setResponse("Saldo ontoereikend");
