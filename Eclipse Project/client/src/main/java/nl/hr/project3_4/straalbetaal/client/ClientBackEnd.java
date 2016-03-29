@@ -41,12 +41,13 @@ public class ClientBackEnd {
 	public static void main(String[] args) {
 		// ClientBackEnd backEnd = new ClientBackEnd();
 		ClientBackEnd backEnd = new ClientBackEnd("123456789", 3025);
-		System.out.println(backEnd.checkPincode().getUserID());
-		System.out.println(backEnd.checkBalance().getBalance());
+		System.out.println("UserId: " + backEnd.checkPincode().getUserID());
+		System.out.println("Balance: " + backEnd.checkBalance().getBalance());
 
 		WithdrawRequest request = new WithdrawRequest();
 		request.setAmount(5);
-		System.out.println(backEnd.withdrawMoney(request).getTransactionNumber());
+		System.out.println("Withdraw Response: " + backEnd.withdrawMoney(request).getResponse());
+		System.out.println("Withdraw Transaction Number: " + backEnd.withdrawMoney(request).getTransactionNumber());
 	}
 
 
