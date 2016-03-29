@@ -5,8 +5,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class BalanceResponse {
 
 	@JsonProperty
-	private final long balance;
+	private long balance;
 
+
+	public BalanceResponse() {}
 
 	public BalanceResponse(long balance) {
 		this.balance = balance;

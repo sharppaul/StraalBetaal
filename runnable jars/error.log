@@ -1,48 +1,8 @@
-2016-03-22 17:24:22,416  INFO resources.Resource:25 - Get request for userID with IBAN: 333333 and pincode: 1111
-2016-03-22 17:24:22,952  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:24:22,977  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:24:22,977  INFO services.Service:40 - Database operation performed sucessfully for userID: garePaul
-2016-03-22 17:24:27,753  INFO resources.Resource:38 - Get request for balance with IBAN: 333333
-2016-03-22 17:24:27,754  WARN services.Service:52 - Database operation for get balance failed, pincodeChecked was: false
-2016-03-22 17:31:43,742  INFO resources.Resource:38 - Get request for balance with IBAN: 333333
-2016-03-22 17:31:43,746  WARN services.Service:52 - Database operation for get balance failed, pincodeChecked was: false
-2016-03-22 17:31:48,830  INFO resources.Resource:25 - Get request for userID with IBAN: 333333 and pincode: 1111
-2016-03-22 17:31:49,526  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:31:49,550  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:31:49,550  INFO services.Service:40 - Database operation performed sucessfully for userID: garePaul
-2016-03-22 17:31:54,857  INFO resources.Resource:38 - Get request for balance with IBAN: 333333
-2016-03-22 17:31:54,878  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:31:54,880  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:31:54,881  INFO services.Service:49 - Database operation performed for balance. Iban: 333333 and balance: 100
-2016-03-22 17:32:05,384  INFO resources.Resource:47 - Post request for withdraw with IBAN: 333333 and amount: 90
-2016-03-22 17:32:05,419  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:32:05,421  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:32:05,421  INFO services.Service:66 - Database operation performed for balance *IN WITHDRAW*. Iban: 333333 and balance: 100
-2016-03-22 17:32:05,422  INFO services.Service:67 - Withdraw attempt. Iban: 333333 and current Saldo: 10
-2016-03-22 17:32:05,434  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:32:05,441  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:32:05,441  INFO dao.DataAccessObject:69 - Withdraw method, updated saldo!
-2016-03-22 17:32:05,450  INFO dao.DataAccessObject:75 - Withdraw method, inserted data into betaalgeschiedenis!
-2016-03-22 17:32:05,450  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:32:05,450  INFO services.Service:71 - Database operation for withdraw succeeded. Iban: 333333 and amount: 90
-2016-03-22 17:32:29,891  INFO resources.Resource:47 - Post request for withdraw with IBAN: 123456789 and amount: 90
-2016-03-22 17:32:29,891  WARN services.Service:74 - Database Operation for withdraw failed, pincodeChecked was: false
-2016-03-22 17:33:22,704  INFO resources.Resource:25 - Get request for userID with IBAN: 123456789 and pincode: 3025
-2016-03-22 17:33:22,733  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:33:22,735  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:33:22,735  INFO services.Service:40 - Database operation performed sucessfully for userID: jasonP
-2016-03-22 17:33:38,350  INFO resources.Resource:47 - Post request for withdraw with IBAN: 123456789 and amount: 200
-2016-03-22 17:33:38,363  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:33:38,364  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:33:38,364  INFO services.Service:66 - Database operation performed for balance *IN WITHDRAW*. Iban: 123456789 and balance: 100
-2016-03-22 17:33:38,365  INFO services.Service:67 - Withdraw attempt. Iban: 123456789 and current Saldo: 310
-2016-03-22 17:33:38,375  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-22 17:33:38,379  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:33:38,379  INFO dao.DataAccessObject:69 - Withdraw method, updated saldo!
-2016-03-22 17:33:38,400  INFO dao.DataAccessObject:75 - Withdraw method, inserted data into betaalgeschiedenis!
-2016-03-22 17:33:38,401  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-22 17:33:38,401  INFO services.Service:71 - Database operation for withdraw succeeded. Iban: 123456789 and amount: 200
-2016-03-22 17:34:02,147  INFO resources.Resource:47 - Post request for withdraw with IBAN: 333333 and amount: 5
-2016-03-22 17:34:02,148  WARN services.Service:74 - Database Operation for withdraw failed, pincodeChecked was: false
-2016-03-29 10:48:41,650  INFO resources.Resource:51 - Post request for withdraw with IBAN: 333333 and amount: 5
-2016-03-29 10:48:41,653  WARN services.Service:74 - Database Operation for withdraw failed, pincodeChecked was: false
+2016-03-29 12:28:26,191  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-29 12:28:26,262  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-29 12:28:26,262  INFO services.Service:40 - Database operation performed sucessfully for userID: garePaul
+2016-03-29 12:28:26,262  INFO resources.Resource:26 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-03-29 12:29:19,979  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
+2016-03-29 12:29:19,981  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
+2016-03-29 12:29:19,981  INFO services.Service:40 - Database operation performed sucessfully for userID: garePaul
+2016-03-29 12:29:19,982  INFO resources.Resource:26 - Get request for userID with IBAN: 333333 and pincode: 1111

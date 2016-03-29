@@ -5,8 +5,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CheckPincodeResponse {
 
 	@JsonProperty
-	private final String userID;
+	private String userID;
 
+
+	public CheckPincodeResponse() {}
 
 	public CheckPincodeResponse(String userID) {
 		this.userID = userID;
