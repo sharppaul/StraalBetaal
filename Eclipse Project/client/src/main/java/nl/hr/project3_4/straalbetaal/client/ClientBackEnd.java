@@ -5,7 +5,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
-// import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
+
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import nl.hr.project3_4.straalbetaal.api.BalanceResponse;
@@ -15,7 +16,7 @@ import nl.hr.project3_4.straalbetaal.api.WithdrawResponse;
 
 public class ClientBackEnd {
 
-	// private static final Logger LOG = Logger.getLogger(ClientBackEnd.class.getName());
+	private static final Logger LOG = Logger.getLogger(ClientBackEnd.class.getName());
 
 	private static Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
 	private static final String target = "http://145.24.222.208:8025";
@@ -52,7 +53,7 @@ public class ClientBackEnd {
 	public CheckPincodeResponse checkPincode() {
 		String path = "/" + iban + "&" + pincode;
 
-		// LOG.info("Client - CheckPincode Response send to server!");
+		LOG.info("Client - CheckPincode Response send to server!");
 		CheckPincodeResponse response = client.target(target).path(path)
 				.request().get(CheckPincodeResponse.class);
 		return response;
@@ -61,7 +62,7 @@ public class ClientBackEnd {
 	public BalanceResponse checkBalance() {
 		String path = "/" + iban + "&" + pincode;
 
-		// LOG.info("Client - Balance Response send to server!");
+		LOG.info("Client - Balance Response send to server!");
 		BalanceResponse response = client.target(target).path(path + "/balance")
 				.request().get(BalanceResponse.class);
 		return response;
@@ -76,7 +77,7 @@ public class ClientBackEnd {
 		if(response.getTransactionNumber() == null) {
 			response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");
 		}
-		// LOG.info("Client - Withdraw Response send to server!");
+		LOG.info("Client - Withdraw Response send to server!");
 		return response;
 	}
 
