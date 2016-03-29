@@ -190,12 +190,14 @@ public class Frame extends JFrame {
 		pin.setText(" ");
 	}
 
-	public void addDotToPin() {
-		System.out.println("addDotToPin()");
-		if (pin.getText().equals(" ")) {
+	public void addDotToPin(int dots) {
+		pin.setText("");
+		if (dots == 1) {
 			pin.setText("●");
 		} else {
-			pin.setText(pin.getText() + " ●");
+			for(int i = 0; i < dots; i++){
+				pin.setText(pin.getText() + " ●");
+			}
 		}
 	}
 
@@ -511,7 +513,7 @@ public class Frame extends JFrame {
 		clearPanel();
 		pin = new JLabel();
 		pin.setText(" ");
-		pin.setFont(bigfont);
+		//pin.setFont(bigfont);
 		pin.setHorizontalAlignment(JLabel.CENTER);
 		pin.setBackground(Color.white);
 		pin.setOpaque(true);

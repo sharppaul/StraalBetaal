@@ -46,7 +46,7 @@ public class ArduinoData {
 	////////////////////// PIN STUFF:
 	public void resetPin() {
 		this.pinLength = 0;
-		this.pinEncrypted = "";
+		this.pinEncrypted = null;
 	}
 
 	public int getPinLength() {

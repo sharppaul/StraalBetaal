@@ -166,6 +166,7 @@ public class Read implements SerialPortEventListener {
 
 				} else {
 					System.err.println("Received filthy data from a filthy arduino:");
+					System.err.println(inputLine);
 					System.err.println(incomingJson.toString());
 				}
 			} catch (IOException e) {

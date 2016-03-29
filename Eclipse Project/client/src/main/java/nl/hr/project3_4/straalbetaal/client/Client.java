@@ -39,9 +39,9 @@ public class Client {
 				shouldUpdateGUI = true;
 				while (!pinReceived()) {
 					try{Thread.sleep(100);} catch(InterruptedException e){}
-					if (dots < data.getPinLength()) {
-						frame.addDotToPin();
-						dots++;
+					if (dots != data.getPinLength()) {
+						frame.addDotToPin(data.getPinLength());
+						dots = data.getPinLength();
 					}
 					pinErrorOccured();
 					shouldReset();
