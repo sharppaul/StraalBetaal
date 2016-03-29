@@ -15,7 +15,7 @@ import javax.swing.*;
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private boolean fullScreen = false;
+	private boolean fullScreen = true;
 
 	private JFrame f;
 	private CustomPanel mainPanel;
@@ -71,7 +71,7 @@ public class Frame extends JFrame {
 			for (int i = 0; i < this.modes.length; i++) {
 				f.setMode(modes[i]);
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					System.out.println(e);
 				}
