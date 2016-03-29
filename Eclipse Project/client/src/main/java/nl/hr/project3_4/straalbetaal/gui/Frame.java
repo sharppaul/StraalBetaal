@@ -22,15 +22,15 @@ public class Frame extends JFrame {
 	private Font bigfont;
 	private JLabel pin, customAmount;
 
-	private final String[] modes = { "start", "login", "choice", "error", "pin", "billselect", "loading", "saldo",
-			"ticket", "success" };
+	private final String[] modes = { "start", "login", "choice", "saldo", "pin", "billselect", "ticket", "success",
+			"loading", "error" };
 	private String mode = "start";
 	private String error = "Er is iets misgegaan...";
 	private boolean ticket;
 	private float saldo = (float) 0.0;
 	private boolean errored;
 	private JLabel err = new JLabel("");
-	private String[] billOption;
+	private String[] billOption = {"biljet keuze 1","biljet keuze 2","biljet keuze 3"};
 
 	public Frame() {
 		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
@@ -38,14 +38,14 @@ public class Frame extends JFrame {
 		f.setContentPane(new Background());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		// f.setUndecorated(true);
+		f.setUndecorated(true);
 
 		f.setLayout(new GridBagLayout());
 
 		mainPanel = new CustomPanel();
 		mainPanel.setLayout(l);
 		mainPanel.setSize(new Dimension(1000, 1000));
-		mainPanel.setBackground(new Color(0, 0, 0, 0));
+		mainPanel.setBackground(new Color(224, 224, 224));
 
 		f.getContentPane().add(mainPanel, new GridBagConstraints());
 		f.pack();
@@ -57,9 +57,22 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		Frame f = new Frame();
-		f.setMode("loading");
+		f.scrollMenus(f);
 	}
+
 	// MANAGES WHICH MENU LOADS:
+	public void scrollMenus(Frame f) {
+		while (true) {
+			for (int i = 0; i < this.modes.length; i++) {
+				f.setMode(modes[i]);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					System.out.println(e);
+				}
+			}
+		}
+	}
 
 	public void loadMenu() {
 		mainPanel.removeAll();
@@ -82,6 +95,8 @@ public class Frame extends JFrame {
 				successMenu();
 			if (mode == "loading")
 				loadingMenu();
+			if (mode == "error")
+				errorMenu(error);
 		} else {
 			mode = "error";
 			errorMenu(error);
@@ -271,8 +286,6 @@ public class Frame extends JFrame {
 		mainPanel.add(ticketNoButton(), c);
 		c.gridy++;
 
-		c.gridx = 0;
-		mainPanel.add(cancelButton(), c);
 
 	}
 
@@ -328,9 +341,9 @@ public class Frame extends JFrame {
 		c.gridy++;
 		mainPanel.add(this.functionButton("billkeuzeA", getBillOption()[0] + "\t(A)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeB", getBillOption()[1] + "\t(A)"), c);
+		mainPanel.add(this.functionButton("billkeuzeB", getBillOption()[1] + "\t(B)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeC", getBillOption()[2] + "\t(A)"), c);
+		mainPanel.add(this.functionButton("billkeuzeC", getBillOption()[2] + "\t(C)"), c);
 
 		c.gridy++;
 		c.gridwidth = 1;
@@ -442,16 +455,16 @@ public class Frame extends JFrame {
 	public void loadingMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel error = new JLabel();
-		error.setFont(bigfont);
-		error.setText("Laden...");
-		error.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel loadText = new JLabel();
+		loadText.setFont(bigfont);
+		loadText.setText("Laden...");
+		loadText.setHorizontalAlignment(SwingConstants.CENTER);
 		// MESSAGE:
 		c.insets = new Insets(10, 50, 10, 50);
 		c.gridwidth = 2;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
-		mainPanel.add(error, c);
+		mainPanel.add(loadText, c);
 
 		// Loading gif:
 		Gif loading = new Gif("loading.gif");
@@ -466,22 +479,26 @@ public class Frame extends JFrame {
 	public void errorMenu(String message) {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel error = new JLabel();
+		JLabel error2 = new JLabel("",SwingConstants.CENTER);
+		error2.setFont(bigfont);
+		error2.setText(message);
+		JLabel error = new JLabel("",SwingConstants.CENTER);
 		error.setFont(bigfont);
-		error.setText("Fout: \n" + message);
+		error.setText("Verwijder uw pas.");
 		// MESSAGE:
-		c.gridwidth = 2;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
+		mainPanel.add(error2, c);
+		c.gridy++;
 		mainPanel.add(error, c);
 
 		// BUTTONS:
-		c.gridwidth = 1;
-		c.ipady = 35;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		mainPanel.add(cancelButton(), c);
+		Image img = new Image("error.png");
+		c.ipady = img.getHeight();
+		c.ipadx = img.getWidth();
+		c.gridy++;
+		mainPanel.add(img, c);
 
 	}
 
@@ -534,6 +551,7 @@ public class Frame extends JFrame {
 
 	public JButton ticketNoButton() {
 		JButton btn = new JButton("Nee");
+		btn.setFont(this.bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doesNotWantTicket();
@@ -544,6 +562,7 @@ public class Frame extends JFrame {
 
 	public JButton ticketYesButton() {
 		JButton btn = new JButton("Ja");
+		btn.setFont(this.bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doesWantTicket();
@@ -554,6 +573,7 @@ public class Frame extends JFrame {
 
 	public JButton closeButton() {
 		JButton btn = new JButton("Close");
+		btn.setFont(this.bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -564,6 +584,7 @@ public class Frame extends JFrame {
 
 	public JButton removeButton() {
 		JButton btn = new JButton("remove");
+		btn.setFont(this.bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearPanel();
