@@ -1,7 +1,10 @@
 package nl.hr.project3_4.straalbetaal.api;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class CheckPincodeResponse {
 
+	@JsonProperty
 	private final String userID;
 
 

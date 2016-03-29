@@ -20,11 +20,13 @@ public class Resource {
 
 	@GET
 	@Path("/{IBAN}&{pincode}")
-	public String getUserID(@PathParam("IBAN") String iban,
+	public CheckPincodeResponse getUserID(@PathParam("IBAN") String iban,
 						  @PathParam("pincode") long pincode) {
+		CheckPincodeResponse response = new CheckPincodeResponse(serv.getUserID(iban, pincode));
 		LOG.info("Get request for userID with IBAN: " + iban + " and pincode: " + pincode);
 		// JSON format -> Probably gonna use a Json format for clarity
-		return ("{\"userid\":\"" + serv.getUserID(iban, pincode) + "\"}");
+
+		return response;	// ("{\"userid\":\"" + serv.getUserID(iban, pincode) + "\"}"); --> This is the old JSON object, but we should use API!
 	}
 
 	/*
@@ -34,9 +36,11 @@ public class Resource {
 	 */
 	@GET
 	@Path("/{IBAN}&{pincode}/balance")
-	public Long getBalance(@PathParam("IBAN") String iban) {
+	public BalanceResponse getBalance(@PathParam("IBAN") String iban) {
+		BalanceResponse response = new BalanceResponse(serv.getBalance(iban));
 		LOG.info("Get request for balance with IBAN: " + iban);
-		return serv.getBalance(iban);
+
+		return response;
 	}
 
 	@POST
