@@ -21,7 +21,6 @@ public class Background extends JComponent {
 		try {
 			
 			this.bgImage = ImageIO.read(new File("resources/bg.png"));
-			System.out.println("Loaded background image..");
 		} catch (IOException e) {
 			System.out.println("Failed loading background image..");
 		}

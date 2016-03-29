@@ -115,14 +115,16 @@ public class ArduinoData {
 			if (this.pinAmount != 0) {
 				StringBuilder _sb = new StringBuilder(Integer.toString(this.pinAmount));
 				_sb.insert(0, key);
-				
+
 				this.pinAmount = Integer.parseInt(_sb.toString());
 			}
 		}
 	}
-	public int getAmount(){
+
+	public int getAmount() {
 		return this.pinAmount;
 	}
+
 	public void setChoice(String option) {
 		this.selectedChoice = option;
 	}

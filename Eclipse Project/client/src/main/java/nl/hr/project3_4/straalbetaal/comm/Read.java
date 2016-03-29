@@ -41,8 +41,7 @@ public class Read implements SerialPortEventListener {
 			for (String portName : PORT_NAMES) {
 				if (currPortId.getName().equals(portName)) {
 					portId = currPortId;
-					System.out.println("Activity on " + portId.getName());
-					System.out.println("Waiting for card.");
+					System.out.println("Arduino on " + portId.getName());
 					break;
 				}
 			}
@@ -86,72 +85,84 @@ public class Read implements SerialPortEventListener {
 				String inputLine = input.readLine();
 
 				JSONObject incomingJson = new JSONObject(inputLine);
-
+				System.out.println(incomingJson.toString());
 				if (Arrays.asList(incomingJson.keySet().toArray()).contains("event")) {
 					// EVENT: pin received from arduino.
 					if (incomingJson.getString("event").equals("pinsend")) {
 						data.receivePin(incomingJson.getString("pin"), incomingJson.getString("card"));
+						System.out.println("event OK");
 					}
 
 					// EVENT: error
 					if (incomingJson.getString("event").equals("error")) {
 						data.error(incomingJson.getString("error"));
-					} else
+						System.out.println("event OK");
+					} 
 
 					// EVENT: pin dot to be added.
 					if (incomingJson.getString("event").equals("pindot")) {
 						data.addToPinLength();
-					} else
+						System.out.println("event OK");
+					}
 
 					// EVENT: choice from options
 					if (incomingJson.getString("event").equals("choice")) {
 						data.setChoice(incomingJson.getString("option"));
-					} else
+						System.out.println("event OK");
+					} 
 
 					// EVENT: amount key
 					if (incomingJson.getString("event").equals("amountkey")) {
 						data.amountKey(incomingJson.getString("key"));
-					} else
+						System.out.println("event OK");
+					} 
 
 					// EVENT: amount done
 					if (incomingJson.getString("event").equals("amountdone")) {
 						data.amountDone();
-					} else
+						System.out.println("event OK");
+					} 
 
 					// EVENT: amount reset
 					if (incomingJson.getString("event").equals("amountreset")) {
 						data.amountReset();
-					} else
+						System.out.println("event OK");
+					} 
 
 					// EVENT: chooses the bills
 					if (incomingJson.getString("event").equals("billchoice")) {
 						data.chooseBill(incomingJson.getString("option"));
-					} else
+						System.out.println("event OK");
+					}
 
 					// EVENT: chooses the bon option. (receipt)
 					if (incomingJson.getString("event").equals("bonchoice")) {
 						data.setBon(Boolean.valueOf(incomingJson.getString("option")));
-					} else
+						System.out.println("event OK");
+					} 
 
 					// EVENT: reset
-					if (incomingJson.getString("event").equals("reset")) {
+					if (incomingJson.getString("event").toString().equals("reset")) {
 						data.resetSession();
-					} else
+						System.out.println("event OK");
+					}
 
 					// EVENT: reset pin digits.
 					if (incomingJson.getString("event").equals("pinreset")) {
 						data.resetPin();
-					}
+						System.out.println("event OK");
+					} 
 
 					// EVENT: reset pin digits.
 					if (incomingJson.getString("event").equals("cardreceived")) {
 						data.cardReceived();
-					} else
+						System.out.println("event OK");
+					} 
 						
 					// EVENT: if no event matches...
-					{
-						System.err.println("Arduino event not recognized: "+incomingJson.getString("event"));
-					}
+					//{
+						//System.err.println("Arduino event not recognized: "+incomingJson.getString("event"));
+					//}
 
 				} else {
 					System.err.println("Received filthy data from a filthy arduino:");

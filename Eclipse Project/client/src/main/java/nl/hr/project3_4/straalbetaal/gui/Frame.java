@@ -15,6 +15,8 @@ import javax.swing.*;
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
+	private boolean fullScreen = false;
+
 	private JFrame f;
 	private CustomPanel mainPanel;
 	private GridBagLayout l = new GridBagLayout();
@@ -30,7 +32,7 @@ public class Frame extends JFrame {
 	private float saldo = (float) 0.0;
 	private boolean errored;
 	private JLabel err = new JLabel("");
-	private String[] billOption = {"biljet keuze 1","biljet keuze 2","biljet keuze 3"};
+	private String[] billOption = { "biljet keuze 1", "biljet keuze 2", "biljet keuze 3" };
 
 	public Frame() {
 		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
@@ -38,8 +40,11 @@ public class Frame extends JFrame {
 		f.setContentPane(new Background());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		f.setUndecorated(true);
-
+		
+		if (fullScreen) {
+			f.setUndecorated(true);
+		}
+		
 		f.setLayout(new GridBagLayout());
 
 		mainPanel = new CustomPanel();
@@ -286,7 +291,6 @@ public class Frame extends JFrame {
 		mainPanel.add(ticketNoButton(), c);
 		c.gridy++;
 
-
 	}
 
 	public void saldoMenu(float saldo) {
@@ -479,10 +483,10 @@ public class Frame extends JFrame {
 	public void errorMenu(String message) {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel error2 = new JLabel("",SwingConstants.CENTER);
+		JLabel error2 = new JLabel("", SwingConstants.CENTER);
 		error2.setFont(bigfont);
 		error2.setText(message);
-		JLabel error = new JLabel("",SwingConstants.CENTER);
+		JLabel error = new JLabel("", SwingConstants.CENTER);
 		error.setFont(bigfont);
 		error.setText("Verwijder uw pas.");
 		// MESSAGE:

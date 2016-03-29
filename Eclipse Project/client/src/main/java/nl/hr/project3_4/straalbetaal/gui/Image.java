@@ -19,11 +19,9 @@ public class Image extends JPanel {
 		
 		try {
 			this.image = ImageIO.read(new File("resources/"+i));
-			System.out.println("Loaded image: " + i);
 		} catch (IOException e) {
-			System.err.println("Failed loading image..");
+			System.err.println("Failed loading image: " + i);
 		}
-		System.out.println(image);
 		this.setOpaque(false);
 	}
 	

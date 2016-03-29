@@ -20,21 +20,25 @@ public class Client {
 	}
 
 	public Client() {
+		frame = new Frame();
 		data = new ArduinoData();
 		reader = new Read(data);
-		frame = new Frame();
+		
 
 		while (true) {
 			try {
+				frame.setMode("start");
 				while (!cardInserted()) {
-					// WAIT FOR CARD.
-					shouldReset();
+					try{Thread.sleep(100);} catch(InterruptedException e){}
 				}
-
+				
+				shouldReset();
+				
 				frame.setMode("login");
 				int dots = 0;
 				shouldUpdateGUI = true;
 				while (!pinReceived()) {
+					try{Thread.sleep(100);} catch(InterruptedException e){}
 					if (dots < data.getPinLength()) {
 						frame.addDotToPin();
 						dots++;
@@ -50,6 +54,7 @@ public class Client {
 
 				while (!userMadeChoice()) {
 					// WAIT FOR USER
+					try{Thread.sleep(100);} catch(InterruptedException e){}
 					shouldReset();
 				}
 
@@ -61,6 +66,7 @@ public class Client {
 
 					frame.setMode("pin");
 					while (!userEnteredAmount()) { // user hasn't entered amount
+						try{Thread.sleep(100);} catch(InterruptedException e){}
 						shouldReset();
 					}
 
@@ -69,12 +75,14 @@ public class Client {
 					calculateBills();
 					frame.setMode("billselect");
 					while (!billSelected()) { // user hasn't chosen bills
+						try{Thread.sleep(100);} catch(InterruptedException e){}
 						shouldReset();
 					}
 
 					shouldReset();
 					frame.setMode("ticket");
 					while (!ticketIsChosen()) { // user hasn't chosen ticket
+						try{Thread.sleep(100);} catch(InterruptedException e){}
 						shouldReset();
 					}
 
@@ -87,11 +95,13 @@ public class Client {
 				shouldReset();
 				frame.setMode("success");
 				while(true){
+					try{Thread.sleep(100);} catch(InterruptedException e){}
 					finished();
 				}
 
 			} catch (ResetException e) {
 				frame.setMode("error");
+				System.out.println(e);
 				try {
 				    Thread.sleep(2500);                 
 				} catch(InterruptedException ex) {
@@ -188,7 +198,7 @@ public class Client {
 	public void shouldReset() throws ResetException {
 		if (data.isReset()) {
 			throw new ResetException("Something went wrong on pin terminal.");
-		}
+		} 
 	}
 
 	public float requestSaldo() throws ResetException {
