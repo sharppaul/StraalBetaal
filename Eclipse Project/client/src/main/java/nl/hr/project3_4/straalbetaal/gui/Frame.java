@@ -601,7 +601,7 @@ public class Frame extends JFrame {
 
 	private JButton cancelButton() {
 		JButton btn = new JButton("Stoppen");
-		btn.setBackground(Color.red);
+		btn.setBackground(Color.decode("#F22E2E"));
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -624,7 +624,7 @@ public class Frame extends JFrame {
 	}
 
 	private JButton snelPinButton() {
-		JButton btn = new JButton("Snel Pinnen (€ 70,-)");
+		JButton btn = new JButton("Snel Pinnen (€ 70,-) (A)");
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -635,7 +635,7 @@ public class Frame extends JFrame {
 	}
 
 	private JButton pinButton() {
-		JButton btn = new JButton("Bedrag Pinnen");
+		JButton btn = new JButton("Bedrag Pinnen (B)");
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -646,7 +646,7 @@ public class Frame extends JFrame {
 	}
 
 	private JButton saldoButton() {
-		JButton btn = new JButton("Saldo Bekijken");
+		JButton btn = new JButton("Saldo Bekijken (C)");
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
