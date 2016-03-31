@@ -34,7 +34,10 @@ int uid1;
 int uid2;
 int uid3;
 int uid4;
+int pincodeEncrypted;
 int pincodeLength = 0;
+
+long randNumber;
 
 const int chipSelectPin = 10;
 const int NRSTPD = 5;
@@ -53,6 +56,7 @@ void setup() {
   digitalWrite(chipSelectPin, LOW);         // Activate the RFID reader
   pinMode(NRSTPD, OUTPUT);                    // Set digital pin 10 , Not Reset and Power-down
   digitalWrite(NRSTPD, HIGH);
+  randomSeed(analogRead(5));
 
   myRFID.AddicoreRFID_Init();
   //Serial.println("Program started");
@@ -145,19 +149,16 @@ boolean stillThere() { // checks if pas is still there.
 }
 //_______________________________________________________AES_______________________________________________________//
 void encryptAndSend() {
-  //char data[4];
-  //pincodePlain.toCharArray(data, 4);
- // uint8_t key[] = {0123456701234567};
- // aes256_enc_single(key, data);
 
+randNumber = random(1000, 9999);
+  Serial.println(randNumber);
+  pincodePlain = pincodePlain.toInt() * randNumber * 17;
+  pincodePlain +=(randNumber);
+  
   Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\",\"card\":\"" + currentCardID + "\"}");
   mode = "choice";
-  // aes256_dec_single(key, data);
 }
 
-//void aes256_enc_single(const uint8_t* key, void* data);
-
-//void aes256_dec_single(const uint8_t* key, void* data);
 
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
