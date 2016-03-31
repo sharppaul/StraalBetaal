@@ -253,7 +253,7 @@ public class Frame extends JFrame {
 	private void successMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel message = new JLabel("Opdracht voltooid, verwijder uw pas.");
+		JLabel message = new JLabel("Het pinnen is voltooid, verwijder alstublieft uw pas.");
 		message.setFont(bigfont);
 		Image img = new Image("check.png");
 
@@ -386,9 +386,9 @@ public class Frame extends JFrame {
 		c.gridy++;
 		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,- \t(A)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,- \t(A)"), c);
+		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,- \t(B)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,- \t(A)"), c);
+		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,- \t(C)"), c);
 
 		c.ipady = 0;
 		c.gridy++;
@@ -440,7 +440,7 @@ public class Frame extends JFrame {
 
 		JLabel message = new JLabel("Vul uw pincode in:");
 		message.setFont(bigfont);
-		message.setText("Geef pinpas in");
+		message.setText("Welkom bij Straalbetaal, voer alstublieft uw pinpas in.");
 
 		Image img = new Image("pinnen.png");
 
@@ -613,7 +613,7 @@ public class Frame extends JFrame {
 
 	private JButton okButton() {
 		JButton btn = new JButton("Doorgaan");
-		btn.setBackground(Color.green);
+		btn.setBackground(Color.decode("#00AF50"));
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

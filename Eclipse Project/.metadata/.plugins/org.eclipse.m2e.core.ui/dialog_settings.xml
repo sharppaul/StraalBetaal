@@ -20,6 +20,8 @@
 	</section>
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\William Goudswaard\Documents\GitHub\StraalBetaal\Eclipse Project\api"/>
+			<item value="C:\Users\William Goudswaard\Documents\GitHub\StraalBetaal\Eclipse Project\client"/>
 			<item value="D:\GitHub\StraalBetaal\Eclipse Project"/>
 		</list>
 		<list key="projectNameTemplate">
