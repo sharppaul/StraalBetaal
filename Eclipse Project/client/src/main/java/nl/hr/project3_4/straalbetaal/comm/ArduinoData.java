@@ -57,7 +57,7 @@ public class ArduinoData {
 		this.pinLength++;
 	}
 
-	public void receivePin(String pin, String kaartid) {
+	public void receivePin(String pin, String kaartid) {// hier pincode decrypten?
 		this.pinEncrypted = pin;
 		this.cardId = kaartid;
 	}

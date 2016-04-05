@@ -492,10 +492,10 @@ public class Frame extends JFrame {
 		error2.setText(message);
 		JLabel error = new JLabel("", SwingConstants.CENTER);
 		error.setFont(bigfont);
-		error.setText("Verwijder uw pas.");
+		error.setText("Verwijder alstublieft uw pas.");
 		// MESSAGE:
 		c.gridy = 0;
-		c.fill = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.CENTER;
 		c.insets = new Insets(10, 50, 10, 50);
 		mainPanel.add(error2, c);
 		c.gridy++;
@@ -626,11 +626,11 @@ public class Frame extends JFrame {
 	}
 
 	private JButton snelPinButton() {
-<<<<<<< HEAD
-		JButton btn = new JButton("Snel Pinnen (€ 70,-) (A)");
-=======
+//<<<<<<< HEAD
+	//	JButton btn = new JButton("Snel Pinnen (€ 70,-) (A)");
+//=======
 		JButton btn = new JButton("Snel Pinnen (€ 70,-) (Optie A)");
->>>>>>> origin/master
+//>>>>>>> origin/master
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -641,11 +641,11 @@ public class Frame extends JFrame {
 	}
 
 	private JButton pinButton() {
-<<<<<<< HEAD
-		JButton btn = new JButton("Bedrag Pinnen (B)");
-=======
+//<<<<<<< HEAD
+//		JButton btn = new JButton("Bedrag Pinnen (B)");
+//=======
 		JButton btn = new JButton("Bedrag Pinnen (Optie C)");
->>>>>>> origin/master
+//>>>>>>> origin/master
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -656,11 +656,11 @@ public class Frame extends JFrame {
 	}
 
 	private JButton saldoButton() {
-<<<<<<< HEAD
-		JButton btn = new JButton("Saldo Bekijken (C)");
-=======
+//<<<<<<< HEAD
+//		JButton btn = new JButton("Saldo Bekijken (C)");
+//=======
 		JButton btn = new JButton("Saldo Bekijken (Optie B)");
->>>>>>> origin/master
+//>>>>>>> origin/master
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
