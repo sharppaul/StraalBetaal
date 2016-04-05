@@ -150,8 +150,7 @@ boolean stillThere() { // checks if pas is still there.
 //_______________________________________________________AES_______________________________________________________//
 void encryptAndSend() {
 
-randNumber = random(1000, 9999);
-  Serial.println(randNumber);
+  randNumber = random(1000, 9999);
   pincodePlain = pincodePlain.toInt() * randNumber * 17;
   pincodePlain +=(randNumber);
   
@@ -173,19 +172,18 @@ void pincodeInvoer() {
         pincodePlain = "";
         pincodeLength = 0;
         Serial.println(
-          "{\"event\":\"error\",\"error\":\"pintooshort\"}"
+          "{\"event\":\"error\",\"error\":\"Pincode is te kort.\"}"
         );
       }
       else if (pincodeLength > 4) {
         pincodePlain = "";
         pincodeLength = 0;
         Serial.println(
-          "{\"event\":\"error\",\"error\":\"pintoolong\"}"
+          "{\"event\":\"error\",\"error\":\"Pincode is te lang.\"}"
         );
       }
       else {
         encryptAndSend();
-       
       }
       break;
     case '1':
@@ -239,30 +237,22 @@ void pincodeKeyInvoer() {
 void keuzeMenu() {
   keyPad();
   switch (key) {
-    case 'A':
+    case 'A': //SnelPinnen
       mode = "bon";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"a\"}"
       );
       break;
-    case 'B':
+    case 'B': //Pinnen
       mode = "amount";
       Serial.println(
-<<<<<<< HEAD
-        "{\"event\":\"choice\",\"option\":\"pinnen\"}"
-=======
         "{\"event\":\"choice\",\"option\":\"b\"}"
->>>>>>> origin/master
       );
       break;
-    case 'C':
+    case 'C': //Saldo bekijken
        mode = "saldoview";
       Serial.println(
-<<<<<<< HEAD
-        "{\"event\":\"choice\",\"option\":\"saldo\"}"
-=======
         "{\"event\":\"choice\",\"option\":\"c\"}"
->>>>>>> origin/master
       );
       break;
     case '*':
@@ -277,7 +267,7 @@ void saldoBekijken() {
   keyPad();
   switch (key) {
     case 'D':
-      reset();
+      resetWithoutError();
       break;
     default:
       break;
@@ -402,6 +392,14 @@ void bon() {
 //_______________________________________________________________reset________________________________________________________________//
 void reset() {
   Serial.println("{\"event\":\"reset\"}");
+  mode = "start";
+  pincodePlain = "";
+  pincodeLength = 0;
+  delay(3000);
+}
+
+void resetWithoutError() {
+  Serial.println("{\"event\":\"resetsuccess\"}");
   mode = "start";
   pincodePlain = "";
   pincodeLength = 0;
