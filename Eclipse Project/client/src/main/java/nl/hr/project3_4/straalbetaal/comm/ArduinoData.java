@@ -117,6 +117,7 @@ public class ArduinoData {
 				_sb.insert(0, key);
 
 				this.pinAmount = Integer.parseInt(_sb.toString());
+				System.out.println("Pinamount" + this.pinAmount);
 			}
 		}
 	}

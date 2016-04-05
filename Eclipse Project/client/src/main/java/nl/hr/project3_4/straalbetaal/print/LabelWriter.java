@@ -17,7 +17,7 @@ import javax.print.PrintService;
 
 public class LabelWriter {
 
-	public static final String PRINTERNAME = "DYMO LabelWriter 400"; // "Microsoft Print to PDF";
+	public static final String PRINTERNAME = "DYMO LabelWriter 400";//  "Microsoft Print to PDF";
 	public static final int FONTSIZE = 12;
 	public static final boolean PRINTMENU = false;
 	
