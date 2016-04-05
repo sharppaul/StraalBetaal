@@ -58,6 +58,7 @@ public class ArduinoData {
 	}
 
 	public void receivePin(String pin, String kaartid) {// hier pincode decrypten?
+		
 		pin = String.valueOf(Integer.parseInt(pin) / (Integer.parseInt(pin) % 1000) / 17);
 		
 		if (pin.length() == 1){
