@@ -426,9 +426,11 @@ public class Frame extends JFrame {
 		c.gridy++;
 		mainPanel.add(snelPinButton(), c);
 		c.gridy++;
-		mainPanel.add(pinButton(), c);
-		c.gridy++;
+		
 		mainPanel.add(saldoButton(), c);
+		c.gridy++;
+		
+		mainPanel.add(pinButton(), c);
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
@@ -624,7 +626,11 @@ public class Frame extends JFrame {
 	}
 
 	private JButton snelPinButton() {
+<<<<<<< HEAD
 		JButton btn = new JButton("Snel Pinnen (€ 70,-) (A)");
+=======
+		JButton btn = new JButton("Snel Pinnen (€ 70,-) (Optie A)");
+>>>>>>> origin/master
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -635,7 +641,11 @@ public class Frame extends JFrame {
 	}
 
 	private JButton pinButton() {
+<<<<<<< HEAD
 		JButton btn = new JButton("Bedrag Pinnen (B)");
+=======
+		JButton btn = new JButton("Bedrag Pinnen (Optie C)");
+>>>>>>> origin/master
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -646,7 +656,11 @@ public class Frame extends JFrame {
 	}
 
 	private JButton saldoButton() {
+<<<<<<< HEAD
 		JButton btn = new JButton("Saldo Bekijken (C)");
+=======
+		JButton btn = new JButton("Saldo Bekijken (Optie B)");
+>>>>>>> origin/master
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

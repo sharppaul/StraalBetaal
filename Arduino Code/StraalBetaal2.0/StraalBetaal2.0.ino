@@ -242,19 +242,27 @@ void keuzeMenu() {
     case 'A':
       mode = "bon";
       Serial.println(
-        "{\"event\":\"choice\",\"option\":\"snelpinnen\"}"
+        "{\"event\":\"choice\",\"option\":\"a\"}"
       );
       break;
     case 'B':
       mode = "amount";
       Serial.println(
+<<<<<<< HEAD
         "{\"event\":\"choice\",\"option\":\"pinnen\"}"
+=======
+        "{\"event\":\"choice\",\"option\":\"b\"}"
+>>>>>>> origin/master
       );
       break;
     case 'C':
        mode = "saldoview";
       Serial.println(
+<<<<<<< HEAD
         "{\"event\":\"choice\",\"option\":\"saldo\"}"
+=======
+        "{\"event\":\"choice\",\"option\":\"c\"}"
+>>>>>>> origin/master
       );
       break;
     case '*':

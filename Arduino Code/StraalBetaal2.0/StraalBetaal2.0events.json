@@ -1,85 +1,21 @@
-{
-    "title": "All events listed in a jsonObject",
-    "event1": {
-        "error": "cardremoved"
-    },
-    "event2": {
-        "event": "pinsend",
-        "pin": "pincode",
-        "card": "currentCardID"
-    },
-    "event3": {
-        "event": "error",
-        "error": "pintooshort"
-    },
-    "event4": {
-        "event": "error",
-        "error": "pintoolong"
-    },
-    "event5": {
-        "event": "pindot"
-    },
-    "event6": {
-        "event": "choice",
-        "option": "snelpinnen"
-    },
-    "event7": {
-        "event": "choice",
-        "option": "saldo"
-    },
-    "event8": {
-        "event": "choice",
-        "option": "pinnen"
-    },
-    "event9": {
-        "event": "amountkey",
-        "key": "a"
-    },
-    "event10": {
-        "event": "amountkey",
-        "key": "b"
-    },
-    "event11": {
-        "event": "amountkey",
-        "key": "c"
-    },
-    "event12": {
-        "event": "amountdone"
-    },
-    "event13": {
-        "event": "amountreset"
-    },
-    "event14": {
-        "event": "amountkey",
-        "key": "keyCode"
-    },
-    "event15": {
-        "event": "billchoice",
-        "option": "a"
-    },
-    "event16": {
-        "event": "billchoice",
-        "option": "b"
-    },
-    "event17": {
-        "event": "billchoice",
-        "option": "c"
-    },
-    "event18": {
-        "event": "bonchoice",
-        "option": "true"
-    },
-    "event19": {
-        "event": "bonchoice",
-        "option": "false"
-    },
-    "event20": {
-        "event": "reset"
-    },
-    "event21": {
-        "event": "pinreset"
-    }
-	"event22": {
-		"event": "cardreceived"
-	}
-}
+{"event":"cardreceived"}
+{"event":"pinsend","pin":"1234","card":"123456789"}
+{"event":"error","error":"pintooshort"}
+{"event":"error","error":"pintoolong"}
+{"event":"pindot"}
+{"event":"choice","option":"snelpinnen"}
+{"event":"choice","option":"saldo"}
+{"event":"choice","option":"pinnen"}
+{"event":"amountkey","key":"a"}
+{"event":"amountkey","key":"b"}
+{"event":"amountkey","key":"c"}
+{"event":"amountdone"}
+{"event":"amountreset"}
+{"event":"amountkey" , "key" :"keyCode"}
+{"event":"billchoice","option":"a"}
+{"event":"billchoice","option":"b"}
+{"event":"billchoice","option":"c"}
+{"event":"bonchoice","option":"true"}
+{"event":"bonchoice","option":"false"}
+{"event":"pinreset"}
+
