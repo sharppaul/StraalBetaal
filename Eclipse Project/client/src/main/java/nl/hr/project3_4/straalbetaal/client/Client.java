@@ -62,7 +62,7 @@ public class Client {
 
 				if (data.getChoice().equals("a")) {
 					// QUICKPIN
-				} else if (data.getChoice().equals("b")) {
+				} else if (data.getChoice().equals("c")) {
 
 					frame.setMode("pin");
 					while (!userEnteredAmount()) { // user hasn't entered amount
@@ -86,7 +86,7 @@ public class Client {
 						shouldReset();
 					}
 
-				} else if (data.getChoice().equals("c")) {
+				} else if (data.getChoice().equals("b")) {
 					frame.setMode("loading");
 					frame.setSaldo(this.requestSaldo());
 					frame.setMode("saldo");
