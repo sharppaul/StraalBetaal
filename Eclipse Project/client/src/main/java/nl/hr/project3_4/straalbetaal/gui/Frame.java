@@ -253,7 +253,7 @@ public class Frame extends JFrame {
 	private void successMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel message = new JLabel("Het pinnen is voltooid, verwijder alstublieft uw pas.");
+		JLabel message = new JLabel("Het pinnen is voltooid, verwijder alstublieft uw pas." + " Bedankt voor het pinnen bij straalbetaal en tot ziens!");
 		message.setFont(bigfont);
 		Image img = new Image("check.png");
 
@@ -345,11 +345,11 @@ public class Frame extends JFrame {
 		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeA", getBillOption()[0] + "\t(A)"), c);
+		mainPanel.add(this.functionButton("billkeuzeA", getBillOption()[0] + "\t(Optie A)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeB", getBillOption()[1] + "\t(B)"), c);
+		mainPanel.add(this.functionButton("billkeuzeB", getBillOption()[1] + "\t(Optie B)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeC", getBillOption()[2] + "\t(C)"), c);
+		mainPanel.add(this.functionButton("billkeuzeC", getBillOption()[2] + "\t(Optie C)"), c);
 
 		c.gridy++;
 		c.gridwidth = 1;
@@ -384,11 +384,11 @@ public class Frame extends JFrame {
 		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,- \t(A)"), c);
+		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,- \t(Optie A)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,- \t(B)"), c);
+		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,- \t(Optie B)"), c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,- \t(C)"), c);
+		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,- \t(Optie C)"), c);
 
 		c.ipady = 0;
 		c.gridy++;
