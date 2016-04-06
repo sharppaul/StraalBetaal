@@ -253,7 +253,7 @@ public class Frame extends JFrame {
 	private void successMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel message = new JLabel("Het pinnen is voltooid, verwijder alstublieft uw pas." + " Bedankt voor het pinnen bij straalbetaal en tot ziens!");
+		JLabel message = new JLabel("De opdracht is voltooid, verwijder alstublieft uw pas." + " Bedankt voor het pinnen bij straalbetaal en tot ziens!");
 		message.setFont(bigfont);
 		Image img = new Image("check.png");
 
