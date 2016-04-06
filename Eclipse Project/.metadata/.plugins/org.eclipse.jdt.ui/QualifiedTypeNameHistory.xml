@@ -10,4 +10,5 @@
 <fullyQualifiedTypeName name="java.awt.print.Printable"/>
 <fullyQualifiedTypeName name="java.awt.geom.Rectangle2D"/>
 <fullyQualifiedTypeName name="java.awt.FontMetrics"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
 </qualifiedTypeNameHistroy>

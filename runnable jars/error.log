@@ -1,8 +1,2 @@
-2016-03-29 12:28:26,191  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-29 12:28:26,262  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-29 12:28:26,262  INFO services.Service:40 - Database operation performed sucessfully for userID: garePaul
-2016-03-29 12:28:26,262  INFO resources.Resource:26 - Get request for userID with IBAN: 333333 and pincode: 1111
-2016-03-29 12:29:19,979  INFO dao.DbTemplate:26 - Connection with mysql server made sucessfully.
-2016-03-29 12:29:19,981  INFO dao.DbTemplate:57 - Sql Resources closed succesfully.
-2016-03-29 12:29:19,981  INFO services.Service:40 - Database operation performed sucessfully for userID: garePaul
-2016-03-29 12:29:19,982  INFO resources.Resource:26 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-04-05 16:22:39,295  INFO resources.Resource:50 - Post request for withdraw with IBAN: 333333 and amount: 9
+2016-04-05 16:22:39,297  WARN services.Service:72 - Database Operation for withdraw failed, pincodeChecked was: false

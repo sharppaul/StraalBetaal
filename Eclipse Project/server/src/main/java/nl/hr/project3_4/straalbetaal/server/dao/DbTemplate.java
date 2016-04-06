@@ -13,7 +13,6 @@ public abstract class DbTemplate {
 
 	private static final Logger LOG = Logger.getLogger(DbTemplate.class.getName());
 
-
 	protected Connection getConnection() {
 		Connection con = null;
 		String host = "jdbc:mysql://localhost:3306/straalbetaal";
@@ -26,7 +25,7 @@ public abstract class DbTemplate {
 			LOG.info("Connection with mysql server made sucessfully.");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			LOG.error("CONNECTION WITH MYSQL SERVER FAILED!");
+			LOG.error("CONNECTION WITH MYSQL SERVER FAILED!!!");
 		}
 
 		return con;
@@ -34,30 +33,31 @@ public abstract class DbTemplate {
 
 	protected void closeResources(Connection con, Statement stmt, ResultSet rs) {
 		try {
-			if(con != null)
+			if (con != null)
 				con.close();
-			if(stmt != null)
+			if (stmt != null)
 				stmt.close();
-			if(rs != null)
+			if (rs != null)
 				rs.close();
 			LOG.info("Sql Resources closed succesfully.");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			LOG.error("ERROR CLOSING RESOURCES!!!");			
+			LOG.error("ERROR CLOSING RESOURCES!!!");
 		}
 	}
+
 	protected void closeResources(Connection con, PreparedStatement stmt, ResultSet rs) {
 		try {
-			if(con != null)
+			if (con != null)
 				con.close();
-			if(stmt != null)
+			if (stmt != null)
 				stmt.close();
-			if(rs != null)
+			if (rs != null)
 				rs.close();
 			LOG.info("Sql Resources closed succesfully.");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			LOG.error("ERROR CLOSING RESOURCES!!!");			
+			LOG.error("ERROR CLOSING RESOURCES!!!");
 		}
 	}
 

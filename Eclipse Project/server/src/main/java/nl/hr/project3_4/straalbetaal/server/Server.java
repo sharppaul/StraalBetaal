@@ -15,6 +15,10 @@ public class Server {
 
 	private static final Logger LOG = Logger.getLogger(Server.class.getName());
 
+	public static void main(String[] args) throws Exception {
+		new Server();
+		LOG.info("Server started.");
+	}
 
 	public Server() throws Exception {
 		HttpServer server = initWebserver();
@@ -22,12 +26,6 @@ public class Server {
 		while (true) {
 			Thread.sleep(1000);
 		}
-	}
-
-
-	public static void main(String[] args) throws Exception {
-		new Server();
-		LOG.info("Server started!");
 	}
 
 	private HttpServer initWebserver() {
@@ -48,4 +46,5 @@ public class Server {
 		// new SSLEngineConfigurator(sslConf));
 		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
 	}
+
 }
