@@ -25,7 +25,7 @@ public class Read implements SerialPortEventListener {
 	private static final int TIME_OUT = 2000;
 	private static final int DATA_RATE = 57600;
 
-	/** Stuff voor arduino data parsing: */
+	/** Stuff for arduino data parsing: */
 	ArduinoData data;
 
 	public Read(ArduinoData data) {
@@ -90,6 +90,11 @@ public class Read implements SerialPortEventListener {
 					// EVENT: pin received from arduino.
 					if (incomingJson.getString("event").equals("pinsend")) {
 						data.receivePin(incomingJson.getString("pin"), incomingJson.getString("card"));
+						System.out.println("event OK");
+					}
+					// EVENT: back to choice menu.
+					if (incomingJson.getString("event").equals("back")) {
+						data.setChoice(incomingJson.getString("option"));
 						System.out.println("event OK");
 					}
 

@@ -323,6 +323,9 @@ public class Frame extends JFrame {
 		// OK BUTTON:
 		c.gridy++;
 		mainPanel.add(okButton(), c);
+		c.gridy++;
+		c.gridwidth = 1;
+		mainPanel.add(backButton(), c);
 
 	}
 
@@ -612,6 +615,18 @@ public class Frame extends JFrame {
 		});
 		return btn;
 	}
+	
+	private JButton backButton() {
+		JButton btn = new JButton("terug");
+		btn.setBackground(Color.decode("#FF851B"));
+		btn.setFont(bigfont);
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				back();
+			}
+		});
+		return btn;
+	}
 
 	private JButton okButton() {
 		JButton btn = new JButton("Doorgaan");
@@ -626,11 +641,8 @@ public class Frame extends JFrame {
 	}
 
 	private JButton snelPinButton() {
-//<<<<<<< HEAD
-	//	JButton btn = new JButton("Snel Pinnen (€ 70,-) (A)");
-//=======
 		JButton btn = new JButton("Snel Pinnen (€ 70,-) (Optie A)");
-//>>>>>>> origin/master
+
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -641,11 +653,8 @@ public class Frame extends JFrame {
 	}
 
 	private JButton pinButton() {
-//<<<<<<< HEAD
-//		JButton btn = new JButton("Bedrag Pinnen (B)");
-//=======
 		JButton btn = new JButton("Bedrag Pinnen (Optie C)");
-//>>>>>>> origin/master
+
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -656,11 +665,8 @@ public class Frame extends JFrame {
 	}
 
 	private JButton saldoButton() {
-//<<<<<<< HEAD
-//		JButton btn = new JButton("Saldo Bekijken (C)");
-//=======
 		JButton btn = new JButton("Saldo Bekijken (Optie B)");
-//>>>>>>> origin/master
+
 		btn.setFont(bigfont);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

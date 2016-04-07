@@ -266,9 +266,15 @@ void keuzeMenu() {
 void saldoBekijken() {
   keyPad();
   switch (key) {
-    case 'D':
-      resetWithoutError();
+    case '#':
+      //resetWithoutError();
+      mode = "choice";
+      Serial.println(
+        "{\"event\":\"back\"}");//terug naar keuzemenu.
       break;
+    case '*':
+        resetWithoutError();//stoppen  
+        break;  
     default:
       break;
   }
