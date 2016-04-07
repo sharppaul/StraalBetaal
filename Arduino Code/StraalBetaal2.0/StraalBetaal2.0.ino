@@ -266,7 +266,7 @@ void keuzeMenu() {
 void saldoBekijken() {
   keyPad();
   switch (key) {
-    case '#':
+    case 'D':
       //resetWithoutError();
       mode = "choice";
       Serial.println(

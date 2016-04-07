@@ -325,7 +325,7 @@ public class Frame extends JFrame {
 		mainPanel.add(okButton(), c);
 		c.gridy++;
 		c.gridwidth = 1;
-		mainPanel.add(backButton(), c);
+		mainPanel.add(cancelButton(), c);
 
 	}
 
@@ -611,18 +611,6 @@ public class Frame extends JFrame {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancel();
-			}
-		});
-		return btn;
-	}
-	
-	private JButton backButton() {
-		JButton btn = new JButton("terug");
-		btn.setBackground(Color.decode("#FF851B"));
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				back();
 			}
 		});
 		return btn;
