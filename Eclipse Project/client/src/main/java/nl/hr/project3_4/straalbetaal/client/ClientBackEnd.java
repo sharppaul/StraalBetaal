@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import nl.hr.project3_4.straalbetaal.api.BalanceResponse;
-import nl.hr.project3_4.straalbetaal.api.CheckPincodeResponse;
+import nl.hr.project3_4.straalbetaal.api.CheckPinResponse;
 import nl.hr.project3_4.straalbetaal.api.WithdrawRequest;
 import nl.hr.project3_4.straalbetaal.api.WithdrawResponse;
 
@@ -59,12 +59,12 @@ public class ClientBackEnd {
 	}
 
 
-	public CheckPincodeResponse checkPincode() {
+	public CheckPinResponse checkPincode() {
 		String path = "/" + iban + "&" + pincode;
 
 		LOG.info("Client - CheckPincode Response send to server!");
-		CheckPincodeResponse response = client.target(target).path(path)
-				.request().get(CheckPincodeResponse.class);
+		CheckPinResponse response = client.target(target).path(path)
+				.request().get(CheckPinResponse.class);
 		return response;
 	}
 

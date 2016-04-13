@@ -7,8 +7,8 @@ public class BalanceResponse {
 	@JsonProperty
 	private long balance;
 
-
-	public BalanceResponse() {}
+	public BalanceResponse() {
+	}
 
 	public BalanceResponse(long balance) {
 		this.balance = balance;
@@ -16,6 +16,10 @@ public class BalanceResponse {
 
 	public long getBalance() {
 		return balance;
+	}
+
+	public void setBalance(long balance) {
+		this.balance = balance;
 	}
 
 }

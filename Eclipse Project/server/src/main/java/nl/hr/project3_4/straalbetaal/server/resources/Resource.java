@@ -17,46 +17,45 @@ public class Resource {
 
 	private static Service serv = new Service();
 
+	@POST
+	@Path("/{IBAN}/check")
+	public CheckPinResponse getUserID(@PathParam("IBAN") String iban, CheckPinRequest request) {
+		CheckPinResponse response = new CheckPinResponse(serv.getUserID(iban, request.getPin()));
 
-	@GET
-	@Path("/{IBAN}&{pincode}")
-	public CheckPincodeResponse getUserID(@PathParam("IBAN") String iban,
-						  @PathParam("pincode") long pincode) {
-		CheckPincodeResponse response = new CheckPincodeResponse(serv.getUserID(iban, pincode));
-		LOG.info("Get request for userID with IBAN: " + iban + " and pincode: " + pincode);
-		// JSON format -> Probably gonna use a Json format for clarity
+		LOG.info("Get request for userID with IBAN: " + iban + " and pincode: " + request.getPin());
 
-		return response;	// ("{\"userid\":\"" + serv.getUserID(iban, pincode) + "\"}"); --> This is the old JSON object, but we should use API!
+		return response;
 	}
 
 	/*
-	 * This and the method above could have been done together, but 
-	 * because the DAO methods should have only 1 particular task, I 
-	 * spread the calls into 2 different methods.
+	 * This and the method above could have been done together, but because the
+	 * DAO methods should have only 1 particular task, I spread the calls into 2
+	 * different methods.
 	 */
-	@GET
-	@Path("/{IBAN}&{pincode}/balance")
+	@POST
+	@Path("/{IBAN}/balance")
 	public BalanceResponse getBalance(@PathParam("IBAN") String iban) {
 		BalanceResponse response = new BalanceResponse(serv.getBalance(iban));
+
 		LOG.info("Get request for balance with IBAN: " + iban);
 
 		return response;
 	}
 
 	@POST
-	@Path("/{IBAN}&{pincode}/withdraw")
+	@Path("/{IBAN}/withdraw")
 	public WithdrawResponse withdraw(@PathParam("IBAN") String iban, WithdrawRequest request) {
 		WithdrawResponse response = new WithdrawResponse();
 
 		LOG.info("Post request for withdraw with IBAN: " + iban + " and amount: " + request.getAmount());
 
-		if(serv.withdraw(iban, request.getAmount())) {
+		if (serv.withdraw(iban, request.getAmount())) {
 			response.setResponse("Dank u voor pinnen.");
 			response.setTransactionNumber(12345); // Dummy
-			return response;
 		} else {
 			response.setResponse("Saldo ontoereikend");
-			// throw new BadRequestException(Response.status(Response.Status.BAD_REQUEST).entity(response).build());
+			// throw new
+			// BadRequestException(Response.status(Response.Status.BAD_REQUEST).entity(response).build());
 		}
 		return response;
 	}
