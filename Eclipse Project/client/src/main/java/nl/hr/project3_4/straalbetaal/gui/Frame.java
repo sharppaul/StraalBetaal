@@ -63,7 +63,7 @@ public class Frame extends JFrame {
 	public static void main(String[] args) {
 		Frame f = new Frame();
 		//f.scrollMenus();
-		f.setMode("saldo");
+		f.setMode("pin");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -397,12 +397,12 @@ public class Frame extends JFrame {
 		c.ipady = 0;
 		c.gridy++;
 
-		mainPanel.add(other, c);
+		//mainPanel.add(other, c);
 
 		c.ipady = 35;
-		c.gridy++;
+		//c.gridy++;
 
-		mainPanel.add(customAmount, c);
+		//mainPanel.add(customAmount, c);
 
 		c.gridy++;
 		c.gridwidth = 1;
