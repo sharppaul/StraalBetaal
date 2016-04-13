@@ -94,7 +94,7 @@ public class Read implements SerialPortEventListener {
 					}
 					// EVENT: back to choice menu.
 					if (incomingJson.getString("event").equals("back")) {
-						data.setChoice(incomingJson.getString("option"));
+						data.setPressedBack(true);
 						System.out.println("event OK");
 					}
 

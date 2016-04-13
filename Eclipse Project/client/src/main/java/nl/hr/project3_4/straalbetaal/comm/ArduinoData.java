@@ -13,6 +13,7 @@ public class ArduinoData {
 	private boolean isReset;
 	private String errorMessage;
 	private boolean errored;
+	private boolean pressedBack = false;
 
 	public ArduinoData() {
 		// stuff here
@@ -31,6 +32,7 @@ public class ArduinoData {
 		this.isReset = false;
 		this.errorMessage = null;
 		this.errored = false;
+		this.setPressedBack(false);
 	}
 
 	////////////////////// CARD RECEIVED::
@@ -171,5 +173,13 @@ public class ArduinoData {
 
 	public boolean isReset() {
 		return this.isReset;
+	}
+
+	public boolean isPressedBack() {
+		return pressedBack;
+	}
+
+	public void setPressedBack(boolean pressedBack) {
+		this.pressedBack = pressedBack;
 	}
 }

@@ -62,14 +62,15 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		Frame f = new Frame();
-		f.scrollMenus(f);
+		//f.scrollMenus();
+		f.setMode("saldo");
 	}
 
 	// MANAGES WHICH MENU LOADS:
-	public void scrollMenus(Frame f) {
+	public void scrollMenus() {
 		while (true) {
 			for (int i = 0; i < this.modes.length; i++) {
-				f.setMode(modes[i]);
+				this.setMode(modes[i]);
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
@@ -321,12 +322,12 @@ public class Frame extends JFrame {
 		mainPanel.add(saldotxt, c);
 
 		// OK BUTTON:
+		c.gridwidth = 2;
 		c.gridy++;
 		mainPanel.add(okButton(), c);
 		c.gridy++;
-		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
-
+		
 	}
 
 	public void billMenu() {
