@@ -17,14 +17,14 @@ public class DataAccessObject extends DbTemplate {
 	public DataAccessObject() {
 	}
 
-	public String getUserID(String iban, long pincode) throws Exception {
+	public String getUserID(String iban, String pincode) throws Exception {
 		String userID = null;
 		String getUserSQL = "SELECT card.userID FROM card WHERE card.IBAN = ? AND card.pincode = ?";
 
 		con = getConnection();
 		stmt = con.prepareStatement(getUserSQL);
 		stmt.setString(1, iban);
-		stmt.setLong(2, pincode);
+		stmt.setString(2, pincode);
 		rs = stmt.executeQuery();
 		if (rs.next())
 			userID = rs.getString(1);

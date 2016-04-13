@@ -50,10 +50,10 @@ public class Resource {
 		LOG.info("Post request for withdraw with IBAN: " + iban + " and amount: " + request.getAmount());
 
 		if (serv.withdraw(iban, request.getAmount())) {
-			response.setResponse("Dank u voor pinnen.");
+			response.setResponse("succes");
 			response.setTransactionNumber(12345); // Dummy
 		} else {
-			response.setResponse("Saldo ontoereikend");
+			response.setResponse("fail");
 			// throw new
 			// BadRequestException(Response.status(Response.Status.BAD_REQUEST).entity(response).build());
 		}

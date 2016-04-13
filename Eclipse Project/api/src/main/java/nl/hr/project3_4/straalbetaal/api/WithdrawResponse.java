@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class WithdrawResponse {
 
 	@JsonProperty
-	private String response;
+	private String response; // Maybe make this a boolean, with true or false!
 	@JsonProperty
 	private int transactionNumber = 0;
 

@@ -18,7 +18,7 @@ public class Service {
 		pincodeChecked = false;
 	}
 
-	public String getUserID(String iban, long pin) {
+	public String getUserID(String iban, String pin) {
 		String user = null;
 		int counter = 0;
 
