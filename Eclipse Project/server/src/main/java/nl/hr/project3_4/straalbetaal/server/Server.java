@@ -15,7 +15,6 @@ public class Server {
 
 	private static final Logger LOG = Logger.getLogger(Server.class.getName());
 
-
 	public Server() throws Exception {
 		HttpServer server = initWebserver();
 		server.start();
@@ -23,7 +22,6 @@ public class Server {
 			Thread.sleep(1000);
 		}
 	}
-
 
 	public static void main(String[] args) throws Exception {
 		new Server();
@@ -37,15 +35,14 @@ public class Server {
 
 		// NOT WORKING CODE!!!
 		// SSLContextConfigurator sslConf = new SSLContextConfigurator();
-		// sslConf.setKeyStoreFile("./keystore_server"); // contains server
-		// keypair
+		// sslConf.setKeyStoreFile("./keystore_server"); // contains server keypair
 		// sslConf.setKeyStorePass("asdfgh");
-		// sslConf.setTrustStoreFile("./truststore_server"); // contains client
-		// certificate
+		// sslConf.setTrustStoreFile("./truststore_server"); // contains client certificate
 		// sslConf.setTrustStorePass("asdfgh");
 
 		// return GrizzlyHttpServerFactory.createHttpServer(uri, config, true,
 		// new SSLEngineConfigurator(sslConf));
 		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
 	}
+
 }

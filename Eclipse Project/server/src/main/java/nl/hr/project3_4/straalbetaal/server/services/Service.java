@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject;
 
-
 public class Service {
 
 	private static final Logger LOG = Logger.getLogger(Service.class.getName());
@@ -15,42 +14,58 @@ public class Service {
 	private boolean pincodeChecked;
 	private long balance = 0;
 
-
 	public Service() {
 		pincodeChecked = false;
 	}
 
-
-	public String getUserID(String iban, long pincode) {
+	public String getUserID(String iban, long pin) {
 		String user = null;
+		int counter = 0;
 		try {
-			user = dao.getUserID(iban, pincode);
-		} catch(Exception e) {
+			user = dao.getUserID(iban, pin);
+		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("DATABASE ERROR WHEN GETTING USERID!!!");
 			LOG.error("ERROR MESSAGE: " + e.getMessage());
 		}
-		if(user == null) {
-			LOG.warn("Database operation performed for userID, but incorrect credentials."
-						+ "Iban: " + iban + " and pincode: " + pincode + " used!");
+
+		if (user == null) {
+			LOG.warn("Database operation performed for userID, but incorrect pincode. Iban: " + iban
+					+ " and pincode: " + pin + " used!");
+
+			try {
+				dao.incrementWrongPinCounter(iban);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
 			return "Wrong pincode!";
-		}
-		else {
+			
+		} else {
+			try {
+				counter = dao.checkWrongPinCounter(iban);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (counter > 3)
+				return "Card blocked! Contact Help Desk 4 more info!";
 			pincodeChecked = true;
-			LOG.info("Database operation performed sucessfully for userID: " + user); 
-			return user;	
+			LOG.info("Database operation performed sucessfully for userID: " + user);
+
+			return user;
+
 		}
 	}
 
 	public Long getBalance(String iban) {
 		try {
-			if(pincodeChecked) {
+			if (pincodeChecked) {
 				balance = dao.getUserBalance(iban);
 				LOG.info("Database operation performed for balance. Iban: " + iban + " and balance: " + balance);
-			}
-			else
+			} else
 				LOG.warn("Database operation for get balance failed, pincodeChecked was: " + pincodeChecked);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("DATABASE ERROR WHEN GETTING BALANCE!!!");
 			LOG.error("ERROR MESSAGE: " + e.getMessage());
@@ -61,23 +76,22 @@ public class Service {
 	public boolean withdraw(String iban, long amount) {
 		boolean enoughMoneyInAccount = false;
 		try {
-			if(pincodeChecked) {
+			if (pincodeChecked) {
 				long currentSaldo = dao.getUserBalance(iban) - amount;
-				LOG.info("Database operation performed for balance *IN WITHDRAW*. Iban: " + iban + " and balance: " + balance);
+				LOG.info("Database operation performed for balance *IN WITHDRAW*. Iban: " + iban + " and balance: "
+						+ balance);
 				LOG.info("Withdraw attempt. Iban: " + iban + " and current Saldo: " + currentSaldo);
-				if(currentSaldo > 0) {
+				if (currentSaldo > 0) {
 					enoughMoneyInAccount = dao.withdraw(iban, amount, currentSaldo);
-
 					LOG.info("Database operation for withdraw succeeded. Iban: " + iban + " and amount: " + amount);
 				}
 			} else
 				LOG.warn("Database Operation for withdraw failed, pincodeChecked was: " + pincodeChecked);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("DATABASE ERROR WHEN DOING WITHDRAW!!!");
 			LOG.error("ERROR MESSAGE: " + e.getMessage());
-		}
-		finally {
+		} finally {
 			pincodeChecked = false;
 		}
 		return enoughMoneyInAccount;
