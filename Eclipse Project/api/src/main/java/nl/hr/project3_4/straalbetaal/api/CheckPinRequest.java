@@ -5,20 +5,20 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CheckPinRequest {
 
 	@JsonProperty
-	private long pin;
+	private String pin;
 
 	public CheckPinRequest() {
 	}
 
-	public CheckPinRequest(long pin) {
+	public CheckPinRequest(String pin) {
 		this.pin = pin;
 	}
 
-	public long getPin() {
+	public String getPin() {
 		return pin;
 	}
 
-	public void setPin(long pin) {
+	public void setPin(String pin) {
 		this.pin = pin;
 	}
 
