@@ -14,9 +14,10 @@ public class ArduinoData {
 	private String errorMessage;
 	private boolean errored;
 	private boolean pressedBack = false;
+	private boolean pinReceived = false;
 
 	public ArduinoData() {
-		// stuff here
+		reset();
 	}
 
 	public void reset() {
@@ -33,6 +34,7 @@ public class ArduinoData {
 		this.errorMessage = null;
 		this.errored = false;
 		this.setPressedBack(false);
+		this.setPinReceived(false);
 	}
 
 	////////////////////// CARD RECEIVED::
@@ -59,24 +61,19 @@ public class ArduinoData {
 		this.pinLength++;
 	}
 
-	public void receivePin(String pin, String kaartid) {// hier pincode decrypten?
+	public void receivePin(String pin, String kaartid) {
+		String random = pin.substring(pin.length() - 4, pin.length());
+		String pinCut = pin.substring(0, pin.length() - 4);
+		String pinPlain = Integer.toString(Integer.parseInt(pinCut) / Integer.parseInt(random) / 17);
 		
-		pin = String.valueOf(Integer.parseInt(pin) / (Integer.parseInt(pin) % 1000) / 17);
-		
-		if (pin.length() == 1){
-			pin = "000" + pin;
-		}
-		else if (pin.length() == 2){
-			pin = "00" + pin;
-		}
-		else if (pin.length() == 3){
-			pin = "0" + pin;
-		}
-		else{
-			this.pinEncrypted = pin;
+		for(int i = pinPlain.length(); i < 4; i++){
+			pinPlain = "0" + pinPlain;
 		}
 		
+		this.pinEncrypted = pinPlain;		
 		this.cardId = kaartid;
+		this.setPinReceived(true);
+		System.out.println(pinPlain);
 	}
 
 	public String getPinEncrypted() {
@@ -156,7 +153,11 @@ public class ArduinoData {
 		this.errorMessage = error;
 		this.errored = true;
 	}
-
+	
+	public void setErrored(boolean errored) {
+		this.errored = errored;
+	}
+	
 	public boolean isErrored() {
 		return this.errored;
 	}
@@ -181,5 +182,13 @@ public class ArduinoData {
 
 	public void setPressedBack(boolean pressedBack) {
 		this.pressedBack = pressedBack;
+	}
+
+	public boolean isPinReceived() {
+		return pinReceived;
+	}
+
+	public void setPinReceived(boolean pinReceived) {
+		this.pinReceived = pinReceived;
 	}
 }

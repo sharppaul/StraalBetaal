@@ -11,8 +11,6 @@ public class Client {
 	ArduinoData data;
 	Read reader;
 
-	private boolean shouldUpdateGUI = true;
-
 	public static void main(String[] args) {
 
 		Client client = new Client();
@@ -35,16 +33,15 @@ public class Client {
 
 				frame.setMode("login");
 				int dots = 0;
-				while (!pinReceived()) {
+				while (!data.isPinReceived()) {
 					sleep(100);
-					shouldUpdateGUI = true;
 					frame.addDotToPin(data.getPinLength());
 					pinErrorOccured();
 					shouldReset();
 				}
 
 				checkPinValid();
-				
+
 				boolean userNotDone = true;
 				while (userNotDone) {
 					data.setPressedBack(false);
@@ -65,7 +62,8 @@ public class Client {
 					} else if (data.getChoice().equals("c")) {
 
 						frame.setMode("pin");
-						while (!userEnteredAmount()) { // user hasn't entered amount
+						while (!userEnteredAmount()) { // user hasn't entered
+														// amount
 							sleep(100);
 							shouldReset();
 						}
@@ -85,20 +83,20 @@ public class Client {
 							sleep(100);
 							shouldReset();
 						}
-						
+
 						userNotDone = false;
 
 					} else if (data.getChoice().equals("b")) {
 						frame.setMode("loading");
 						frame.setSaldo(this.requestSaldo());
 						frame.setMode("saldo");
-						while(!data.isPressedBack()){
+						while (!data.isPressedBack()) {
 							sleep(100);
 							shouldReset();
 						}
 					}
 				}
-				
+
 				shouldReset();
 				frame.setMode("success");
 				while (true) {
@@ -109,7 +107,7 @@ public class Client {
 			} catch (ResetException e) {
 				frame.setError(e.getMessage());
 				frame.setMode("error");
-				
+
 				System.out.println(e);
 				try {
 					Thread.sleep(2500);
@@ -150,13 +148,6 @@ public class Client {
 		if (data.isReset()) {
 			throw new SuccessException("Finished.");
 		}
-	}
-
-	private boolean pinReceived() {
-		if (data.getPinEncrypted() == null) {
-			return false;
-		}
-		return true;
 	}
 
 	private boolean userEnteredAmount() {
@@ -205,16 +196,17 @@ public class Client {
 	}
 
 	public void pinErrorOccured() {
-		if (data.isErrored() && shouldUpdateGUI) {
+		if (data.isErrored()) {
 			frame.setPinErr(data.getError());
 			frame.addDotToPin(0);
-			this.shouldUpdateGUI = false;
+			data.resetPin();
+			data.setErrored(false);
 		}
 	}
 
 	public void shouldReset() throws ResetException {
 		if (data.isReset()) {
-			throw new ResetException("Pinsessie afgebroken. Verwijder alstublieft uw pas.");
+			throw new ResetException("Pinsessie afgebroken.");
 		}
 	}
 

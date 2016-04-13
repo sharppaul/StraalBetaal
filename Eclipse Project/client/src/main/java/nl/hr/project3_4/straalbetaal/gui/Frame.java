@@ -40,11 +40,11 @@ public class Frame extends JFrame {
 		f.setContentPane(new Background());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
+
 		if (fullScreen) {
 			f.setUndecorated(true);
 		}
-		
+
 		f.setLayout(new GridBagLayout());
 
 		mainPanel = new CustomPanel();
@@ -62,7 +62,7 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		Frame f = new Frame();
-		//f.scrollMenus();
+		// f.scrollMenus();
 		f.setMode("pin");
 	}
 
@@ -192,14 +192,11 @@ public class Frame extends JFrame {
 	}
 
 	public void addDotToPin(int dots) {
-		pin.setText("");
-		if (dots == 1) {
-			pin.setText("●");
-		} else {
-			for(int i = 0; i < dots; i++){
-				pin.setText(pin.getText() + " ●");
-			}
+		resetPin();
+		for (int i = 0; i < dots; i++) {
+			pin.setText(pin.getText() + " ● ");
 		}
+
 	}
 
 	// BUTTON FUNCTION HANDLERS
@@ -254,7 +251,8 @@ public class Frame extends JFrame {
 	private void successMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel message = new JLabel("De opdracht is voltooid, verwijder alstublieft uw pas." + " Bedankt voor het pinnen bij straalbetaal en tot ziens!");
+		JLabel message = new JLabel("De opdracht is voltooid, verwijder alstublieft uw pas."
+				+ " Bedankt voor het pinnen bij straalbetaal en tot ziens!");
 		message.setFont(bigfont);
 		Image img = new Image("check.png");
 
@@ -327,7 +325,7 @@ public class Frame extends JFrame {
 		mainPanel.add(okButton(), c);
 		c.gridy++;
 		mainPanel.add(cancelButton(), c);
-		
+
 	}
 
 	public void billMenu() {
@@ -397,12 +395,12 @@ public class Frame extends JFrame {
 		c.ipady = 0;
 		c.gridy++;
 
-		//mainPanel.add(other, c);
+		// mainPanel.add(other, c);
 
 		c.ipady = 35;
-		//c.gridy++;
+		// c.gridy++;
 
-		//mainPanel.add(customAmount, c);
+		// mainPanel.add(customAmount, c);
 
 		c.gridy++;
 		c.gridwidth = 1;
@@ -430,10 +428,10 @@ public class Frame extends JFrame {
 		c.gridy++;
 		mainPanel.add(snelPinButton(), c);
 		c.gridy++;
-		
+
 		mainPanel.add(saldoButton(), c);
 		c.gridy++;
-		
+
 		mainPanel.add(pinButton(), c);
 		c.gridy++;
 		c.gridwidth = 1;
@@ -519,7 +517,7 @@ public class Frame extends JFrame {
 		clearPanel();
 		pin = new JLabel();
 		pin.setText(" ");
-		//pin.setFont(bigfont);
+		// pin.setFont(bigfont);
 		pin.setHorizontalAlignment(JLabel.CENTER);
 		pin.setBackground(Color.white);
 		pin.setOpaque(true);
@@ -553,7 +551,8 @@ public class Frame extends JFrame {
 		mainPanel.add(okButton(), c);
 
 		// ERRORS:
-		err.setText("");
+		err.setText(" ");
+		c.gridx = 0;
 		c.gridwidth = 2;
 		c.gridy++;
 		mainPanel.add(err, c);

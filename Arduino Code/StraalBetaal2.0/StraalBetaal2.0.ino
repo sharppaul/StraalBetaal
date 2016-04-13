@@ -151,7 +151,7 @@ boolean stillThere() { // checks if pas is still there.
 void encryptAndSend() {
 
   randNumber = random(1000, 9999);
-  pincodePlain = pincodePlain.toInt() * randNumber * 17;
+  pincodePlain = String(pincodePlain.toInt() * randNumber * 17);
   pincodePlain +=(randNumber);
   
   Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\",\"card\":\"" + currentCardID + "\"}");
@@ -172,14 +172,14 @@ void pincodeInvoer() {
         pincodePlain = "";
         pincodeLength = 0;
         Serial.println(
-          "{\"event\":\"error\",\"error\":\"Pincode is te kort.\"}"
+          "{\"event\":\"error\",\"error\":\"Pincode te kort.\"}"
         );
       }
       else if (pincodeLength > 4) {
         pincodePlain = "";
         pincodeLength = 0;
         Serial.println(
-          "{\"event\":\"error\",\"error\":\"Pincode is te lang.\"}"
+          "{\"event\":\"error\",\"error\":\"Pincode te lang.\"}"
         );
       }
       else {
@@ -238,19 +238,20 @@ void keuzeMenu() {
   keyPad();
   switch (key) {
     case 'A': //SnelPinnen
-      mode = "bon";
+		mode = "bon";
+     
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"a\"}"
       );
       break;
-    case 'B': //Pinnen
-      mode = "amount";
+    case 'B': 
+      mode = "saldoview";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"b\"}"
       );
       break;
-    case 'C': //Saldo bekijken
-       mode = "saldoview";
+    case 'C': 
+        mode = "amount";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"c\"}"
       );
@@ -269,8 +270,7 @@ void saldoBekijken() {
     case 'D':
       //resetWithoutError();
       mode = "choice";
-      Serial.println(
-        "{\"event\":\"back\"}");//terug naar keuzemenu.
+      Serial.println("{\"event\":\"backtomenu\"}");
       break;
     case '*':
         resetWithoutError();//stoppen  
