@@ -10,6 +10,7 @@ public class Client {
 	Frame frame;
 	ArduinoData data;
 	Read reader;
+	ClientBackEnd backend;
 
 	public static void main(String[] args) {
 
@@ -21,6 +22,7 @@ public class Client {
 		frame = new Frame();
 		data = new ArduinoData();
 		reader = new Read(data);
+		
 
 		while (true) {
 			try {
@@ -39,7 +41,7 @@ public class Client {
 					pinErrorOccured();
 					shouldReset();
 				}
-
+				
 				checkPinValid();
 
 				boolean userNotDone = true;
@@ -179,7 +181,7 @@ public class Client {
 	}
 
 	public void checkPinValid() throws ResetException {
-		// stuff that checks if pincode is valid.`
+		backend = new ClientBackEnd();
 
 		if (false) {
 			throw new ResetException("Pincode foutief. Verwijder pas.");

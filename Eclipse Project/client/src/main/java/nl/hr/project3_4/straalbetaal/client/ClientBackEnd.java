@@ -22,14 +22,14 @@ public class ClientBackEnd {
 	private static final String target = "http://145.24.222.208:8025";
 
 	private String iban;
-	private long pincode;
+	private String pincode;
 
 	/*
 	 * I did it this way - get the IBAN and pincode on initialization - ,
 	 * and not get the IBAN and pincode per method, because that is how we
 	 * set our arduino code to also send the data to the client! (06-03-2016)
 	 */
-	public ClientBackEnd(String iban, long pincode) {
+	public ClientBackEnd(String iban, String pincode) {
 		this.iban = iban;
 		this.pincode = pincode;
 	}
@@ -40,7 +40,7 @@ public class ClientBackEnd {
 	 */
 	public static void main(String[] args) {
 		// ClientBackEnd backEnd = new ClientBackEnd();
-		ClientBackEnd backEnd = new ClientBackEnd("123456789", 3025);
+		ClientBackEnd backEnd = new ClientBackEnd("123456789", "3025");
 		
 		System.out.println("UserId: \t\t" + backEnd.checkPincode().getUserID());
 		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
@@ -53,7 +53,7 @@ public class ClientBackEnd {
 		System.out.println("Withdraw Response: \t" + response.getResponse());
 		System.out.println("Transaction Number: \t" + response.getTransactionNumber());
 		
-		backEnd = new ClientBackEnd("123456789", 3025);
+		backEnd = new ClientBackEnd("123456789", "3025");
 		backEnd.checkPincode().getUserID();
 		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
 	}
