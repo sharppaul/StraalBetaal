@@ -9,10 +9,7 @@ import org.apache.log4j.Logger;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 
-import nl.hr.project3_4.straalbetaal.api.BalanceResponse;
-import nl.hr.project3_4.straalbetaal.api.CheckPinResponse;
-import nl.hr.project3_4.straalbetaal.api.WithdrawRequest;
-import nl.hr.project3_4.straalbetaal.api.WithdrawResponse;
+import nl.hr.project3_4.straalbetaal.api.*;
 
 public class ClientBackEnd {
 
@@ -22,22 +19,20 @@ public class ClientBackEnd {
 	private static final String target = "http://145.24.222.208:8025";
 
 	private String iban;
-	private String pincode;
 
 	/*
 	 * I did it this way - get the IBAN and pincode on initialization - ,
 	 * and not get the IBAN and pincode per method, because that is how we
 	 * set our arduino code to also send the data to the client! (06-03-2016)
 	 */
-	public ClientBackEnd(String iban, String pincode) {
+	public ClientBackEnd(String iban) {
 		this.iban = iban;
-		this.pincode = pincode;
 	}
 
 
 	/* This is for testing purposes, this main will be in the Client class,
 	 * together with the ArduinoData and GUI.
-	 */
+	
 	public static void main(String[] args) {
 		// ClientBackEnd backEnd = new ClientBackEnd();
 		ClientBackEnd backEnd = new ClientBackEnd("123456789", "3025");
@@ -57,31 +52,31 @@ public class ClientBackEnd {
 		backEnd.checkPincode().getUserID();
 		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
 	}
+	 */
 
-
-	public CheckPinResponse checkPincode() {
-		String path = "/" + iban + "&" + pincode;
+	public CheckPinResponse checkPincode(CheckPinRequest request) {
+		String path = "/" + iban + "/check";
 
 		LOG.info("Client - CheckPincode Response send to server!");
-		CheckPinResponse response = client.target(target).path(path)
-				.request().get(CheckPinResponse.class);
+		CheckPinResponse response = client.target(target).path(path).request()
+				.post(Entity.entity(request, MediaType.APPLICATION_JSON), CheckPinResponse.class);
 		return response;
 	}
 
 	public BalanceResponse checkBalance() {
-		String path = "/" + iban + "&" + pincode;
+		String path = "/" + iban + "/balance";
 
 		LOG.info("Client - Balance Response send to server!");
-		BalanceResponse response = client.target(target).path(path + "/balance")
-				.request().get(BalanceResponse.class);
+		BalanceResponse response = client.target(target).path(path).request()
+				.get(BalanceResponse.class);
 		return response;
 	}
 
 	// Not tested!
 	public WithdrawResponse withdrawMoney(WithdrawRequest request) {
-		String path = "/" + iban + "&" + pincode;
+		String path = "/" + iban + "withdraw";
 
-		WithdrawResponse response = client.target(target).path(path + "/withdraw").request()
+		WithdrawResponse response = client.target(target).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);
 		if(response.getTransactionNumber() == 0) {
 			response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");

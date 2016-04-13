@@ -32,7 +32,8 @@ public class Client {
 				}
 
 				shouldReset();
-
+				
+				backend = new ClientBackEnd(data.getCard());
 				frame.setMode("login");
 				int dots = 0;
 				while (!data.isPinReceived()) {
@@ -42,6 +43,7 @@ public class Client {
 					shouldReset();
 				}
 				
+				frame.setMode("loading");
 				checkPinValid();
 
 				boolean userNotDone = true;
@@ -55,11 +57,12 @@ public class Client {
 						sleep(100);
 						shouldReset();
 					}
-
+					
+					frame.setMode("loading");
 					shouldReset();
 
 					if (data.getChoice().equals("a")) {
-						// QUICKPIN
+						snelPinnen();
 						userNotDone = false;
 					} else if (data.getChoice().equals("c")) {
 
@@ -78,6 +81,9 @@ public class Client {
 							sleep(100);
 							shouldReset();
 						}
+						frame.setMode("loading");
+						
+						pinnen();
 
 						shouldReset();
 						frame.setMode("ticket");
@@ -125,7 +131,29 @@ public class Client {
 			}
 		}
 	}
-
+	
+	private void snelPinnen() throws ResetException {
+		WithdrawRequest rq = new WithdrawRequest(70L);
+		WithdrawResponse rs = backend.withdrawMoney(rq);
+		if(rs.getResponse().equals("success")){
+			//store transaction number and amount etc.
+		} else {
+			throw new ResetException("Saldo te laag.");
+		}
+	}
+	
+	private void pinnen() throws ResetException {
+		WithdrawRequest rq = new WithdrawRequest((long) data.getAmount());
+		WithdrawResponse rs = backend.withdrawMoney(rq);
+		if(rs.getResponse().equals("success")){
+			//store transaction number and amount etc.
+		} else {
+			throw new ResetException("Saldo te laag.");
+		}
+	}
+	
+	
+	
 	private void sleep(int millis) {
 		try {
 			Thread.sleep(millis);
@@ -181,12 +209,14 @@ public class Client {
 	}
 
 	public void checkPinValid() throws ResetException {
-		backend = new ClientBackEnd();
-
-		if (false) {
-			throw new ResetException("Pincode foutief. Verwijder pas.");
+		CheckPinRequest rq = new CheckPinRequest(Long.parseLong(data.getPinEncrypted()));
+		CheckPinResponse rs = backend.checkPincode(rq);
+		if(rs.getUserID().contains("wrong")){
+			throw new ResetException("Pincode incorrect.");
 		}
-
+		if(rs.getUserID().contains("blocked")){
+			throw new ResetException("Pinpas geblokkeerd.");
+		}
 	}
 
 	public boolean userMadeChoice() {
@@ -213,8 +243,7 @@ public class Client {
 	}
 
 	public float requestSaldo() throws ResetException {
-		// request saldo
-		// try { request } catch exc. { return (float)0.0 )
-		return (float) 13.37;
+		BalanceResponse rs = backend.checkBalance();
+		return rs.getBalance();
 	}
 }
