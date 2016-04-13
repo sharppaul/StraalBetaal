@@ -19,7 +19,7 @@ public class DataAccessObject extends DbTemplate {
 
 	public String getUserID(String iban, long pincode) throws Exception {
 		String userID = null;
-		String getUserSQL = "SELECT cards.userID FROM cards WHERE cards.IBAN = ? AND cards.pincode = ?";
+		String getUserSQL = "SELECT card.userID FROM card WHERE card.IBAN = ? AND card.pincode = ?";
 
 		con = getConnection();
 		stmt = con.prepareStatement(getUserSQL);
@@ -40,7 +40,7 @@ public class DataAccessObject extends DbTemplate {
 
 	public int checkWrongPinCounter(String iban) throws Exception {
 		int counter = 0;
-		String getCounterSQL = "SELECT cards.counter FROM cards WHERE cards.IBAN = ?";
+		String getCounterSQL = "SELECT card.wrongPinCounter FROM card WHERE card.IBAN = ?";
 
 		con = getConnection();
 		stmt = con.prepareStatement(getCounterSQL);
@@ -58,7 +58,7 @@ public class DataAccessObject extends DbTemplate {
 
 	public int incrementWrongPinCounter(String iban) throws Exception {
 		int counter = 0;
-		String insertIncrementedCounterSQL = "UPDATE cards SET cards.counter = ? WHERE IBAN = ?";
+		String insertIncrementedCounterSQL = "UPDATE card SET card.wrongPinCounter = ? WHERE IBAN = ?";
 
 		counter = checkWrongPinCounter(iban) + 1;
 
@@ -96,7 +96,7 @@ public class DataAccessObject extends DbTemplate {
 	public boolean withdraw(String iban, long amount, long currentSaldo) throws Exception {
 		boolean successfulWithdraw = false;
 		String getMoneySQL = "UPDATE saldo SET saldo.cardSaldo = ? WHERE IBAN = ?";
-		String betaalGeschiedenisSQL = "INSERT INTO betaalgeschiedenis (IBAN, af_bij_geschreven, datum) VALUE( ?, ?, ?)";
+		String betaalGeschiedenisSQL = "INSERT INTO betaalgeschiedenis (IBAN, afgeschreven, datum) VALUE( ?, ?, ?)";
 
 		con = getConnection();
 		stmt = con.prepareStatement(getMoneySQL);

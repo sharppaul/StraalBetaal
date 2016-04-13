@@ -21,13 +21,18 @@ public class Service {
 	public String getUserID(String iban, long pin) {
 		String user = null;
 		int counter = 0;
+
 		try {
 			user = dao.getUserID(iban, pin);
+			counter = dao.checkWrongPinCounter(iban);
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.error("DATABASE ERROR WHEN GETTING USERID!!!");
 			LOG.error("ERROR MESSAGE: " + e.getMessage());
 		}
+
+		if (counter > 3)
+			return "Card blocked! Contact Help Desk 4 more info!";
 
 		if (user == null) {
 			LOG.warn("Database operation performed for userID, but incorrect pincode. Iban: " + iban
@@ -39,22 +44,12 @@ public class Service {
 				e.printStackTrace();
 			}
 
-
 			return "Wrong pincode!";
-			
 		} else {
-			try {
-				counter = dao.checkWrongPinCounter(iban);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (counter > 3)
-				return "Card blocked! Contact Help Desk 4 more info!";
 			pincodeChecked = true;
 			LOG.info("Database operation performed sucessfully for userID: " + user);
 
 			return user;
-
 		}
 	}
 
