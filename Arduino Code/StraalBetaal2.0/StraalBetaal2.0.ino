@@ -385,7 +385,7 @@ void bon() {
       );
       mode = "bon";
       break;
-    case '*':
+    case '#':
       Serial.println(
         "{\"event\":\"bonchoice\",\"option\":\"false\"}"
       );

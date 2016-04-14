@@ -1,0 +1,354 @@
+Exception in thread "main" javax.ws.rs.ProcessingException: Failed to start Grizzly HTTP server: Address already in use
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory.createHttpServer(GrizzlyHttpServerFactory.java:302)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory.createHttpServer(GrizzlyHttpServerFactory.java:141)
+	at nl.hr.project3_4.straalbetaal.server.Server.initWebserver(Server.java:49)
+	at nl.hr.project3_4.straalbetaal.server.Server.<init>(Server.java:20)
+	at nl.hr.project3_4.straalbetaal.server.Server.main(Server.java:29)
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.glassfish.grizzly.nio.transport.TCPNIOBindingHandler.bindToChannelAndAddress(TCPNIOBindingHandler.java:132)
+	at org.glassfish.grizzly.nio.transport.TCPNIOBindingHandler.bind(TCPNIOBindingHandler.java:88)
+	at org.glassfish.grizzly.nio.transport.TCPNIOTransport.bind(TCPNIOTransport.java:236)
+	at org.glassfish.grizzly.nio.transport.TCPNIOTransport.bind(TCPNIOTransport.java:216)
+	at org.glassfish.grizzly.nio.transport.TCPNIOTransport.bind(TCPNIOTransport.java:207)
+	at org.glassfish.grizzly.http.server.NetworkListener.start(NetworkListener.java:680)
+	at org.glassfish.grizzly.http.server.HttpServer.start(HttpServer.java:278)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory.createHttpServer(GrizzlyHttpServerFactory.java:299)
+	... 4 more
+Mar 22, 2016 1:32:08 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [0.0.0.0:8025]
+Mar 22, 2016 1:32:08 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+2016-03-22 13:32:16,252  INFO resources.Resource:25 - Get request for userID with IBAN: 123456789 and pincode: 3025
+2016-03-22 13:32:16,830  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 13:32:16,849  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 13:32:16,849  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:jasonP
+2016-03-22 13:48:35,701  INFO resources.Resource:37 - Get request for balance with IBAN: 123456789
+2016-03-22 13:48:35,706  WARN services.Service:49 - Get request for balance asked, without first checking pincode!!!
+Mar 22, 2016 2:53:45 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [0.0.0.0:8025]
+Mar 22, 2016 2:53:45 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+2016-03-22 14:54:31,792  INFO resources.Resource:25 - Get request for userID with IBAN: 123456789 and pincode: 3025
+2016-03-22 14:54:33,055  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 14:54:33,075  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 14:54:33,076  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:jasonP
+2016-03-22 14:54:38,718  INFO resources.Resource:37 - Get request for balance with IBAN: 123456789
+2016-03-22 14:54:38,732  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 14:54:38,733  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 14:54:38,734  INFO services.Service:46 - Database operation performed for balance. Iban: 123456789 and balance: 1000
+2016-03-22 14:55:41,012  INFO resources.Resource:46 - Post request for withdraw with IBAN: 123456789 and amount: 50
+2016-03-22 14:55:41,012  INFO services.Service:62 - Withdraw amount. Iban: 123456789 and current Saldo: 950
+Mar 22, 2016 3:04:41 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [0.0.0.0:8025]
+Mar 22, 2016 3:04:41 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+2016-03-22 15:04:59,114  INFO resources.Resource:46 - Post request for withdraw with IBAN: 123456789 and amount: 50
+2016-03-22 15:05:50,203  INFO resources.Resource:25 - Get request for userID with IBAN: 123456789 and pincode: 3025
+2016-03-22 15:05:50,677  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:05:50,694  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:05:50,696  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:jasonP
+2016-03-22 15:05:54,866  INFO resources.Resource:37 - Get request for balance with IBAN: 123456789
+2016-03-22 15:05:54,894  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:05:54,895  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:05:54,895  INFO services.Service:46 - Database operation performed for balance. Iban: 123456789 and balance: 1000
+2016-03-22 15:06:12,360  INFO resources.Resource:46 - Post request for withdraw with IBAN: 123456789 and amount: 50
+2016-03-22 15:06:12,365  INFO services.Service:62 - Withdraw amount. Iban: 123456789 and current Saldo: 950
+2016-03-22 15:06:12,389  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'cardID' in 'where clause'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:377)
+	at com.mysql.jdbc.Util.getInstance(Util.java:360)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:978)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3887)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3823)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2435)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2582)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2530)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1907)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2141)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2077)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2062)
+	at nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject.withdraw(DataAccessObject.java:64)
+	at nl.hr.project3_4.straalbetaal.server.services.Service.withdraw(Service.java:64)
+	at nl.hr.project3_4.straalbetaal.server.resources.Resource.withdraw(Resource.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory$1.invoke(ResourceMethodInvocationHandlerFactory.java:81)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1.run(AbstractJavaResourceMethodDispatcher.java:151)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.invoke(AbstractJavaResourceMethodDispatcher.java:172)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$TypeOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:195)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:104)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:384)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:342)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:101)
+	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:297)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:254)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1030)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer.service(GrizzlyHttpContainer.java:378)
+	at org.glassfish.grizzly.http.server.HttpHandler$1.run(HttpHandler.java:219)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+	at java.lang.Thread.run(Thread.java:745)
+Unknown column 'cardID' in 'where clause'
+2016-03-22 15:06:46,312  INFO resources.Resource:37 - Get request for balance with IBAN: 123456789
+2016-03-22 15:06:46,329  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:06:46,337  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:06:46,337  INFO services.Service:46 - Database operation performed for balance. Iban: 123456789 and balance: 1000
+2016-03-22 15:06:58,423  INFO resources.Resource:46 - Post request for withdraw with IBAN: 123456789 and amount: 50
+2016-03-22 15:06:58,423  INFO services.Service:62 - Withdraw amount. Iban: 123456789 and current Saldo: 950
+2016-03-22 15:06:58,435  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'cardID' in 'where clause'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:377)
+	at com.mysql.jdbc.Util.getInstance(Util.java:360)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:978)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3887)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3823)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2435)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2582)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2530)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1907)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2141)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2077)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2062)
+	at nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject.withdraw(DataAccessObject.java:64)
+	at nl.hr.project3_4.straalbetaal.server.services.Service.withdraw(Service.java:64)
+	at nl.hr.project3_4.straalbetaal.server.resources.Resource.withdraw(Resource.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory$1.invoke(ResourceMethodInvocationHandlerFactory.java:81)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1.run(AbstractJavaResourceMethodDispatcher.java:151)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.invoke(AbstractJavaResourceMethodDispatcher.java:172)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$TypeOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:195)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:104)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:384)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:342)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:101)
+	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:297)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:254)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1030)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer.service(GrizzlyHttpContainer.java:378)
+	at org.glassfish.grizzly.http.server.HttpHandler$1.run(HttpHandler.java:219)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+	at java.lang.Thread.run(Thread.java:745)
+Unknown column 'cardID' in 'where clause'
+2016-03-22 15:12:29,657  INFO resources.Resource:46 - Post request for withdraw with IBAN: 123456789 and amount: 50
+2016-03-22 15:12:29,658  INFO services.Service:62 - Withdraw amount. Iban: 123456789 and current Saldo: 950
+2016-03-22 15:12:29,677  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'cardID' in 'where clause'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:377)
+	at com.mysql.jdbc.Util.getInstance(Util.java:360)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:978)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3887)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3823)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2435)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2582)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2530)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1907)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2141)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2077)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2062)
+	at nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject.withdraw(DataAccessObject.java:64)
+	at nl.hr.project3_4.straalbetaal.server.services.Service.withdraw(Service.java:64)
+	at nl.hr.project3_4.straalbetaal.server.resources.Resource.withdraw(Resource.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory$1.invoke(ResourceMethodInvocationHandlerFactory.java:81)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1.run(AbstractJavaResourceMethodDispatcher.java:151)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.invoke(AbstractJavaResourceMethodDispatcher.java:172)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$TypeOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:195)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:104)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:384)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:342)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:101)
+	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:297)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:254)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1030)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer.service(GrizzlyHttpContainer.java:378)
+	at org.glassfish.grizzly.http.server.HttpHandler$1.run(HttpHandler.java:219)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+	at java.lang.Thread.run(Thread.java:745)
+Unknown column 'cardID' in 'where clause'
+2016-03-22 15:15:48,072  INFO resources.Resource:25 - Get request for userID with IBAN: 123456789 and pincode: 3025
+2016-03-22 15:15:48,088  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:15:48,089  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:15:48,090  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:jasonP
+2016-03-22 15:15:52,395  INFO resources.Resource:37 - Get request for balance with IBAN: 123456789
+2016-03-22 15:15:52,416  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:15:52,418  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:15:52,419  INFO services.Service:46 - Database operation performed for balance. Iban: 123456789 and balance: 1000
+2016-03-22 15:16:11,812  INFO resources.Resource:25 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-03-22 15:16:11,822  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:16:11,825  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:16:11,825  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:garePaul
+2016-03-22 15:16:16,823  INFO resources.Resource:37 - Get request for balance with IBAN: 333333
+2016-03-22 15:16:16,836  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:16:16,837  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:16:16,837  INFO services.Service:46 - Database operation performed for balance. Iban: 333333 and balance: 5
+2016-03-22 15:26:33,830  INFO resources.Resource:25 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-03-22 15:26:33,856  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:26:33,858  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:26:33,858  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:garePaul
+Mar 22, 2016 3:33:11 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [0.0.0.0:8025]
+Mar 22, 2016 3:33:11 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+Mar 22, 2016 3:33:53 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [0.0.0.0:8025]
+Mar 22, 2016 3:33:53 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+2016-03-22 15:34:42,154  INFO resources.Resource:25 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-03-22 15:34:42,688  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:34:42,705  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:34:42,706  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:garePaul
+2016-03-22 15:35:32,523  INFO resources.Resource:37 - Get request for balance with IBAN: 333333
+2016-03-22 15:35:32,553  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:35:32,556  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:35:32,557  INFO services.Service:46 - Database operation performed for balance. Iban: 333333 and balance: 5
+2016-03-22 15:36:42,779  INFO resources.Resource:46 - Post request for withdraw with IBAN: 333333 and amount: 50
+2016-03-22 15:36:42,779  INFO services.Service:62 - Withdraw amount. Iban: 333333 and current Saldo: -45
+2016-03-22 15:37:18,208  INFO resources.Resource:46 - Post request for withdraw with IBAN: 333333 and amount: 4
+2016-03-22 15:37:18,209  INFO services.Service:62 - Withdraw amount. Iban: 333333 and current Saldo: 1
+2016-03-22 15:37:18,230  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'cardID' in 'where clause'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:377)
+	at com.mysql.jdbc.Util.getInstance(Util.java:360)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:978)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3887)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3823)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2435)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2582)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2530)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1907)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2141)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2077)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2062)
+	at nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject.withdraw(DataAccessObject.java:68)
+	at nl.hr.project3_4.straalbetaal.server.services.Service.withdraw(Service.java:64)
+	at nl.hr.project3_4.straalbetaal.server.resources.Resource.withdraw(Resource.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory$1.invoke(ResourceMethodInvocationHandlerFactory.java:81)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1.run(AbstractJavaResourceMethodDispatcher.java:151)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.invoke(AbstractJavaResourceMethodDispatcher.java:172)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$TypeOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:195)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:104)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:384)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:342)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:101)
+	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:297)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:254)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1030)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer.service(GrizzlyHttpContainer.java:378)
+	at org.glassfish.grizzly.http.server.HttpHandler$1.run(HttpHandler.java:219)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+	at java.lang.Thread.run(Thread.java:745)
+Unknown column 'cardID' in 'where clause'
+2016-03-22 15:37:22,714  INFO resources.Resource:46 - Post request for withdraw with IBAN: 333333 and amount: 4
+2016-03-22 15:37:22,714  INFO services.Service:62 - Withdraw amount. Iban: 333333 and current Saldo: 1
+2016-03-22 15:37:22,746  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'cardID' in 'where clause'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:377)
+	at com.mysql.jdbc.Util.getInstance(Util.java:360)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:978)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3887)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3823)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2435)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2582)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2530)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1907)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2141)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2077)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2062)
+	at nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject.withdraw(DataAccessObject.java:68)
+	at nl.hr.project3_4.straalbetaal.server.services.Service.withdraw(Service.java:64)
+	at nl.hr.project3_4.straalbetaal.server.resources.Resource.withdraw(Resource.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory$1.invoke(ResourceMethodInvocationHandlerFactory.java:81)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1.run(AbstractJavaResourceMethodDispatcher.java:151)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.invoke(AbstractJavaResourceMethodDispatcher.java:172)
+	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$TypeOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:195)
+	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:104)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:384)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:342)
+	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:101)
+	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:297)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:254)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1030)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer.service(GrizzlyHttpContainer.java:378)
+	at org.glassfish.grizzly.http.server.HttpHandler$1.run(HttpHandler.java:219)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+	at java.lang.Thread.run(Thread.java:745)
+Unknown column 'cardID' in 'where clause'
+2016-03-22 15:41:11,422  INFO resources.Resource:25 - Get request for userID with IBAN: 333333 and pincode: 1111
+2016-03-22 15:41:11,432  INFO dao.DbTemplate:32 - Connection with mysql server made sucessfully!
+2016-03-22 15:41:11,434  INFO dao.DbTemplate:58 - Sql Resources closed succesfully.
+2016-03-22 15:41:11,434  INFO services.Service:37 - Database operation performed for userID sucessfully for userId:garePaul
