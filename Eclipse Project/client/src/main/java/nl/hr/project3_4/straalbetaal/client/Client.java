@@ -45,9 +45,10 @@ public class Client {
 					shouldReset();
 				}
 				
+				frame.setMode("loading");
 				backend = new ClientBackEnd(data.getCard());
 				System.out.println(data.getCard());
-				frame.setMode("loading");
+				
 				checkPinValid();
 
 				boolean userNotDone = true;
@@ -123,16 +124,14 @@ public class Client {
 			} catch (ResetException e) {
 				frame.setError(e.getMessage());
 				frame.setMode("error");
-
-				e.printStackTrace();
 				try {
-					Thread.sleep(2500);
+					Thread.sleep(5000);
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
 				}
 			} catch (SuccessException e) {
 				try {
-					Thread.sleep(2500);
+					Thread.sleep(5000);
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
 				}

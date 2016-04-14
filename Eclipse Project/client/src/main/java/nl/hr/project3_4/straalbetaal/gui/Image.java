@@ -2,7 +2,6 @@ package nl.hr.project3_4.straalbetaal.gui;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -12,13 +11,11 @@ public class Image extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image = null;
 	
-	
-
 	public Image(String i) {
 		super();
 		
 		try {
-			this.image = ImageIO.read(new File("resources/"+i));
+			this.image = ImageIO.read(Image.class.getResourceAsStream("/"+i));
 		} catch (IOException e) {
 			System.err.println("Failed loading image: " + i);
 		}
@@ -27,11 +24,15 @@ public class Image extends JPanel {
 	
 	@Override
 	public int getHeight(){
+		if(image == null)
+			return 0;
 		return image.getHeight();
 	}
 	
 	@Override
 	public int getWidth(){
+		if(image == null)
+			return 0;
 		return image.getWidth();
 	}
 	

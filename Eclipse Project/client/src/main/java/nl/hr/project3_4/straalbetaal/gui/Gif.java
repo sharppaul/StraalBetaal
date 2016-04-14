@@ -8,7 +8,7 @@ public class Gif extends JLabel {
 	
 	
 	public Gif(String file) {
-		super(new ImageIcon("resources/"+file));
+		super(new ImageIcon(Gif.class.getResource("/"+file)));
 	}
 
 }

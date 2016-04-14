@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -23,12 +21,10 @@ public class Frame extends JFrame {
 	private GridBagConstraints c;
 	private Font bigfont;
 	private JLabel pin, customAmount;
-
 	private final String[] modes = { "start", "login", "choice", "saldo", "pin", "billselect", "ticket", "success",
 			"loading", "error" };
-	private String mode = "start";
+	private String mode = "loading";
 	private String error = "Er is iets misgegaan...";
-	private boolean ticket;
 	private float saldo = (float) 0.0;
 	private boolean errored;
 	private JLabel err = new JLabel("");
@@ -62,8 +58,8 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		Frame f = new Frame();
-		// f.scrollMenus();
-		f.setMode("pin");
+		f.scrollMenus();
+		//f.setMode("login");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -158,14 +154,6 @@ public class Frame extends JFrame {
 		return this.error;
 	}
 
-	public boolean wantsTicket() {
-		return this.ticket;
-	}
-
-	public void setTicket(boolean ticket) {
-		this.ticket = ticket;
-	}
-
 	public float getSaldo() {
 		return saldo;
 	}
@@ -201,51 +189,6 @@ public class Frame extends JFrame {
 
 	// BUTTON FUNCTION HANDLERS
 
-	public void functie(String f) {
-
-	}
-
-	public void doesWantTicket() {
-		System.out.println("doesWantTicket()");
-		this.ticket = true;
-		go();
-	}
-
-	public void doesNotWantTicket() {
-		System.out.println("doesNotWantTicket()");
-		this.ticket = false;
-		go();
-	}
-
-	public void snelPin() {
-		System.out.println("snelPin()");
-		// start snelpinnen.
-	}
-
-	public void pinStart() {
-		System.out.println("pinStart()");
-		// start pinnen
-	}
-
-	public void viewSaldo() {
-		System.out.println("viewSaldo()");
-		// view saldo start.
-	}
-
-	public void cancel() {
-		System.out.println("cancel()");
-		System.exit(0);
-	}
-
-	public void go() {
-		System.out.println("go()");
-		// addDotToPin();
-	}
-
-	public void back() {
-		System.out.println("back()");
-	}
-
 	// MENU LAYOUTS:
 
 	private void successMenu() {
@@ -274,7 +217,15 @@ public class Frame extends JFrame {
 		clearPanel();
 
 		JLabel instr = new JLabel("Wilt u een bon?");
+		
 		instr.setFont(bigfont);
+		ImageButton ja = new ImageButton("Ja     ", "ok.png");
+		ja.setFont(bigfont);
+		ja.setHorizontalTextPosition(SwingConstants.LEFT);
+
+		ImageButton nee = new ImageButton("Nee  ", "terug.png");
+		nee.setFont(bigfont);
+		nee.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
@@ -287,9 +238,9 @@ public class Frame extends JFrame {
 		c.gridy++;
 		c.gridwidth = 1;
 		c.ipady = 35;
-		mainPanel.add(ticketYesButton(), c);
+		mainPanel.add(ja, c);
 		c.gridy++;
-		mainPanel.add(ticketNoButton(), c);
+		mainPanel.add(nee, c);
 		c.gridy++;
 
 	}
@@ -304,6 +255,15 @@ public class Frame extends JFrame {
 
 		saldotxt = new JLabel("€" + Float.toString((float) Math.round(saldo * 100) / 100).replace(".", ","));
 		saldotxt.setFont(bigfont);
+		
+		instr.setFont(bigfont);
+		ImageButton ja = new ImageButton("Doorgaan ", "ok.png");
+		ja.setFont(bigfont);
+		ja.setHorizontalTextPosition(SwingConstants.LEFT);
+
+		ImageButton nee = new ImageButton("Stoppen    ", "stop.png");
+		nee.setFont(bigfont);
+		nee.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
@@ -322,9 +282,9 @@ public class Frame extends JFrame {
 		// OK BUTTON:
 		c.gridwidth = 2;
 		c.gridy++;
-		mainPanel.add(okButton(), c);
+		mainPanel.add(ja, c);
 		c.gridy++;
-		mainPanel.add(cancelButton(), c);
+		mainPanel.add(nee, c);
 
 	}
 
@@ -336,6 +296,22 @@ public class Frame extends JFrame {
 		instr = new JLabel("Kies biljetten:");
 		instr.setFont(bigfont);
 
+		ImageButton a = new ImageButton(getBillOption()[0]+"  ", "a.png");
+		a.setFont(bigfont);
+		a.setHorizontalTextPosition(SwingConstants.LEFT);
+		a.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton b = new ImageButton(getBillOption()[1]+"  ", "b.png");
+		b.setFont(bigfont);
+		b.setHorizontalTextPosition(SwingConstants.LEFT);
+		b.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton cc = new ImageButton(getBillOption()[2]+"  ", "c.png");
+		cc.setFont(bigfont);
+		cc.setHorizontalTextPosition(SwingConstants.LEFT);
+		cc.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
@@ -347,11 +323,11 @@ public class Frame extends JFrame {
 		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeA", getBillOption()[0] + "\t(Optie A)"), c);
+		mainPanel.add(a, c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeB", getBillOption()[1] + "\t(Optie B)"), c);
+		mainPanel.add(b, c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("billkeuzeC", getBillOption()[2] + "\t(Optie C)"), c);
+		mainPanel.add(cc, c);
 
 		c.gridy++;
 		c.gridwidth = 1;
@@ -378,6 +354,23 @@ public class Frame extends JFrame {
 		customAmount.setHorizontalAlignment(JLabel.CENTER);
 		customAmount.setBackground(Color.white);
 		customAmount.setOpaque(true);
+		
+		ImageButton a = new ImageButton("€ 50,-    ", "a.png");
+		a.setFont(bigfont);
+		a.setHorizontalTextPosition(SwingConstants.LEFT);
+		a.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton b = new ImageButton("€ 100,-    ", "b.png");
+		b.setFont(bigfont);
+		b.setHorizontalTextPosition(SwingConstants.LEFT);
+		b.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton cc = new ImageButton("€ 200,-    ", "c.png");
+		cc.setFont(bigfont);
+		cc.setHorizontalTextPosition(SwingConstants.LEFT);
+		cc.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
@@ -386,22 +379,12 @@ public class Frame extends JFrame {
 		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeA", "€ 50,- \t(Optie A)"), c);
+		mainPanel.add(a, c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeB", "€ 100,- \t(Optie B)"), c);
+		mainPanel.add(b, c);
 		c.gridy++;
-		mainPanel.add(this.functionButton("pinkeuzeC", "€ 200,- \t(Optie C)"), c);
-
-		c.ipady = 0;
-		c.gridy++;
-
-		// mainPanel.add(other, c);
-
-		c.ipady = 35;
-		// c.gridy++;
-
-		// mainPanel.add(customAmount, c);
-
+		mainPanel.add(cc, c);
+	
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
@@ -418,21 +401,36 @@ public class Frame extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
 
+		ImageButton a = new ImageButton("Snelpinnen (€70,-)   ", "a.png");
+		a.setFont(bigfont);
+		a.setHorizontalTextPosition(SwingConstants.LEFT);
+		a.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton b = new ImageButton("Saldo Bekijken      ", "b.png");
+		b.setFont(bigfont);
+		b.setHorizontalTextPosition(SwingConstants.LEFT);
+		b.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton cc = new ImageButton("Pinnen             ", "c.png");
+		cc.setFont(bigfont);
+		cc.setHorizontalTextPosition(SwingConstants.LEFT);
+		cc.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
 		mainPanel.add(instr, c);
 
-		// BUTTONS:
+		// LOTTA BUTTONS:
 		c.ipady = 35;
 		c.gridy++;
-		mainPanel.add(snelPinButton(), c);
+		mainPanel.add(a, c);
 		c.gridy++;
-
-		mainPanel.add(saldoButton(), c);
+		mainPanel.add(b, c);
 		c.gridy++;
-
-		mainPanel.add(pinButton(), c);
+		mainPanel.add(cc, c);
+	
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
@@ -442,7 +440,7 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		clearPanel();
 
-		JLabel message = new JLabel("Vul uw pincode in:");
+		JLabel message = new JLabel();
 		message.setFont(bigfont);
 		message.setText("Welkom bij Straalbetaal, voer alstublieft uw pinpas in.");
 
@@ -526,19 +524,35 @@ public class Frame extends JFrame {
 		instr.setFont(bigfont);
 
 		err.setFont(bigfont);
+		err.setForeground(new Color(200,0,0));
 
+		ImageButton a = new ImageButton("Stoppen  ", "stop.png");
+		a.setFont(bigfont);
+		a.setHorizontalTextPosition(SwingConstants.LEFT);
+		a.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton b = new ImageButton("Doorgaan  ", "ok.png");
+		b.setFont(bigfont);
+		b.setHorizontalTextPosition(SwingConstants.LEFT);
+		b.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		ImageButton corr = new ImageButton("Correctie  ", "terug.png");
+		corr.setFont(bigfont);
+		corr.setHorizontalTextPosition(SwingConstants.LEFT);
+		corr.setHorizontalAlignment(SwingConstants.RIGHT);
+		
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
 
 		// INSTRUCTIES:
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		c.gridy = 0;
 		mainPanel.add(instr, c);
 
 		// PINBOX:
 		c.gridy++;
-		c.ipady = 40;
+		c.ipady = 80;
 		c.gridx = 0;
 		mainPanel.add(pin, c);
 
@@ -546,9 +560,9 @@ public class Frame extends JFrame {
 		c.ipady = 35;
 		c.gridy++;
 		c.gridwidth = 1;
-		mainPanel.add(cancelButton(), c);
-		c.gridx = 1;
-		mainPanel.add(okButton(), c);
+		mainPanel.add(a, c);
+		c.gridx = 2;
+		mainPanel.add(b, c);
 
 		// ERRORS:
 		err.setText(" ");
@@ -556,122 +570,16 @@ public class Frame extends JFrame {
 		c.gridwidth = 2;
 		c.gridy++;
 		mainPanel.add(err, c);
+		c.gridx = 2;
+		mainPanel.add(corr, c);
+	}
+	
+	public ImageButton cancelButton(){
+		ImageButton a = new ImageButton("Stoppen  ", "stop.png");
+		a.setFont(bigfont);
+		a.setHorizontalTextPosition(SwingConstants.LEFT);
+		a.setHorizontalAlignment(SwingConstants.RIGHT);
+		return a;
 	}
 
-	// BUTTONS AND BUTTON FUNCTIONS:
-
-	public JButton ticketNoButton() {
-		JButton btn = new JButton("Nee");
-		btn.setFont(this.bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doesNotWantTicket();
-			}
-		});
-		return btn;
-	}
-
-	public JButton ticketYesButton() {
-		JButton btn = new JButton("Ja");
-		btn.setFont(this.bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doesWantTicket();
-			}
-		});
-		return btn;
-	}
-
-	public JButton closeButton() {
-		JButton btn = new JButton("Close");
-		btn.setFont(this.bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		return btn;
-	}
-
-	public JButton removeButton() {
-		JButton btn = new JButton("remove");
-		btn.setFont(this.bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearPanel();
-			}
-		});
-		return btn;
-	}
-
-	private JButton cancelButton() {
-		JButton btn = new JButton("Stoppen");
-		btn.setBackground(Color.decode("#F22E2E"));
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancel();
-			}
-		});
-		return btn;
-	}
-
-	private JButton okButton() {
-		JButton btn = new JButton("Doorgaan");
-		btn.setBackground(Color.decode("#00AF50"));
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				go();
-			}
-		});
-		return btn;
-	}
-
-	private JButton snelPinButton() {
-		JButton btn = new JButton("Snel Pinnen (€ 70,-) (Optie A)");
-
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				snelPin();
-			}
-		});
-		return btn;
-	}
-
-	private JButton pinButton() {
-		JButton btn = new JButton("Bedrag Pinnen (Optie C)");
-
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pinStart();
-			}
-		});
-		return btn;
-	}
-
-	private JButton saldoButton() {
-		JButton btn = new JButton("Saldo Bekijken (Optie B)");
-
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewSaldo();
-			}
-		});
-		return btn;
-	}
-
-	private JButton functionButton(String f, String inhoud) {
-		JButton btn = new JButton(inhoud);
-		btn.setFont(bigfont);
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				functie(f);
-			}
-		});
-		return btn;
-	}
 }
