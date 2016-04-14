@@ -3,14 +3,16 @@ package nl.hr.project3_4.straalbetaal.client;
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
+import nl.hr.project3_4.straalbetaal.print.LabelWriter;
 import nl.hr.project3_4.straalbetaal.exceptions.*;
 
 @SuppressWarnings("unused")
 public class Client {
-	Frame frame;
-	ArduinoData data;
-	Read reader;
-	ClientBackEnd backend;
+	private Frame frame;
+	private ArduinoData data;
+	private Read reader;
+	private ClientBackEnd backend;
+	private int transNummer;
 
 	public static void main(String[] args) {
 
@@ -22,18 +24,18 @@ public class Client {
 		frame = new Frame();
 		data = new ArduinoData();
 		reader = new Read(data);
-		
 
 		while (true) {
 			try {
+				this.transNummer = 0;
 				frame.setMode("start");
 				while (!cardInserted()) {
 					sleep(100);
 				}
 
 				shouldReset();
+
 				
-				backend = new ClientBackEnd(data.getCard());
 				frame.setMode("login");
 				int dots = 0;
 				while (!data.isPinReceived()) {
@@ -43,6 +45,8 @@ public class Client {
 					shouldReset();
 				}
 				
+				backend = new ClientBackEnd(data.getCard());
+				System.out.println(data.getCard());
 				frame.setMode("loading");
 				checkPinValid();
 
@@ -57,7 +61,7 @@ public class Client {
 						sleep(100);
 						shouldReset();
 					}
-					
+
 					frame.setMode("loading");
 					shouldReset();
 
@@ -82,7 +86,7 @@ public class Client {
 							shouldReset();
 						}
 						frame.setMode("loading");
-						
+
 						pinnen();
 
 						shouldReset();
@@ -91,7 +95,10 @@ public class Client {
 							sleep(100);
 							shouldReset();
 						}
-
+						frame.setMode("loading");
+						if(data.getBon()){
+							new LabelWriter().printLabel(Integer.toString(transNummer), (long) data.getAmount(), data.getCard());
+						}
 						userNotDone = false;
 
 					} else if (data.getChoice().equals("b")) {
@@ -102,6 +109,7 @@ public class Client {
 							sleep(100);
 							shouldReset();
 						}
+						data.setChoice("none");
 					}
 				}
 
@@ -116,7 +124,7 @@ public class Client {
 				frame.setError(e.getMessage());
 				frame.setMode("error");
 
-				System.out.println(e);
+				e.printStackTrace();
 				try {
 					Thread.sleep(2500);
 				} catch (InterruptedException ex) {
@@ -131,29 +139,48 @@ public class Client {
 			}
 		}
 	}
-	
+
+	public void checkPinValid() throws ResetException {
+		CheckPinRequest rq = new CheckPinRequest(data.getPinEncrypted());
+		CheckPinResponse rs = backend.checkPincode(rq);
+		if (rs.getUserID().equals("wrong")) {
+			data.reset();
+			throw new ResetException("Pincode incorrect.");
+		}
+		if (rs.getUserID().equals("blocked")) {
+			data.reset();
+			throw new ResetException("Pinpas geblokkeerd.");
+		}
+	}
+
+	public float requestSaldo() throws ResetException {
+		BalanceResponse rs = backend.checkBalance();
+		return rs.getBalance();
+	}
+
 	private void snelPinnen() throws ResetException {
 		WithdrawRequest rq = new WithdrawRequest(70L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
-		if(rs.getResponse().equals("success")){
-			//store transaction number and amount etc.
+		if (rs.getResponse().equals("succes")) {
+			// store transaction number and amount etc.
 		} else {
+			data.reset();
 			throw new ResetException("Saldo te laag.");
 		}
 	}
-	
+
 	private void pinnen() throws ResetException {
 		WithdrawRequest rq = new WithdrawRequest((long) data.getAmount());
 		WithdrawResponse rs = backend.withdrawMoney(rq);
-		if(rs.getResponse().equals("success")){
-			//store transaction number and amount etc.
+		System.out.println(rs.getResponse());
+		if (rs.getResponse().equals("succes")) {
+			this.transNummer = rs.getTransactionNumber();
 		} else {
+			data.reset();
 			throw new ResetException("Saldo te laag.");
 		}
 	}
-	
-	
-	
+
 	private void sleep(int millis) {
 		try {
 			Thread.sleep(millis);
@@ -170,6 +197,22 @@ public class Client {
 		options[0] = "Keuze 1";
 		options[1] = "Keuze 2";
 		options[2] = "Keuze 3";
+
+		if (amount == 50) {
+			options[0] = "1*€50";
+			options[1] = "1*€10 & 2*€20";
+			options[2] = "5*€10";
+		}
+		if (amount == 100) {
+			options[0] = "1*€100";
+			options[1] = "2*€50";
+			options[2] = "5*€20";
+		}
+		if (amount == 200) {
+			options[0] = "2*€100";
+			options[1] = "4*€50";
+			options[2] = "2*€50 & 5*€20";
+		}
 
 		frame.setBillOption(options);
 	}
@@ -208,17 +251,6 @@ public class Client {
 		return data.isCardReceived();
 	}
 
-	public void checkPinValid() throws ResetException {
-		CheckPinRequest rq = new CheckPinRequest(Long.parseLong(data.getPinEncrypted()));
-		CheckPinResponse rs = backend.checkPincode(rq);
-		if(rs.getUserID().contains("wrong")){
-			throw new ResetException("Pincode incorrect.");
-		}
-		if(rs.getUserID().contains("blocked")){
-			throw new ResetException("Pinpas geblokkeerd.");
-		}
-	}
-
 	public boolean userMadeChoice() {
 		if (data.getChoice().equals("none")) {
 			return false;
@@ -242,8 +274,4 @@ public class Client {
 		}
 	}
 
-	public float requestSaldo() throws ResetException {
-		BalanceResponse rs = backend.checkBalance();
-		return rs.getBalance();
-	}
 }

@@ -31,8 +31,8 @@ public class Service {
 			LOG.error("ERROR MESSAGE: " + e.getMessage());
 		}
 
-		if (counter > 3)
-			return "Card blocked! Contact Help Desk 4 more info!";
+		if (counter > 2)
+			return "blocked";
 
 		if (user == null) {
 			LOG.warn("Database operation performed for userID, but incorrect pincode. Iban: " + iban
@@ -44,7 +44,7 @@ public class Service {
 				e.printStackTrace();
 			}
 
-			return "Wrong pincode!";
+			return "wrong";
 		} else {
 			pincodeChecked = true;
 			LOG.info("Database operation performed sucessfully for userID: " + user);
@@ -76,7 +76,7 @@ public class Service {
 				LOG.info("Database operation performed for balance *IN WITHDRAW*. Iban: " + iban + " and balance: "
 						+ balance);
 				LOG.info("Withdraw attempt. Iban: " + iban + " and current Saldo: " + currentSaldo);
-				if (currentSaldo > 0) {
+				if (currentSaldo >= 0) {
 					enoughMoneyInAccount = dao.withdraw(iban, amount, currentSaldo);
 					LOG.info("Database operation for withdraw succeeded. Iban: " + iban + " and amount: " + amount);
 				}

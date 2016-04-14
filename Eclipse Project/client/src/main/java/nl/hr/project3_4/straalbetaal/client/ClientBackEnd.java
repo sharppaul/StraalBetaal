@@ -68,13 +68,13 @@ public class ClientBackEnd {
 
 		LOG.info("Client - Balance Response send to server!");
 		BalanceResponse response = client.target(target).path(path).request()
-				.get(BalanceResponse.class);
+				.post(Entity.entity(null, MediaType.APPLICATION_JSON), BalanceResponse.class);
 		return response;
 	}
 
 	// Not tested!
 	public WithdrawResponse withdrawMoney(WithdrawRequest request) {
-		String path = "/" + iban + "withdraw";
+		String path = "/" + iban + "/withdraw";
 
 		WithdrawResponse response = client.target(target).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);
