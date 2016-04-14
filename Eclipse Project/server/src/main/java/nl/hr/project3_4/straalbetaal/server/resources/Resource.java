@@ -49,10 +49,17 @@ public class Resource {
 
 		LOG.info("Post request for withdraw with IBAN: " + iban + " and amount: " + request.getAmount());
 
+		// Beetje verwarrende benamingen, maar dus transactie is gefaald als transactieBon = 0;
+		int transactieBon = serv.withdraw(iban, request.getAmount());
+		if (transactieBon > 0) {
+			response.setResponse("succes");
+			response.setTransactionNumber(transactieBon);
+		}
+		 /*
 		if (serv.withdraw(iban, request.getAmount())) {
 			response.setResponse("succes");
 			response.setTransactionNumber(12345); // Dummy
-		} else {
+		}  */else {
 			response.setResponse("fail");
 			// throw new
 			// BadRequestException(Response.status(Response.Status.BAD_REQUEST).entity(response).build());

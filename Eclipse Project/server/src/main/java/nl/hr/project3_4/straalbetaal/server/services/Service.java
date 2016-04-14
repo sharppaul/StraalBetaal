@@ -47,6 +47,11 @@ public class Service {
 			return "wrong";
 		} else {
 			pincodeChecked = true;
+			try {
+				dao.resetWrongPinCounter(iban);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			LOG.info("Database operation performed sucessfully for userID: " + user);
 
 			return user;
@@ -68,8 +73,9 @@ public class Service {
 		return balance;
 	}
 
-	public boolean withdraw(String iban, long amount) {
-		boolean enoughMoneyInAccount = false;
+	public int withdraw(String iban, long amount) {
+		// boolean enoughMoneyInAccount = false;
+		int transactieBon = 0;
 		try {
 			if (pincodeChecked) {
 				long currentSaldo = dao.getUserBalance(iban) - amount;
@@ -77,7 +83,9 @@ public class Service {
 						+ balance);
 				LOG.info("Withdraw attempt. Iban: " + iban + " and current Saldo: " + currentSaldo);
 				if (currentSaldo >= 0) {
-					enoughMoneyInAccount = dao.withdraw(iban, amount, currentSaldo);
+					//enoughMoneyInAccount = dao.withdraw(iban, amount, currentSaldo); // Dit kan ik void maken!
+					dao.withdraw(iban, amount, currentSaldo);
+					transactieBon = dao.getTransactieBon();
 					LOG.info("Database operation for withdraw succeeded. Iban: " + iban + " and amount: " + amount);
 				}
 			} else
@@ -89,7 +97,8 @@ public class Service {
 		} finally {
 			pincodeChecked = false;
 		}
-		return enoughMoneyInAccount;
+		// return enoughMoneyInAccount;
+		return transactieBon;
 	}
 
 }

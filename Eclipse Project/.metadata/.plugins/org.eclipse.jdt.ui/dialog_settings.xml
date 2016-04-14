@@ -2,6 +2,10 @@
 <section name="Workbench">
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
 	</section>
+	<section name="RefactoringWizard.preview">
+		<item value="600" key="width"/>
+		<item value="400" key="height"/>
+	</section>
 	<section name="FatJarPackageWizard">
 		<item value="C:\Users\Yoshua\Documents\GitHub\StraalBetaal\Eclipse Project" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="Server - server" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
@@ -15,6 +19,9 @@
 			<item value="C:\Users\Yoshua\Documents\GitHub\StraalBetaal\Eclipse Project.xml"/>
 			<item value=".xml"/>
 		</list>
+	</section>
+	<section name="SelfEncapsulateFieldWizard">
+		<item value="false" key="GenerateJavadoc"/>
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item value="2" key="layout"/>
