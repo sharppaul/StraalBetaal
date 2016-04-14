@@ -1,5 +1,7 @@
 package nl.hr.project3_4.straalbetaal.comm;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +13,10 @@ import gnu.io.SerialPortEventListener;
 
 import java.util.Arrays;
 import java.util.Enumeration;
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -193,7 +199,7 @@ public class Read implements SerialPortEventListener {
 	public void printFatalError(Exception e) {
 		if (shouldError) {
 			printFatalError();
-			System.err.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 
@@ -201,6 +207,22 @@ public class Read implements SerialPortEventListener {
 		if (shouldError) {
 			System.err.println("Fatal error, arduino probably got disconnected. Exception:");
 			shouldError = false;
+			data.resetSession();
+			selfClosingMessage("Error, verbinding met het keypad verbroken. Verwijder uw pas.");
 		}
+	}
+	
+	public void selfClosingMessage(String message){
+		JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+        JDialog dialog = pane.createDialog(null, "Error");
+        dialog.setModal(false);
+        dialog.setVisible(true);
+
+        new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.setVisible(false);
+            }
+        }).start();
 	}
 }
