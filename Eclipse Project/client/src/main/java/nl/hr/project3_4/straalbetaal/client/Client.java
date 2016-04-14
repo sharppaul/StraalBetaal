@@ -198,19 +198,19 @@ public class Client {
 		options[2] = "Keuze 3";
 
 		if (amount == 50) {
-			options[0] = "1*€50";
-			options[1] = "1*€10 & 2*€20";
-			options[2] = "5*€10";
+			options[0] = "1x €50";
+			options[1] = "1x €10 & 2x €20";
+			options[2] = "5x €10";
 		}
 		if (amount == 100) {
-			options[0] = "1*€100";
-			options[1] = "2*€50";
-			options[2] = "5*€20";
+			options[0] = "1x €100";
+			options[1] = "2x €50";
+			options[2] = "5x €20";
 		}
 		if (amount == 200) {
-			options[0] = "2*€100";
-			options[1] = "4*€50";
-			options[2] = "2*€50 & 5*€20";
+			options[0] = "2x €100";
+			options[1] = "4x €50";
+			options[2] = "2x €50 & 5x €20";
 		}
 
 		frame.setBillOption(options);
