@@ -160,7 +160,9 @@ public class DataAccessObject extends DbTemplate {
 	// Dit klopt vgm niet!
 	public int getTransactieBon() {
 		int transactieBon = 0;
-		String getTransactieBonSQL = "SELECT transactiebon FROM betaalgeschiedenis LIMIT 1";
+		String getTransactieBonSQL = "SELECT transactieNummer "
+				+ "FROM betaalgeschiedenis "
+				+ "ORDER BY transactieNummer DESC LIMIT 1";
 		Statement stmt = null;
 		con = getConnection();
 		try {
