@@ -17,7 +17,7 @@ public abstract class DbTemplate {
 		Connection con = null;
 		String host = "jdbc:mysql://localhost:3306/straalbetaal";
 		String uName = "straalbetaal";
-		String uPass = "33fm3K";
+		String uPass = "hidden";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
