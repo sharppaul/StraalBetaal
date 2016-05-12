@@ -80,9 +80,9 @@ public class LabelWriter {
 								g.drawString(transNr, 5, FONTSIZE * 14);
 								g.drawString("Rekening Nr.:", 5, FONTSIZE * 16);
 								g.drawString("........"+rekeningNr.substring(rekeningNr.length() - 3), 5, FONTSIZE * 17);
-								g.drawString("==================", 5, FONTSIZE * 20);
-								g.drawString("Bedankt voor het", 5, FONTSIZE * 22);
-								g.drawString("pinnen & tot ziens.", 5, FONTSIZE * 23);
+								g.drawString("==================", 5, FONTSIZE * 19);
+								g.drawString("Bedankt voor het", 5, FONTSIZE * 21);
+								g.drawString("pinnen & tot ziens.", 5, FONTSIZE * 22);
 								
 								//g.drawRect(0, 0, (int)pageFormat.getImageableWidth(), (int)pageFormat.getImageableHeight());
 								return PAGE_EXISTS;

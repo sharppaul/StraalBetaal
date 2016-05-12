@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import nl.hr.project3_4.straalbetaal.sound.Sound;
+
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -30,12 +32,24 @@ public class Frame extends JFrame {
 	private JLabel err = new JLabel("");
 	private String[] billOption = { "biljet keuze 1", "biljet keuze 2", "biljet keuze 3" };
 
+	private boolean USSRTheme = false;
+
 	public Frame() {
 		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
-		f = new JFrame("GUI");
-		f.setContentPane(new Background());
+		f = new JFrame("StraalBetaal");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		construct();
+	}
+
+	private void construct() {
+		if (USSRTheme) {
+			f.setContentPane(new BackgroundUssr());
+		} else {
+			f.setContentPane(new Background());
+		}
+
+		
 
 		if (fullScreen) {
 			f.setUndecorated(true);
@@ -46,7 +60,12 @@ public class Frame extends JFrame {
 		mainPanel = new CustomPanel();
 		mainPanel.setLayout(l);
 		mainPanel.setSize(new Dimension(1000, 1000));
-		mainPanel.setBackground(new Color(224, 224, 224));
+
+		if (USSRTheme) {
+			mainPanel.setBackground(new Color(204, 0, 0));
+		} else {
+			mainPanel.setBackground(new Color(224, 224, 224));
+		}
 
 		f.getContentPane().add(mainPanel, new GridBagConstraints());
 		f.pack();
@@ -56,10 +75,25 @@ public class Frame extends JFrame {
 		loadMenu();
 	}
 
+	public void goRussian() {
+		f.dispose();
+		USSRTheme = true;
+		Sound s = new Sound("anthem.wav");
+		s.play();
+		construct();
+	}
+
+	public void goNormal() {
+		f.dispose();
+		USSRTheme = false;
+		construct();
+	}
+
 	public static void main(String[] args) {
 		Frame f = new Frame();
+		f.goRussian();
 		f.scrollMenus();
-		//f.setMode("login");
+		// f.setMode("login");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -71,6 +105,11 @@ public class Frame extends JFrame {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					System.out.println(e);
+				}
+				if (USSRTheme) {
+					//goNormal();
+				} else {
+					goRussian();
 				}
 			}
 		}
@@ -217,7 +256,7 @@ public class Frame extends JFrame {
 		clearPanel();
 
 		JLabel instr = new JLabel("Wilt u een bon?");
-		
+
 		instr.setFont(bigfont);
 		ImageButton ja = new ImageButton("Ja     ", "ok.png");
 		ja.setFont(bigfont);
@@ -255,7 +294,7 @@ public class Frame extends JFrame {
 
 		saldotxt = new JLabel("€" + Float.toString((float) Math.round(saldo * 100) / 100).replace(".", ","));
 		saldotxt.setFont(bigfont);
-		
+
 		instr.setFont(bigfont);
 		ImageButton ja = new ImageButton("Doorgaan ", "ok.png");
 		ja.setFont(bigfont);
@@ -296,22 +335,21 @@ public class Frame extends JFrame {
 		instr = new JLabel("Kies biljetten:");
 		instr.setFont(bigfont);
 
-		ImageButton a = new ImageButton(getBillOption()[0]+"  ", "a.png");
+		ImageButton a = new ImageButton(getBillOption()[0] + "  ", "a.png");
 		a.setFont(bigfont);
 		a.setHorizontalTextPosition(SwingConstants.LEFT);
 		a.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		ImageButton b = new ImageButton(getBillOption()[1]+"  ", "b.png");
+
+		ImageButton b = new ImageButton(getBillOption()[1] + "  ", "b.png");
 		b.setFont(bigfont);
 		b.setHorizontalTextPosition(SwingConstants.LEFT);
 		b.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		ImageButton cc = new ImageButton(getBillOption()[2]+"  ", "c.png");
+
+		ImageButton cc = new ImageButton(getBillOption()[2] + "  ", "c.png");
 		cc.setFont(bigfont);
 		cc.setHorizontalTextPosition(SwingConstants.LEFT);
 		cc.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		
+
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
@@ -354,23 +392,22 @@ public class Frame extends JFrame {
 		customAmount.setHorizontalAlignment(JLabel.CENTER);
 		customAmount.setBackground(Color.white);
 		customAmount.setOpaque(true);
-		
+
 		ImageButton a = new ImageButton("€ 50,-    ", "a.png");
 		a.setFont(bigfont);
 		a.setHorizontalTextPosition(SwingConstants.LEFT);
 		a.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		ImageButton b = new ImageButton("€ 100,-    ", "b.png");
 		b.setFont(bigfont);
 		b.setHorizontalTextPosition(SwingConstants.LEFT);
 		b.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		ImageButton cc = new ImageButton("€ 200,-    ", "c.png");
 		cc.setFont(bigfont);
 		cc.setHorizontalTextPosition(SwingConstants.LEFT);
 		cc.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		
+
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
@@ -384,7 +421,7 @@ public class Frame extends JFrame {
 		mainPanel.add(b, c);
 		c.gridy++;
 		mainPanel.add(cc, c);
-	
+
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
@@ -405,18 +442,17 @@ public class Frame extends JFrame {
 		a.setFont(bigfont);
 		a.setHorizontalTextPosition(SwingConstants.LEFT);
 		a.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		ImageButton b = new ImageButton("Saldo Bekijken      ", "b.png");
 		b.setFont(bigfont);
 		b.setHorizontalTextPosition(SwingConstants.LEFT);
 		b.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		ImageButton cc = new ImageButton("Pinnen             ", "c.png");
 		cc.setFont(bigfont);
 		cc.setHorizontalTextPosition(SwingConstants.LEFT);
 		cc.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		
+
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
@@ -430,7 +466,7 @@ public class Frame extends JFrame {
 		mainPanel.add(b, c);
 		c.gridy++;
 		mainPanel.add(cc, c);
-	
+
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
@@ -524,23 +560,23 @@ public class Frame extends JFrame {
 		instr.setFont(bigfont);
 
 		err.setFont(bigfont);
-		err.setForeground(new Color(200,0,0));
+		err.setForeground(new Color(200, 0, 0));
 
 		ImageButton a = new ImageButton("Stoppen  ", "stop.png");
 		a.setFont(bigfont);
 		a.setHorizontalTextPosition(SwingConstants.LEFT);
 		a.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		ImageButton b = new ImageButton("Doorgaan  ", "ok.png");
 		b.setFont(bigfont);
 		b.setHorizontalTextPosition(SwingConstants.LEFT);
 		b.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		ImageButton corr = new ImageButton("Correctie  ", "terug.png");
 		corr.setFont(bigfont);
 		corr.setHorizontalTextPosition(SwingConstants.LEFT);
 		corr.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
@@ -573,8 +609,8 @@ public class Frame extends JFrame {
 		c.gridx = 2;
 		mainPanel.add(corr, c);
 	}
-	
-	public ImageButton cancelButton(){
+
+	public ImageButton cancelButton() {
 		ImageButton a = new ImageButton("Stoppen  ", "stop.png");
 		a.setFont(bigfont);
 		a.setHorizontalTextPosition(SwingConstants.LEFT);
