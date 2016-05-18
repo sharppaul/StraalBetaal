@@ -24,10 +24,10 @@ public class Frame extends JFrame {
 	private Font bigfont;
 	private JLabel pin, customAmount;
 	private final String[] modes = { "start", "login", "choice", "saldo", "pin", "billselect", "ticket", "success",
-			"loading", "error" };
+			"loading", "error", "donate" };
 	private String mode = "loading";
 	private String error = "Er is iets misgegaan...";
-	private float saldo = (float) 0.0;
+	private long saldo = 0;
 	private boolean errored;
 	private JLabel err = new JLabel("");
 	private String[] billOption = { "biljet keuze 1", "biljet keuze 2", "biljet keuze 3" };
@@ -48,8 +48,6 @@ public class Frame extends JFrame {
 		} else {
 			f.setContentPane(new Background());
 		}
-
-		
 
 		if (fullScreen) {
 			f.setUndecorated(true);
@@ -91,9 +89,9 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		Frame f = new Frame();
-		f.goRussian();
-		f.scrollMenus();
-		// f.setMode("login");
+		// f.goRussian();
+		// f.scrollMenus();
+		f.setMode("donate");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -106,11 +104,6 @@ public class Frame extends JFrame {
 				} catch (InterruptedException e) {
 					System.out.println(e);
 				}
-				if (USSRTheme) {
-					//goNormal();
-				} else {
-					goRussian();
-				}
 			}
 		}
 	}
@@ -118,25 +111,27 @@ public class Frame extends JFrame {
 	public void loadMenu() {
 		mainPanel.removeAll();
 		if (!isErrored()) {
-			if (mode == "start")
+			if (mode.equals("start"))
 				startMenu();
-			if (mode == "login")
+			if (mode.equals("login"))
 				loginMenu();
-			if (mode == "choice")
+			if (mode.equals("choice"))
 				choiceMenu();
-			if (mode == "saldo")
+			if (mode.equals("saldo"))
 				saldoMenu(getSaldo());
-			if (mode == "pin")
+			if (mode.equals("pin"))
 				pinMenu();
-			if (mode == "billselect")
+			if (mode.equals("billselect"))
 				billMenu();
-			if (mode == "ticket")
+			if (mode.equals("donate"))
+				donateMenu();
+			if (mode.equals("ticket"))
 				ticketMenu();
-			if (mode == "success")
+			if (mode.equals("success"))
 				successMenu();
-			if (mode == "loading")
+			if (mode.equals("loading"))
 				loadingMenu();
-			if (mode == "error")
+			if (mode.equals("error"))
 				errorMenu(error);
 		} else {
 			mode = "error";
@@ -193,11 +188,11 @@ public class Frame extends JFrame {
 		return this.error;
 	}
 
-	public float getSaldo() {
-		return saldo;
+	public long getSaldo() {
+		return this.saldo;
 	}
 
-	public void setSaldo(float saldo) {
+	public void setSaldo(long saldo) {
 		this.saldo = saldo;
 	}
 
@@ -251,6 +246,38 @@ public class Frame extends JFrame {
 		mainPanel.add(img, c);
 	}
 
+	public void donateMenu() {
+		c = new GridBagConstraints();
+		clearPanel();
+
+		JLabel instr = new JLabel("Wilt u €1,- doneren aan een goed doel?");
+
+		instr.setFont(bigfont);
+		ImageButton ja = new ImageButton("Ja     ", "ok.png");
+		ja.setFont(bigfont);
+		ja.setHorizontalTextPosition(SwingConstants.LEFT);
+
+		ImageButton nee = new ImageButton("Nee  ", "terug.png");
+		nee.setFont(bigfont);
+		nee.setHorizontalTextPosition(SwingConstants.LEFT);
+
+		// GENERAL CONSTRAINTS:
+		c.fill = GridBagConstraints.CENTER;
+		c.insets = new Insets(10, 50, 10, 50);
+
+		// INSTRUCTIES:
+		c.gridy = 0;
+		mainPanel.add(instr, c);
+
+		c.gridy++;
+		c.gridwidth = 1;
+		c.ipady = 35;
+		mainPanel.add(ja, c);
+		c.gridy++;
+		mainPanel.add(nee, c);
+		c.gridy++;
+	}
+
 	public void ticketMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
@@ -281,18 +308,19 @@ public class Frame extends JFrame {
 		c.gridy++;
 		mainPanel.add(nee, c);
 		c.gridy++;
-
 	}
 
-	public void saldoMenu(float saldo) {
+	public void saldoMenu(long saldo) {
 		c = new GridBagConstraints();
 		clearPanel();
 
 		JLabel instr, saldotxt;
 		instr = new JLabel("Saldo: ");
 		instr.setFont(bigfont);
-
-		saldotxt = new JLabel("€" + Float.toString((float) Math.round(saldo * 100) / 100).replace(".", ","));
+		
+		String saldoString = Long.toString(saldo);
+		saldotxt = new JLabel("€" + saldoString.substring(0, saldoString.length()-2) + "," + saldoString.substring(saldoString.length()-2, saldoString.length()));
+	
 		saldotxt.setFont(bigfont);
 
 		instr.setFont(bigfont);

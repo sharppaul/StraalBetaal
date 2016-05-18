@@ -18,10 +18,10 @@ import javax.print.PrintService;
 public class LabelWriter {
 
 	public static final String PRINTERNAME = "DYMO LabelWriter 400";
-	//public static final String PRINTERNAME = "Microsoft Print to PDF";
+	// public static final String PRINTERNAME = "Microsoft Print to PDF";
 	public static final int FONTSIZE = 12;
 	public static final boolean PRINTMENU = false;
-	
+
 	public static String printThis[] = new String[11];
 	PrinterJob printerJob = PrinterJob.getPrinterJob();
 	PageFormat pageFormat = printerJob.defaultPage();
@@ -30,7 +30,7 @@ public class LabelWriter {
 	DateFormat time = new SimpleDateFormat("HH:mm:ss");
 
 	public static void main(String[] args) {
-		new LabelWriter().printLabel("6969",(long)69.0,"123456789");
+		new LabelWriter().printLabel("6969", (long) 69.0, "123456789", true);
 	}
 
 	protected static double CMtoPPI(double cm) {
@@ -41,7 +41,7 @@ public class LabelWriter {
 		return inch * 72d;
 	}
 
-	public void printLabel(String transNr, long bedrag, String rekeningNr) {
+	public void printLabel(String transNr, long bedrag, String rekeningNr, boolean didDonate) {
 		double width = CMtoPPI(5.3);
 		double height = CMtoPPI(11);
 		paper.setSize(width, height);
@@ -51,12 +51,12 @@ public class LabelWriter {
 		pageFormat.setOrientation(PageFormat.PORTRAIT);
 
 		PrintService[] printService = PrinterJob.lookupPrintServices();
-		
+
 		Date now = new Date();
-		
+
 		for (int i = 0; i < printService.length; i++) {
-			//To view available printServices, uncomment next line.
-			//System.out.println(printService[i].getName());
+			// To view available printServices, uncomment next line.
+			// System.out.println(printService[i].getName());
 			if (printService[i].getName().contains(PRINTERNAME)) {
 				try {
 					printerJob.setPrintService(printService[i]);
@@ -69,28 +69,34 @@ public class LabelWriter {
 								g.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 								g.setFont(Fonts.createFont("ubuntu.ttf", 18));
 								g.drawString("StraalBetaal inc.", 5, 18);
-								g.setFont(new Font(Font.MONOSPACED,Font.PLAIN, FONTSIZE));
+								g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, FONTSIZE));
 								g.drawString("==================", 5, FONTSIZE * 3);
 								g.drawString("Datum: " + date.format(now), 5, FONTSIZE * 5);
 								g.drawString("Tijd:  " + time.format(now), 5, FONTSIZE * 6);
 								g.drawString("==Pin Transactie==", 5, FONTSIZE * 8);
 								g.drawString("Bedrag:", 5, FONTSIZE * 10);
-								g.drawString("\u20AC "+bedrag, 5, FONTSIZE * 11);
+								g.drawString("\u20AC " + bedrag, 5, FONTSIZE * 11);
 								g.drawString("Transactie Nr.:", 5, FONTSIZE * 13);
 								g.drawString(transNr, 5, FONTSIZE * 14);
 								g.drawString("Rekening Nr.:", 5, FONTSIZE * 16);
-								g.drawString("........"+rekeningNr.substring(rekeningNr.length() - 3), 5, FONTSIZE * 17);
+								g.drawString("........" + rekeningNr.substring(rekeningNr.length() - 3), 5,
+										FONTSIZE * 17);
+								if (didDonate) {
+									g.drawString("Gedoneerd: Ja", 5, FONTSIZE * 18);
+								} 
 								g.drawString("==================", 5, FONTSIZE * 19);
 								g.drawString("Bedankt voor het", 5, FONTSIZE * 21);
 								g.drawString("pinnen & tot ziens.", 5, FONTSIZE * 22);
-								
-								//g.drawRect(0, 0, (int)pageFormat.getImageableWidth(), (int)pageFormat.getImageableHeight());
+
+								// g.drawRect(0, 0,
+								// (int)pageFormat.getImageableWidth(),
+								// (int)pageFormat.getImageableHeight());
 								return PAGE_EXISTS;
 							} else {
 								return NO_SUCH_PAGE;
 							}
 						}
-					}, pageFormat); 
+					}, pageFormat);
 					printerJob.print();
 				} catch (PrinterException e) {
 					System.err.println("Printing failed:");

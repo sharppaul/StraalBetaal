@@ -4,6 +4,7 @@ public class ArduinoData {
 	private boolean cardReceived = false;
 	private int pinLength = 0;
 	private Boolean wantsBon = null;
+	private Boolean wantDonate = null;
 	private String pinEncrypted;
 	private String cardId;
 	private String billOption;
@@ -24,6 +25,7 @@ public class ArduinoData {
 		this.cardReceived = false;
 		this.pinLength = 0;
 		this.wantsBon = null;
+		this.setDonate(null);
 		this.pinEncrypted = null;
 		this.cardId = null;
 		this.billOption = null;
@@ -190,5 +192,13 @@ public class ArduinoData {
 
 	public void setPinReceived(boolean pinReceived) {
 		this.pinReceived = pinReceived;
+	}
+
+	public Boolean getDonate() {
+		return wantDonate;
+	}
+
+	public void setDonate(Boolean wantDonate) {
+		this.wantDonate = wantDonate;
 	}
 }

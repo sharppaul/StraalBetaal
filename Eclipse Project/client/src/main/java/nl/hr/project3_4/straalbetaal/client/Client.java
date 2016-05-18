@@ -13,6 +13,7 @@ public class Client {
 	private Read reader;
 	private ClientBackEnd backend;
 	private int transNummer;
+	private boolean didDonate = false;
 
 	public static void main(String[] args) {
 
@@ -28,6 +29,7 @@ public class Client {
 		while (true) {
 			try {
 				this.transNummer = 0;
+				this.backend = null;
 				frame.setMode("start");
 				while (!cardInserted()) {
 					sleep(100);
@@ -35,7 +37,6 @@ public class Client {
 
 				shouldReset();
 
-				
 				frame.setMode("login");
 				int dots = 0;
 				while (!data.isPinReceived()) {
@@ -44,11 +45,10 @@ public class Client {
 					pinErrorOccured();
 					shouldReset();
 				}
-				
+
 				frame.setMode("loading");
 				backend = new ClientBackEnd(data.getCard());
-				System.out.println(data.getCard());
-				
+
 				checkPinValid();
 
 				boolean userNotDone = true;
@@ -91,14 +91,26 @@ public class Client {
 						pinnen();
 
 						shouldReset();
+						frame.setMode("donate");
+						while (!donateIsChosen()) { // user hasn't chosen ticket
+							sleep(100);
+							shouldReset();
+						}
+						frame.setMode("loading");
+
+						donate();
+
+						shouldReset();
 						frame.setMode("ticket");
 						while (!ticketIsChosen()) { // user hasn't chosen ticket
 							sleep(100);
 							shouldReset();
 						}
+
 						frame.setMode("loading");
-						if(data.getBon()){
-							new LabelWriter().printLabel(Integer.toString(transNummer), (long) data.getAmount(), data.getCard());
+						if (data.getBon()) {
+							new LabelWriter().printLabel(Integer.toString(transNummer), (long) data.getAmount(),
+									data.getCard(), this.didDonate);
 						}
 						userNotDone = false;
 
@@ -139,7 +151,7 @@ public class Client {
 		}
 	}
 
-	public void checkPinValid() throws ResetException {
+	private void checkPinValid() throws ResetException {
 		CheckPinRequest rq = new CheckPinRequest(data.getPinEncrypted());
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (rs.getUserID().equals("wrong")) {
@@ -152,13 +164,13 @@ public class Client {
 		}
 	}
 
-	public float requestSaldo() throws ResetException {
+	private long requestSaldo() {
 		BalanceResponse rs = backend.checkBalance();
 		return rs.getBalance();
 	}
 
 	private void snelPinnen() throws ResetException {
-		WithdrawRequest rq = new WithdrawRequest(70L);
+		WithdrawRequest rq = new WithdrawRequest(7000L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		if (rs.getResponse().equals("succes")) {
 			// store transaction number and amount etc.
@@ -169,7 +181,7 @@ public class Client {
 	}
 
 	private void pinnen() throws ResetException {
-		WithdrawRequest rq = new WithdrawRequest((long) data.getAmount());
+		WithdrawRequest rq = new WithdrawRequest((long) (data.getAmount() * 100));
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		System.out.println(rs.getResponse());
 		if (rs.getResponse().equals("succes")) {
@@ -189,8 +201,9 @@ public class Client {
 
 	private void calculateBills() {
 		int amount = data.getAmount();
-		// calculates some stuff, and will return a string with few amounts.
-		// quite an interesting piece of software to make.
+		// TODO: Make a piece of software that checks up with
+		// the amount of bills in stock, and generates an available
+		// choice of bills.
 		String[] options = new String[3];
 
 		options[0] = "Keuze 1";
@@ -216,6 +229,20 @@ public class Client {
 		frame.setBillOption(options);
 	}
 
+	private void donate() {
+		long saldo = this.requestSaldo();
+		long donateAmount = (saldo / 100) - saldo;
+
+		if (data.getDonate() && saldo >= 0) {
+			WithdrawRequest rq = new WithdrawRequest(donateAmount);
+			WithdrawResponse rs = backend.withdrawMoney(rq);
+			System.out.println(rs.getResponse());
+			if (rs.getResponse().equals("succes")) {
+				this.didDonate = true;
+			}
+		}
+	}
+
 	private void finished() throws SuccessException {
 		if (data.isReset()) {
 			throw new SuccessException("Finished.");
@@ -236,6 +263,14 @@ public class Client {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean donateIsChosen() {
+		if (data.getDonate() == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private boolean ticketIsChosen() {

@@ -154,6 +154,12 @@ public class Read implements SerialPortEventListener {
 						data.setBon(Boolean.valueOf(incomingJson.getString("option")));
 						System.out.println("event OK");
 					}
+					
+					// EVENT: chooses the donation option. 
+					if (incomingJson.getString("event").equals("donatechoice")) {
+						data.setDonate(Boolean.valueOf(incomingJson.getString("option")));
+						System.out.println("event OK");
+					}
 
 					// EVENT: reset
 					if (incomingJson.getString("event").toString().equals("reset")) {
