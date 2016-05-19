@@ -1,4 +1,4 @@
-package nl.hr.project3_4.straalbetaal.communication;
+package nl.hr.project3_4.straalbetaal.comm;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

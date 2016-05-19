@@ -1,4 +1,4 @@
-package nl.hr.project3_4.straalbetaal.communication;
+package nl.hr.project3_4.straalbetaal.comm;
 
 public class ArduinoData {
 	private boolean cardReceived = false;

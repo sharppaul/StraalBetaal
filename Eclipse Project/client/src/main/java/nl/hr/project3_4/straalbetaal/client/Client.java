@@ -1,7 +1,7 @@
 package nl.hr.project3_4.straalbetaal.client;
 
 import nl.hr.project3_4.straalbetaal.api.*;
-import nl.hr.project3_4.straalbetaal.communication.*;
+import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
 import nl.hr.project3_4.straalbetaal.printer.LabelWriter;
 import nl.hr.project3_4.straalbetaal.throwables.*;
