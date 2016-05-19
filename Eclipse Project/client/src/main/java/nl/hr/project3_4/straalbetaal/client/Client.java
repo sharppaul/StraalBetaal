@@ -1,10 +1,10 @@
 package nl.hr.project3_4.straalbetaal.client;
 
 import nl.hr.project3_4.straalbetaal.api.*;
-import nl.hr.project3_4.straalbetaal.comm.*;
+import nl.hr.project3_4.straalbetaal.communication.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
-import nl.hr.project3_4.straalbetaal.print.LabelWriter;
-import nl.hr.project3_4.straalbetaal.exceptions.*;
+import nl.hr.project3_4.straalbetaal.printer.LabelWriter;
+import nl.hr.project3_4.straalbetaal.throwables.*;
 
 @SuppressWarnings("unused")
 public class Client {
@@ -133,34 +133,26 @@ public class Client {
 					finished();
 				}
 
-			} catch (ResetException e) {
-				frame.setError(e.getMessage());
+			} catch (Reset reset) {
+				frame.setError(reset.getMessage());
 				frame.setMode("error");
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException ex) {
-					Thread.currentThread().interrupt();
-				}
-			} catch (SuccessException e) {
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException ex) {
-					Thread.currentThread().interrupt();
-				}
+				this.sleep(5000);
+			} catch (Success succes) {
+				this.sleep(5000);
 			}
 		}
 	}
 
-	private void checkPinValid() throws ResetException {
+	private void checkPinValid() throws Reset {
 		CheckPinRequest rq = new CheckPinRequest(data.getPinEncrypted());
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (rs.getUserID().equals("wrong")) {
 			data.reset();
-			throw new ResetException("Pincode incorrect.");
+			throw new Reset("Pincode incorrect.");
 		}
 		if (rs.getUserID().equals("blocked")) {
 			data.reset();
-			throw new ResetException("Pinpas geblokkeerd.");
+			throw new Reset("Pinpas geblokkeerd.");
 		}
 	}
 
@@ -169,18 +161,18 @@ public class Client {
 		return rs.getBalance();
 	}
 
-	private void snelPinnen() throws ResetException {
+	private void snelPinnen() throws Reset {
 		WithdrawRequest rq = new WithdrawRequest(7000L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		if (rs.getResponse().equals("succes")) {
 			// store transaction number and amount etc.
 		} else {
 			data.reset();
-			throw new ResetException("Saldo te laag.");
+			throw new Reset("Saldo te laag.");
 		}
 	}
 
-	private void pinnen() throws ResetException {
+	private void pinnen() throws Reset {
 		WithdrawRequest rq = new WithdrawRequest((long) (data.getAmount() * 100));
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		System.out.println(rs.getResponse());
@@ -188,7 +180,7 @@ public class Client {
 			this.transNummer = rs.getTransactionNumber();
 		} else {
 			data.reset();
-			throw new ResetException("Saldo te laag.");
+			throw new Reset("Saldo te laag.");
 		}
 	}
 
@@ -243,9 +235,9 @@ public class Client {
 		}
 	}
 
-	private void finished() throws SuccessException {
+	private void finished() throws Success {
 		if (data.isReset()) {
-			throw new SuccessException("Finished.");
+			throw new Success("Finished.");
 		}
 	}
 
@@ -302,9 +294,9 @@ public class Client {
 		}
 	}
 
-	public void shouldReset() throws ResetException {
+	public void shouldReset() throws Reset {
 		if (data.isReset()) {
-			throw new ResetException("Pinsessie afgebroken.");
+			throw new Reset("Pinsessie afgebroken.");
 		}
 	}
 

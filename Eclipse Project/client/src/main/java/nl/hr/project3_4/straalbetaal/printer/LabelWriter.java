@@ -1,4 +1,4 @@
-package nl.hr.project3_4.straalbetaal.print;
+package nl.hr.project3_4.straalbetaal.printer;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -16,29 +16,19 @@ import nl.hr.project3_4.straalbetaal.gui.Fonts;
 import javax.print.PrintService;
 
 public class LabelWriter {
-
-	public static final String PRINTERNAME = "DYMO LabelWriter 400";
 	// public static final String PRINTERNAME = "Microsoft Print to PDF";
+	public static final String PRINTERNAME = "DYMO LabelWriter 400";
 	public static final int FONTSIZE = 12;
 	public static final boolean PRINTMENU = false;
+	private static final DateFormat DATEFORMAT = new SimpleDateFormat("dd-MM-yyyy");
+	private static final DateFormat TIMEFORMAT = new SimpleDateFormat("HH:mm:ss");
 
-	public static String printThis[] = new String[11];
-	PrinterJob printerJob = PrinterJob.getPrinterJob();
-	PageFormat pageFormat = printerJob.defaultPage();
-	Paper paper = new Paper();
-	DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
-	DateFormat time = new SimpleDateFormat("HH:mm:ss");
+	private PrinterJob printerJob = PrinterJob.getPrinterJob();
+	private PageFormat pageFormat = printerJob.defaultPage();
+	private Paper paper = new Paper();
 
 	public static void main(String[] args) {
 		new LabelWriter().printLabel("6969", (long) 69.0, "123456789", true);
-	}
-
-	protected static double CMtoPPI(double cm) {
-		return toPPI(cm * 0.393700787);
-	}
-
-	protected static double toPPI(double inch) {
-		return inch * 72d;
 	}
 
 	public void printLabel(String transNr, long bedrag, String rekeningNr, boolean didDonate) {
@@ -71,8 +61,8 @@ public class LabelWriter {
 								g.drawString("StraalBetaal inc.", 5, 18);
 								g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, FONTSIZE));
 								g.drawString("==================", 5, FONTSIZE * 3);
-								g.drawString("Datum: " + date.format(now), 5, FONTSIZE * 5);
-								g.drawString("Tijd:  " + time.format(now), 5, FONTSIZE * 6);
+								g.drawString("Datum: " + DATEFORMAT.format(now), 5, FONTSIZE * 5);
+								g.drawString("Tijd:  " + TIMEFORMAT.format(now), 5, FONTSIZE * 6);
 								g.drawString("==Pin Transactie==", 5, FONTSIZE * 8);
 								g.drawString("Bedrag:", 5, FONTSIZE * 10);
 								g.drawString("\u20AC " + bedrag, 5, FONTSIZE * 11);
@@ -83,7 +73,7 @@ public class LabelWriter {
 										FONTSIZE * 17);
 								if (didDonate) {
 									g.drawString("Gedoneerd: Ja", 5, FONTSIZE * 18);
-								} 
+								}
 								g.drawString("==================", 5, FONTSIZE * 19);
 								g.drawString("Bedankt voor het", 5, FONTSIZE * 21);
 								g.drawString("pinnen & tot ziens.", 5, FONTSIZE * 22);
@@ -104,5 +94,13 @@ public class LabelWriter {
 				}
 			}
 		}
+	}
+
+	protected static double CMtoPPI(double cm) {
+		return toPPI(cm * 0.393700787);
+	}
+
+	protected static double toPPI(double inch) {
+		return inch * 72d;
 	}
 }
