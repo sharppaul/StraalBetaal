@@ -144,6 +144,8 @@ public class Client {
 	}
 
 	private void checkPinValid() throws Reset {
+		
+		
 		CheckPinRequest rq = new CheckPinRequest(data.getPinEncrypted());
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (rs.getUserID().equals("wrong")) {
@@ -223,8 +225,10 @@ public class Client {
 
 	private void donate() {
 		long saldo = this.requestSaldo();
-		long donateAmount = (saldo / 100) - saldo;
+		long donateAmount = saldo - (long)((int)(saldo / 100)*100);
 
+		if(donateAmount == 0)
+			donateAmount = 50;
 		if (data.getDonate() && saldo >= 0) {
 			WithdrawRequest rq = new WithdrawRequest(donateAmount);
 			WithdrawResponse rs = backend.withdrawMoney(rq);

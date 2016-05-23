@@ -16,7 +16,7 @@ public class ClientBackEnd {
 	private static final Logger LOG = Logger.getLogger(ClientBackEnd.class.getName());
 
 	private Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
-	private static final String target = "http://145.24.222.208:8025";
+	private static final String TARGET = "http://145.24.222.208:8025";
 
 	private String iban;
 
@@ -25,6 +25,7 @@ public class ClientBackEnd {
 	 * and not get the IBAN and pincode per method, because that is how we
 	 * set our arduino code to also send the data to the client! (06-03-2016)
 	 */
+	
 	public ClientBackEnd(String iban) {
 		this.iban = iban;
 	}
@@ -58,7 +59,7 @@ public class ClientBackEnd {
 		String path = "/" + iban + "/check";
 
 		LOG.info("Client - CheckPincode Response send to server!");
-		CheckPinResponse response = client.target(target).path(path).request()
+		CheckPinResponse response = client.target(TARGET).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), CheckPinResponse.class);
 		return response;
 	}
@@ -67,7 +68,7 @@ public class ClientBackEnd {
 		String path = "/" + iban + "/balance";
 
 		LOG.info("Client - Balance Response send to server!");
-		BalanceResponse response = client.target(target).path(path).request()
+		BalanceResponse response = client.target(TARGET).path(path).request()
 				.post(Entity.entity(null, MediaType.APPLICATION_JSON), BalanceResponse.class);
 		return response;
 	}
@@ -76,7 +77,7 @@ public class ClientBackEnd {
 	public WithdrawResponse withdrawMoney(WithdrawRequest request) {
 		String path = "/" + iban + "/withdraw";
 
-		WithdrawResponse response = client.target(target).path(path).request()
+		WithdrawResponse response = client.target(TARGET).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);
 		if(response.getTransactionNumber() == 0) {
 			response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");
