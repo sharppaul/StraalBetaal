@@ -26,7 +26,12 @@ public class Resource {
 
 		return response;
 	}
-
+	
+	@GET
+	@Path("test")
+	public String testPage(){
+		return "<h1>test</h1>";
+	}
 	/*
 	 * This and the method above could have been done together, but because the
 	 * DAO methods should have only 1 particular task, I spread the calls into 2

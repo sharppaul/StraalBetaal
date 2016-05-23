@@ -14,8 +14,11 @@ import nl.hr.project3_4.straalbetaal.api.*;
 public class ClientBackEnd {
 
 	private static final Logger LOG = Logger.getLogger(ClientBackEnd.class.getName());
-
-	private Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
+	// private SSLContext s;
+	private ClientBuilder cBuilder = ClientBuilder.newBuilder();
+	private Client client;
+	
+	
 	private static final String TARGET = "http://145.24.222.208:8025";
 
 	private String iban;
@@ -28,6 +31,8 @@ public class ClientBackEnd {
 	
 	public ClientBackEnd(String iban) {
 		this.iban = iban;
+		cBuilder.register(JacksonFeature.class);
+		client = cBuilder.build();
 	}
 
 
