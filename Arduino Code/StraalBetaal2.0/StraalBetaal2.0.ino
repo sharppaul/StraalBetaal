@@ -75,6 +75,8 @@ void loop() {
     bankNotes();
   } else if (mode == "saldoview") {
     saldoBekijken();
+  } else if (mode == "donate") {
+    donate();
   } else if (mode == "bon") {
     bon();
   } else if (mode == "done") {
@@ -105,7 +107,7 @@ void rfid() {
     uid2 = str[2];
     uid3 = str[3];
     uid4 = str[4];
-    
+
     if (mode == "start") {
       currentCardID += uid1;
       currentCardID += uid2;
@@ -125,7 +127,7 @@ boolean stillThere() { // checks if pas is still there.
   str[1] = 0x4400;
   status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
   status = myRFID.AddicoreRFID_Anticoll(str);
-  for(int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     if (status == MI_OK) {
       myRFID.AddicoreRFID_Halt();
       String tempCardID = "";
@@ -142,7 +144,7 @@ boolean stillThere() { // checks if pas is still there.
       } else {
         return false;
       }
-    } 
+    }
   }
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
   return false;
@@ -152,8 +154,8 @@ void encryptAndSend() {
 
   randNumber = random(1000, 9999);
   pincodePlain = String(pincodePlain.toInt() * randNumber * 17);
-  pincodePlain +=(randNumber);
-  
+  pincodePlain += (randNumber);
+
   Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\",\"card\":\"" + currentCardID + "\"}");
   mode = "choice";
 }
@@ -238,20 +240,20 @@ void keuzeMenu() {
   keyPad();
   switch (key) {
     case 'A': //SnelPinnen
-		mode = "bon";
-     
+      mode = "bon";
+
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"a\"}"
       );
       break;
-    case 'B': 
+    case 'B':
       mode = "saldoview";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"b\"}"
       );
       break;
-    case 'C': 
-        mode = "amount";
+    case 'C':
+      mode = "amount";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"c\"}"
       );
@@ -273,8 +275,8 @@ void saldoBekijken() {
       Serial.println("{\"event\":\"backtomenu\"}");
       break;
     case '*':
-        resetWithoutError();//stoppen  
-        break;  
+      resetWithoutError();//stoppen
+      break;
     default:
       break;
   }
@@ -285,15 +287,15 @@ void pinnen() {
   switch (key) {
     case 'A':
       Serial.println("{\"event\":\"amountkey\",\"key\":\"a\"}");
-	  mode = "banknotes";
+      mode = "banknotes";
       break;
     case 'B':
       Serial.println("{\"event\":\"amountkey\",\"key\":\"b\"}");
-	  mode = "banknotes";
+      mode = "banknotes";
       break;
     case 'C':
       Serial.println("{\"event\":\"amountkey\",\"key\":\"c\"}");
-	  mode = "banknotes";
+      mode = "banknotes";
       break;
     case 'D':
       mode = "banknotes";
@@ -354,19 +356,19 @@ void bankNotes() {
       Serial.println(
         "{\"event\":\"billchoice\",\"option\":\"a\"}"
       );
-      mode = "bon";
+      mode = "donate";
       break;
     case 'B':
       Serial.println(
         "{\"event\":\"billchoice\",\"option\":\"b\"}"
       );
-      mode = "bon";
+      mode = "donate";
       break;
     case 'C':
       Serial.println(
         "{\"event\":\"billchoice\",\"option\":\"c\"}"
       );
-      mode = "bon";
+      mode = "donate";
       break;
     case '*':
       reset();
@@ -375,7 +377,26 @@ void bankNotes() {
       break;
   }
 }
-//_______________________________________________________________bon________________________________________________________________//
+//_______________________________________________________________donate________________________________________________________________//
+void donate() {
+  keyPad();
+  switch (key) {
+    case 'D':
+      Serial.println(
+        "{\"event\":\"donatechoice\",\"option\":\"true\"}"
+      );
+      mode = "bon";
+      break;
+    case '#':
+      Serial.println(
+        "{\"event\":\"donatechoice\",\"option\":\"false\"}"
+      );
+      mode = "bon";
+      break;
+    default:
+      break;
+  }
+}//_______________________________________________________________bon________________________________________________________________//
 void bon() {
   keyPad();
   switch (key) {
