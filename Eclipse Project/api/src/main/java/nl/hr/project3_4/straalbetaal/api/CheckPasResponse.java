@@ -1,4 +1,4 @@
-package nl.hr.project3_4.straalbetaal.apinew;
+package nl.hr.project3_4.straalbetaal.api;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 

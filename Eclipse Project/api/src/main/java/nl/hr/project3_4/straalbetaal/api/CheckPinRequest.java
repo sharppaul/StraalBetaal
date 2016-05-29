@@ -5,21 +5,43 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CheckPinRequest {
 
 	@JsonProperty
-	private String pin;
+	private String pinCode;
+	@JsonProperty
+	private int bankID;
+	@JsonProperty
+	private String pasID;
 
 	public CheckPinRequest() {
 	}
 
-	public CheckPinRequest(String pin) {
-		this.pin = pin;
+	public CheckPinRequest(int bankID, String pasID, String pinCode) {
+		this.setBankID(bankID);
+		this.setPasID(pasID);
+		this.setPinCode(pinCode);
 	}
 
-	public String getPin() {
-		return pin;
+	public int getBankID() {
+		return this.bankID;
 	}
 
-	public void setPin(String pin) {
-		this.pin = pin;
+	public void setBankID(int bankID) {
+		this.bankID = bankID;
+	}
+
+	public String getPasID() {
+		return this.pasID;
+	}
+
+	public void setPasID(String pasID) {
+		this.pasID = pasID;
+	}
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
 	}
 
 }

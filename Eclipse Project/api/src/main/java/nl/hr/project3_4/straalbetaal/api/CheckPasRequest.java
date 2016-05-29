@@ -1,18 +1,18 @@
-package nl.hr.project3_4.straalbetaal.apinew;
+package nl.hr.project3_4.straalbetaal.api;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class BalanceRequest {
+public class CheckPasRequest {
 
 	@JsonProperty
 	private int bankID;
 	@JsonProperty
 	private String pasID;
 
-	public BalanceRequest() {
+	public CheckPasRequest() {
 	}
 
-	public BalanceRequest(int bankID, String pasID) {
+	public CheckPasRequest(int bankID, String pasID) {
 		this.setBankID(bankID);
 		this.setPasID(pasID);
 	}

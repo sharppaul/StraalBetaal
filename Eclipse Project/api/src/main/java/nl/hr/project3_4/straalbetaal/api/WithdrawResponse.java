@@ -1,36 +1,35 @@
 package nl.hr.project3_4.straalbetaal.api;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class WithdrawResponse {
 
 	@JsonProperty
-	private String response; // Maybe make this a boolean, because this will just check if withdraw was successfull or not.
+	private boolean succeeded;
 	@JsonProperty
-	private int transactionNumber = 0;
+	private long transactieNummer;
 
 	public WithdrawResponse() {
 	}
 
-	public WithdrawResponse(String response, int transactionNumber) {
-		this.response = response;
-		this.transactionNumber = transactionNumber;
+	public WithdrawResponse(boolean succeeded, long transactieNummer) {
+		this.setSucceeded(succeeded);
+		this.setTransactieNummer(transactieNummer);
 	}
 
-	public String getResponse() {
-		return response;
+	public boolean isSucceeded() {
+		return succeeded;
 	}
 
-	public void setResponse(String response) {
-		this.response = response;
+	public void setSucceeded(boolean succeeded) {
+		this.succeeded = succeeded;
 	}
 
-	public int getTransactionNumber() {
-		return transactionNumber;
+	public long getTransactieNummer() {
+		return transactieNummer;
 	}
 
-	public void setTransactionNumber(int transactionNumber) {
-		this.transactionNumber = transactionNumber;
+	public void setTransactieNummer(long transactieNummer) {
+		this.transactieNummer = transactieNummer;
 	}
 
 }

@@ -5,21 +5,31 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CheckPinResponse {
 
 	@JsonProperty
-	private String userID;
+	private boolean isCorrect;
+	@JsonProperty
+	private boolean isBlocked;
 
 	public CheckPinResponse() {
 	}
 
-	public CheckPinResponse(String userID) {
-		this.userID = userID;
+	public CheckPinResponse(boolean isCorrect) {
+		this.setCorrect(isCorrect);
 	}
 
-	public String getUserID() {
-		return userID;
+	public boolean isCorrect() {
+		return isCorrect;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setCorrect(boolean isCorrect) {
+		this.isCorrect = isCorrect;
+	}
+
+	public boolean isBlocked() {
+		return isBlocked;
+	}
+
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 
 }

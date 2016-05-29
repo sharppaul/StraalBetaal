@@ -1,6 +1,6 @@
 package nl.hr.project3_4.straalbetaal.server.resources;
 
-import nl.hr.project3_4.straalbetaal.apinew.*;
+import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.server.services.Service;
 
 import javax.ws.rs.*;
@@ -17,27 +17,33 @@ public class Resource {
 
 	private static Service serv = new Service();
 
-	// Bank ID = Ergens die checkt of de pas van onze bank is of niet, 
-	// is het niet van onze bank dan wordt het doorgestuurd!
-	// Is het wel van onze bank, wordt het met de pasID afgehandeld!
 	@POST
-	@Path("checkpas") // Check als de pas op onze bank voorkomt!
-	public CheckPasResponse getUserID(CheckPasRequest request) {
-		CheckPasResponse response = new CheckPasResponse(serv.getUserID(request.getBankID(), request.getPasID()));
+	@Path("checkpas") // Check if pas is a StraalBetaal pas
+	public CheckPasResponse checkPas(CheckPasRequest request) {
+		CheckPasResponse response = new CheckPasResponse(
+				serv.checkCorrectBank(request.getBankID(), request.getPasID()));
 
-		LOG.info("Get request for userID with IBAN: " + request.getBankID());
+		LOG.info("Post request for checkpas with bankID: " + request.getBankID() + " + pasID: " + request.getPasID());
 
 		return response;
 	}
 
 	@POST
 	@Path("checkpin")
-	public CheckPinResponse getUserpin(CheckPinRequest request) {
-		CheckPinResponse response = new CheckPinResponse(serv.getPinConfirmed(request.getPinCode());
+	public CheckPinResponse checkPinCorrect(CheckPinRequest request) {
+		CheckPinResponse response = new CheckPinResponse();
 
-		LOG.info("Get request for userID with pincode: " + request.getPin());
+		response.setBlocked(serv.isPasBlocked(request.getPasID()));
 
-		return response;
+		if (response.isBlocked()) {
+			LOG.info("Post request for correct pin, but pin is blocked!");
+			return response;
+		} else {
+			response.setCorrect(serv.isPinCorrect(request.getPasID(), request.getPinCode()));
+			LOG.info("Post request for checkpin with pincode: " + request.getPinCode());
+
+			return response;
+		}
 	}
 
 	@GET
@@ -46,44 +52,34 @@ public class Resource {
 		return "<h1>test</h1>";
 	}
 
-	/*
-	 * This and the method above could have been done together, but because the
-	 * DAO methods should have only 1 particular task, I spread the calls into 2
-	 * different methods.
-	 */
 	@POST
 	@Path("balance")
-	public BalanceResponse getBalance() {
-		BalanceResponse response = new BalanceResponse(serv.getBalance(iban));
+	public BalanceResponse getBalance(BalanceRequest request) {
+		BalanceResponse response = new BalanceResponse(serv.getBalance(request.getPasID()));
 
-		LOG.info("Get request for balance with IBAN: " + iban);
+		LOG.info("Post request for balance with pasID: " + request.getPasID());
 
 		return response;
 	}
 
 	@POST
 	@Path("withdraw")
-	public WithdrawResponse withdraw(String iban, WithdrawRequest request) {
+	public WithdrawResponse withdraw(WithdrawRequest request) {
 		WithdrawResponse response = new WithdrawResponse();
-
-		LOG.info("Post request for withdraw with IBAN: " + iban + " and amount: " + request.getAmount());
 
 		// Beetje verwarrende benamingen, maar dus transactie is gefaald als
 		// transactieBon = 0;
-		int transactieBon = serv.withdraw(iban, request.getAmount());
+		long transactieBon = serv.withdraw(request.getPasID(), request.getPinAmount());
 		if (transactieBon > 0) {
-			response.setResponse("succes");
-			response.setTransactionNumber(transactieBon);
+			response.setSucceeded(true);
+			response.setTransactieNummer(transactieBon);
 		}
-		/*
-		 * if (serv.withdraw(iban, request.getAmount())) {
-		 * response.setResponse("succes"); response.setTransactionNumber(12345);
-		 * // Dummy }
-		 */else {
-			response.setResponse("fail");
-			// throw new
-			// BadRequestException(Response.status(Response.Status.BAD_REQUEST).entity(response).build());
+		else {
+			response.setSucceeded(false);
 		}
+
+		LOG.info("Post request for withdraw with pasID: " + request.getPasID() + " and amount: " + request.getPinAmount());
+
 		return response;
 	}
 

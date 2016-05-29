@@ -11,7 +11,7 @@ public class BalanceResponse {
 	}
 
 	public BalanceResponse(long balance) {
-		this.balance = balance;
+		this.setBalance(balance);
 	}
 
 	public long getBalance() {
