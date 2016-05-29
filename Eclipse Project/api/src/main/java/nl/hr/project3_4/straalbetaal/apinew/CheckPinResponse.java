@@ -3,15 +3,16 @@ package nl.hr.project3_4.straalbetaal.apinew;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class CheckPinResponse {
+
 	@JsonProperty
 	private boolean isCorrect;
+	@JsonProperty
 	private boolean isBlocked;
-	
-	public CheckPinResponse(){
-		
+
+	public CheckPinResponse() {
 	}
-	
-	public CheckPinResponse(boolean isCorrect){
+
+	public CheckPinResponse(boolean isCorrect) {
 		this.setCorrect(isCorrect);
 	}
 
@@ -30,4 +31,5 @@ public class CheckPinResponse {
 	public void setBlocked(boolean isBlocked) {
 		this.isBlocked = isBlocked;
 	}
+
 }

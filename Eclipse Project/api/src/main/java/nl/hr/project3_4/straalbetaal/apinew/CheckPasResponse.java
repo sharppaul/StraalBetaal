@@ -3,14 +3,14 @@ package nl.hr.project3_4.straalbetaal.apinew;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class CheckPasResponse {
+
 	@JsonProperty
 	private boolean doesExist;
-	
-	public CheckPasResponse(){
-		
+
+	public CheckPasResponse() {
 	}
-	
-	public CheckPasResponse(boolean doesExist){
+
+	public CheckPasResponse(boolean doesExist) {
 		this.setDoesExist(doesExist);
 	}
 
@@ -21,4 +21,5 @@ public class CheckPasResponse {
 	public void setDoesExist(boolean doesExist) {
 		this.doesExist = doesExist;
 	}
+
 }

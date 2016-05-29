@@ -3,6 +3,7 @@ package nl.hr.project3_4.straalbetaal.apinew;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class CheckPinRequest {
+
 	@JsonProperty
 	private String pinCode;
 	@JsonProperty
@@ -26,12 +27,12 @@ public class CheckPinRequest {
 	public void setBankID(int bankID) {
 		this.bankID = bankID;
 	}
-	
-	public String getPasID(){
+
+	public String getPasID() {
 		return this.pasID;
 	}
-	
-	public void setPasID(String pasID){
+
+	public void setPasID(String pasID) {
 		this.pasID = pasID;
 	}
 
@@ -42,4 +43,5 @@ public class CheckPinRequest {
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
 	}
+
 }

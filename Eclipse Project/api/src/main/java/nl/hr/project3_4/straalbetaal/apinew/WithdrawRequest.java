@@ -3,6 +3,7 @@ package nl.hr.project3_4.straalbetaal.apinew;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class WithdrawRequest {
+
 	@JsonProperty
 	private
 	long pinAmount;
@@ -43,4 +44,5 @@ public class WithdrawRequest {
 	public void setPinAmount(long pinAmount) {
 		this.pinAmount = pinAmount;
 	}
+
 }

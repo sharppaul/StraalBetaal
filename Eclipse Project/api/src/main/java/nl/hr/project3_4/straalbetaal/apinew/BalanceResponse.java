@@ -3,14 +3,14 @@ package nl.hr.project3_4.straalbetaal.apinew;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class BalanceResponse {
+
 	@JsonProperty
 	private long balance;
-	
-	public BalanceResponse(){
-		
+
+	public BalanceResponse() {
 	}
-	
-	public BalanceResponse(long balance){
+
+	public BalanceResponse(long balance) {
 		this.setBalance(balance);
 	}
 
@@ -21,4 +21,5 @@ public class BalanceResponse {
 	public void setBalance(long balance) {
 		this.balance = balance;
 	}
+
 }
