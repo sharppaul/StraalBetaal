@@ -2,6 +2,7 @@ package nl.hr.project3_4.straalbetaal.client;
 
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
+import nl.hr.project3_4.straalbetaal.dispenser.Gelddispenser;
 import nl.hr.project3_4.straalbetaal.gui.*;
 import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.printer.LabelWriter;
@@ -17,6 +18,7 @@ public class Client {
 	private boolean didDonate = false;
 	private String language = "EN";
 	public static final int BANKID = 0;
+	private Gelddispenser dispenser;
 
 	public static void main(String[] args) {
 
@@ -28,6 +30,7 @@ public class Client {
 		frame = new Frame();
 		data = new ArduinoData();
 		reader = new Read(data);
+		dispenser = new Gelddispenser(5, 5, 5);
 
 		while (true) {
 			try {
@@ -185,6 +188,9 @@ public class Client {
 		System.out.println("Pinning succeeded: " + rs.isSucceeded());
 		if (rs.isSucceeded()) {
 			this.transNummer = rs.getTransactieNummer();
+			dispenser.setAmountGepindeBedrag(data.getAmount());
+			dispenser.setBiljetKeuzeByGepindeBedrag(data.getBillOption());
+			// data.setDataForDispenser(dispenser.calculate());
 		} else {
 			data.reset();
 			throw new Reset("toolow");
