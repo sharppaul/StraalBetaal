@@ -16,6 +16,7 @@ public class ArduinoData {
 	private boolean errored;
 	private boolean pressedBack = false;
 	private boolean pinReceived = false;
+	private String language = "EN";
 
 	public ArduinoData() {
 		reset();
@@ -37,6 +38,7 @@ public class ArduinoData {
 		this.errored = false;
 		this.setPressedBack(false);
 		this.setPinReceived(false);
+		this.setLanguage("EN");
 	}
 
 	////////////////////// CARD RECEIVED::
@@ -200,5 +202,13 @@ public class ArduinoData {
 
 	public void setDonate(Boolean wantDonate) {
 		this.wantDonate = wantDonate;
+	}
+
+	public void setLanguage(String language) {
+		this.language  = language;
+	}
+	
+	public String getLanguage(){
+		return this.language;
 	}
 }

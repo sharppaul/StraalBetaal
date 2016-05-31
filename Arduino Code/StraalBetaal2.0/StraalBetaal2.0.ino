@@ -218,6 +218,21 @@ void pincodeInvoer() {
     case '0':
       pincodeKeyInvoer();
       break;
+	case 'A':
+	  Serial.println(
+			{\"event\":\"language\",\"option\":\"EN\"}
+		);
+	  break;
+	case 'B':
+	  Serial.println(
+			{\"event\":\"language\",\"option\":\"GER\"}
+		);
+	  break;
+	case 'C':
+	  Serial.println(
+			{\"event\":\"language\",\"option\":\"NL\"}
+		);
+	  break;
     case '*':
       reset();
       delay(3000);

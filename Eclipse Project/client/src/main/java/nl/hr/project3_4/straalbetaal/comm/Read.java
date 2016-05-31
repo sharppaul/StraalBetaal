@@ -178,6 +178,13 @@ public class Read implements SerialPortEventListener {
 						data.cardReceived();
 						System.out.println("event OK");
 					}
+					
+					// EVENT: language.
+					if (incomingJson.getString("event").equals("language")) {
+						data.setLanguage(incomingJson.getString("option"));
+						System.out.println("event OK");
+					}
+
 
 					// EVENT: if no event matches...
 					// {

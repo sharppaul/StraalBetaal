@@ -150,11 +150,11 @@ public class Client {
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (rs.getUserID().equals("wrong")) {
 			data.reset();
-			throw new Reset("Pincode incorrect.");
+			throw new Reset("incorrect");
 		}
 		if (rs.getUserID().equals("blocked")) {
 			data.reset();
-			throw new Reset("Pinpas geblokkeerd.");
+			throw new Reset("blocked");
 		}
 	}
 
@@ -170,7 +170,7 @@ public class Client {
 			// store transaction number and amount etc.
 		} else {
 			data.reset();
-			throw new Reset("Saldo te laag.");
+			throw new Reset("toolow");
 		}
 	}
 
@@ -182,7 +182,7 @@ public class Client {
 			this.transNummer = rs.getTransactionNumber();
 		} else {
 			data.reset();
-			throw new Reset("Saldo te laag.");
+			throw new Reset("toolow");
 		}
 	}
 
@@ -241,7 +241,7 @@ public class Client {
 
 	private void finished() throws Success {
 		if (data.isReset()) {
-			throw new Success("Finished.");
+			throw new Success("done");
 		}
 	}
 
@@ -300,7 +300,7 @@ public class Client {
 
 	public void shouldReset() throws Reset {
 		if (data.isReset()) {
-			throw new Reset("Pinsessie afgebroken.");
+			throw new Reset("abort");
 		}
 	}
 

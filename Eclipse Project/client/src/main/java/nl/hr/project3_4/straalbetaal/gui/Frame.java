@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.sound.Sound;
 
 public class Frame extends JFrame {
@@ -26,32 +27,34 @@ public class Frame extends JFrame {
 	private final String[] modes = { "start", "login", "choice", "saldo", "pin", "billselect", "ticket", "success",
 			"loading", "error", "donate" };
 	private String mode = "loading";
-	private String error = "Er is iets misgegaan...";
+	private String error = "wentwrong";
 	private long saldo = 0;
 	private boolean errored;
 	private JLabel err = new JLabel("");
 	private String[] billOption = { "biljet keuze 1", "biljet keuze 2", "biljet keuze 3" };
-
+	private Language language = new Language(Language.EN);
 	private boolean USSRTheme = false;
 
 	public Frame() {
-		bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
+
 		f = new JFrame("StraalBetaal");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		if (fullScreen)
+			f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		construct();
 	}
 
 	private void construct() {
 		if (USSRTheme) {
+			bigfont = Fonts.createFont("kremlin.ttf", (float) 24.0);
 			f.setContentPane(new BackgroundUssr());
 		} else {
+			bigfont = Fonts.createFont("ubuntu.ttf", (float) 24.0);
 			f.setContentPane(new Background());
 		}
 
-		if (fullScreen) {
-			f.setUndecorated(true);
-		}
+		f.getContentPane().setPreferredSize(new Dimension(1000, 1000));
+		f.setUndecorated(fullScreen);
 
 		f.setLayout(new GridBagLayout());
 
@@ -73,6 +76,12 @@ public class Frame extends JFrame {
 		loadMenu();
 	}
 
+	public void setLanguage(String language) {
+		// only change to Language.EN/GER/NL!
+		this.language = new Language(language);
+		this.loadMenu();
+	}
+
 	public void goRussian() {
 		f.dispose();
 		USSRTheme = true;
@@ -91,16 +100,22 @@ public class Frame extends JFrame {
 		Frame f = new Frame();
 		// f.goRussian();
 		// f.scrollMenus();
-		f.setMode("donate");
+		f.setMode("choice");
 	}
 
 	// MANAGES WHICH MENU LOADS:
 	public void scrollMenus() {
 		while (true) {
+
 			for (int i = 0; i < this.modes.length; i++) {
 				this.setMode(modes[i]);
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(2000);
+					this.setLanguage(Language.EN);
+					Thread.sleep(2000);
+					this.setLanguage(Language.GER);
+					Thread.sleep(2000);
+					this.setLanguage(Language.NL);
 				} catch (InterruptedException e) {
 					System.out.println(e);
 				}
@@ -165,7 +180,7 @@ public class Frame extends JFrame {
 	}
 
 	public void setPinAmount(int amount) {
-		customAmount.setText("€" + amount + ",-");
+		customAmount.setText("G " + amount + ",-");
 	}
 
 	public String getMode() {
@@ -228,8 +243,7 @@ public class Frame extends JFrame {
 	private void successMenu() {
 		c = new GridBagConstraints();
 		clearPanel();
-		JLabel message = new JLabel("De opdracht is voltooid, verwijder alstublieft uw pas."
-				+ " Bedankt voor het pinnen bij straalbetaal en tot ziens!");
+		JLabel message = new JLabel(language.getString("done") + ". " + language.getString("thanks"));
 		message.setFont(bigfont);
 		Image img = new Image("check.png");
 
@@ -250,16 +264,14 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		clearPanel();
 
-		JLabel instr = new JLabel("Wilt u €1,- doneren aan een goed doel?");
+		JLabel instr = new JLabel(language.getString("donate"));
 
 		instr.setFont(bigfont);
-		ImageButton ja = new ImageButton("Ja     ", "ok.png");
+		ImageButton ja = new ImageButton(language.getString("yes") + "     ", "ok.png");
 		ja.setFont(bigfont);
-		ja.setHorizontalTextPosition(SwingConstants.LEFT);
 
-		ImageButton nee = new ImageButton("Nee  ", "terug.png");
+		ImageButton nee = new ImageButton(language.getString("no") + "  ", "terug.png");
 		nee.setFont(bigfont);
-		nee.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.CENTER;
@@ -282,16 +294,14 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		clearPanel();
 
-		JLabel instr = new JLabel("Wilt u een bon?");
+		JLabel instr = new JLabel(language.getString("receipt"));
 
 		instr.setFont(bigfont);
-		ImageButton ja = new ImageButton("Ja     ", "ok.png");
+		ImageButton ja = new ImageButton(language.getString("yes") + "    ", "ok.png");
 		ja.setFont(bigfont);
-		ja.setHorizontalTextPosition(SwingConstants.LEFT);
 
-		ImageButton nee = new ImageButton("Nee  ", "terug.png");
+		ImageButton nee = new ImageButton(language.getString("no") + "  ", "terug.png");
 		nee.setFont(bigfont);
-		nee.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
@@ -315,22 +325,19 @@ public class Frame extends JFrame {
 		clearPanel();
 
 		JLabel instr, saldotxt;
-		instr = new JLabel("Saldo: ");
+		instr = new JLabel(language.getString("balance") + ": ");
 		instr.setFont(bigfont);
-		
-		String saldoString = Long.toString(saldo);
-		saldotxt = new JLabel("€" + saldoString.substring(0, saldoString.length()-2) + "," + saldoString.substring(saldoString.length()-2, saldoString.length()));
-	
+
+		saldotxt = new JLabel("G " + saldo / 100 + "," + (saldo - (saldo / 100) * 100));
+
 		saldotxt.setFont(bigfont);
 
 		instr.setFont(bigfont);
-		ImageButton ja = new ImageButton("Doorgaan ", "ok.png");
+		ImageButton ja = new ImageButton(language.getString("cont") + " ", "ok.png");
 		ja.setFont(bigfont);
-		ja.setHorizontalTextPosition(SwingConstants.LEFT);
 
-		ImageButton nee = new ImageButton("Stoppen    ", "stop.png");
+		ImageButton nee = new ImageButton(language.getString("stop") + "    ", "stop.png");
 		nee.setFont(bigfont);
-		nee.setHorizontalTextPosition(SwingConstants.LEFT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
@@ -360,23 +367,17 @@ public class Frame extends JFrame {
 		clearPanel();
 
 		JLabel instr;
-		instr = new JLabel("Kies biljetten:");
+		instr = new JLabel(language.getString("bills") + ":");
 		instr.setFont(bigfont);
 
 		ImageButton a = new ImageButton(getBillOption()[0] + "  ", "a.png");
 		a.setFont(bigfont);
-		a.setHorizontalTextPosition(SwingConstants.LEFT);
-		a.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		ImageButton b = new ImageButton(getBillOption()[1] + "  ", "b.png");
 		b.setFont(bigfont);
-		b.setHorizontalTextPosition(SwingConstants.LEFT);
-		b.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		ImageButton cc = new ImageButton(getBillOption()[2] + "  ", "c.png");
 		cc.setFont(bigfont);
-		cc.setHorizontalTextPosition(SwingConstants.LEFT);
-		cc.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
@@ -404,37 +405,23 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		clearPanel();
 
-		JLabel instr, other;
-		instr = new JLabel("Maak uw keuze:");
+		JLabel instr;
+		instr = new JLabel(language.getString("choice") + ":");
 		instr.setFont(bigfont);
-		other = new JLabel("Of vul een bedrag in:");
-		other.setFont(bigfont);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
 		// customAmount
-		customAmount = new JLabel();
-		customAmount.setText(" ");
-		customAmount.setFont(bigfont);
-		customAmount.setHorizontalAlignment(JLabel.CENTER);
-		customAmount.setBackground(Color.white);
-		customAmount.setOpaque(true);
 
-		ImageButton a = new ImageButton("€ 50,-    ", "a.png");
+		ImageButton a = new ImageButton("G 50,-    ", "a.png");
 		a.setFont(bigfont);
-		a.setHorizontalTextPosition(SwingConstants.LEFT);
-		a.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ImageButton b = new ImageButton("€ 100,-    ", "b.png");
+		ImageButton b = new ImageButton("G 100,-    ", "b.png");
 		b.setFont(bigfont);
-		b.setHorizontalTextPosition(SwingConstants.LEFT);
-		b.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ImageButton cc = new ImageButton("€ 200,-    ", "c.png");
+		ImageButton cc = new ImageButton("G 200,-    ", "c.png");
 		cc.setFont(bigfont);
-		cc.setHorizontalTextPosition(SwingConstants.LEFT);
-		cc.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		// INSTRUCTIES:
 		c.gridwidth = 2;
@@ -459,35 +446,29 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		clearPanel();
 
-		JLabel instr = new JLabel("Maak uw keuze:");
+		JLabel instr = new JLabel(language.getString("choice") + ":");
 		instr.setFont(bigfont);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
 
-		ImageButton a = new ImageButton("Snelpinnen (€70,-)   ", "a.png");
+		ImageButton a = new ImageButton(language.getString("quickpin") + " (G70,-)   ", "a.png");
 		a.setFont(bigfont);
-		a.setHorizontalTextPosition(SwingConstants.LEFT);
-		a.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ImageButton b = new ImageButton("Saldo Bekijken      ", "b.png");
+		ImageButton b = new ImageButton(language.getString("seesaldo") + " ", "b.png");
 		b.setFont(bigfont);
-		b.setHorizontalTextPosition(SwingConstants.LEFT);
-		b.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ImageButton cc = new ImageButton("Pinnen             ", "c.png");
+		ImageButton cc = new ImageButton(language.getString("withdraw") + "       ", "c.png");
 		cc.setFont(bigfont);
-		cc.setHorizontalTextPosition(SwingConstants.LEFT);
-		cc.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		// INSTRUCTIES:
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		c.gridy = 0;
 		mainPanel.add(instr, c);
 
 		// LOTTA BUTTONS:
-		c.ipady = 35;
+		c.ipady = 30;
 		c.gridy++;
 		mainPanel.add(a, c);
 		c.gridy++;
@@ -496,8 +477,12 @@ public class Frame extends JFrame {
 		mainPanel.add(cc, c);
 
 		c.gridy++;
-		c.gridwidth = 1;
+
 		mainPanel.add(cancelButton(), c);
+
+		c.ipady = 0;
+		c.gridy++;
+		mainPanel.add(languageRow("1","2","3"), c);
 	}
 
 	public void startMenu() {
@@ -506,13 +491,13 @@ public class Frame extends JFrame {
 
 		JLabel message = new JLabel();
 		message.setFont(bigfont);
-		message.setText("Welkom bij Straalbetaal, voer alstublieft uw pinpas in.");
+		message.setText(language.getString("welcome"));
 
 		Image img = new Image("pinnen.png");
 
 		// MESSAGE
 		c.insets = new Insets(10, 50, 10, 50);
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		c.fill = GridBagConstraints.CENTER;
 		c.gridy = 1;
 		mainPanel.add(message, c);
@@ -522,6 +507,10 @@ public class Frame extends JFrame {
 		c.ipadx = img.getWidth();
 		c.ipady = img.getHeight();
 		mainPanel.add(img, c);
+		
+		c.ipady = 0;
+		c.gridy = 2;
+		mainPanel.add(languageRow("A","B","C"), c);
 	}
 
 	public void loadingMenu() {
@@ -529,8 +518,7 @@ public class Frame extends JFrame {
 		clearPanel();
 		JLabel loadText = new JLabel();
 		loadText.setFont(bigfont);
-		loadText.setText("Laden...");
-		loadText.setHorizontalAlignment(SwingConstants.CENTER);
+		loadText.setText(language.getString("loading") + "...");
 		// MESSAGE:
 		c.insets = new Insets(10, 50, 10, 50);
 		c.gridwidth = 2;
@@ -553,10 +541,10 @@ public class Frame extends JFrame {
 		clearPanel();
 		JLabel error2 = new JLabel("", SwingConstants.CENTER);
 		error2.setFont(bigfont);
-		error2.setText(message);
+		error2.setText(language.getString(message));
 		JLabel error = new JLabel("", SwingConstants.CENTER);
 		error.setFont(bigfont);
-		error.setText("Verwijder alstublieft uw pas.");
+		error.setText(language.getString("removecard"));
 		// MESSAGE:
 		c.gridy = 0;
 		c.fill = GridBagConstraints.CENTER;
@@ -569,6 +557,7 @@ public class Frame extends JFrame {
 		Image img = new Image("error.png");
 		c.ipady = img.getHeight();
 		c.ipadx = img.getWidth();
+		
 		c.gridy++;
 		mainPanel.add(img, c);
 
@@ -584,26 +573,20 @@ public class Frame extends JFrame {
 		pin.setBackground(Color.white);
 		pin.setOpaque(true);
 
-		JLabel instr = new JLabel("Vul uw pincode in:");
+		JLabel instr = new JLabel(language.getString("enterpin") + ":");
 		instr.setFont(bigfont);
 
 		err.setFont(bigfont);
 		err.setForeground(new Color(200, 0, 0));
 
-		ImageButton a = new ImageButton("Stoppen  ", "stop.png");
+		ImageButton a = new ImageButton(language.getString("stop") + "  ", "stop.png");
 		a.setFont(bigfont);
-		a.setHorizontalTextPosition(SwingConstants.LEFT);
-		a.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ImageButton b = new ImageButton("Doorgaan  ", "ok.png");
+		ImageButton b = new ImageButton(language.getString("cont") + "  ", "ok.png");
 		b.setFont(bigfont);
-		b.setHorizontalTextPosition(SwingConstants.LEFT);
-		b.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ImageButton corr = new ImageButton("Correctie  ", "terug.png");
+		ImageButton corr = new ImageButton(language.getString("corr") + "  ", "terug.png");
 		corr.setFont(bigfont);
-		corr.setHorizontalTextPosition(SwingConstants.LEFT);
-		corr.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
@@ -636,13 +619,41 @@ public class Frame extends JFrame {
 		mainPanel.add(err, c);
 		c.gridx = 2;
 		mainPanel.add(corr, c);
+
+		c.gridwidth = 3;
+		c.gridy++;
+		c.gridx = 0;
+		mainPanel.add(languageRow("A","B","C"), c);
+
+	}
+
+	public JPanel languageRow(String a, String b, String c) {
+		JPanel p = new JPanel();
+		p.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		ImageButton en = new ImageButton(" "+a, "us.png"), ger = new ImageButton(" "+b, "ger.png"),
+				nl = new ImageButton(" "+c, "nl.png");
+		en.setFont(bigfont);
+		ger.setFont(bigfont);
+		nl.setFont(bigfont);
+
+		gbc.gridwidth = 1;
+
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.gridy = 0;
+		gbc.gridx = 0;
+		p.add(en, gbc);
+		gbc.gridx = 1;
+		p.add(ger, gbc);
+		gbc.gridx = 2;
+		p.add(nl, gbc);
+		p.setBackground(new Color(0,0,0,0));
+		return p;
 	}
 
 	public ImageButton cancelButton() {
-		ImageButton a = new ImageButton("Stoppen  ", "stop.png");
+		ImageButton a = new ImageButton(language.getString("stop") + "  ", "stop.png");
 		a.setFont(bigfont);
-		a.setHorizontalTextPosition(SwingConstants.LEFT);
-		a.setHorizontalAlignment(SwingConstants.RIGHT);
 		return a;
 	}
 

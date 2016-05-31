@@ -13,7 +13,7 @@ public class Fonts {
 		} catch (Exception e) { 
 			e.printStackTrace();
 			System.err.println("Loading font failed, going back to default font..");
-			return new Font("SansSerif", Font.BOLD, 20);
+			return new Font("SansSerif", Font.BOLD, 24);
 		}
 	}
 
