@@ -99,8 +99,8 @@ public class Frame extends JFrame {
 	public static void main(String[] args) {
 		Frame f = new Frame();
 		// f.goRussian();
-		// f.scrollMenus();
-		f.setMode("choice");
+		f.scrollMenus();
+		//f.setMode("choice");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -110,12 +110,14 @@ public class Frame extends JFrame {
 			for (int i = 0; i < this.modes.length; i++) {
 				this.setMode(modes[i]);
 				try {
-					Thread.sleep(2000);
 					this.setLanguage(Language.EN);
 					Thread.sleep(2000);
+					
 					this.setLanguage(Language.GER);
 					Thread.sleep(2000);
+					
 					this.setLanguage(Language.NL);
+					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					System.out.println(e);
 				}

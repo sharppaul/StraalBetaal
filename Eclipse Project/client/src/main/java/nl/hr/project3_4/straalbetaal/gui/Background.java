@@ -27,6 +27,6 @@ public class Background extends JComponent {
 	protected void paintComponent(Graphics g) {
 		g.setColor(new Color(224,224,224));
 		g.fillRect(0, 0, getWidth(), getHeight());
-        g.drawImage(bgImage, getWidth()/10, getHeight()/10, this);   
+        g.drawImage(bgImage, getWidth()/40, getHeight()/40, this);   
 	}
 }

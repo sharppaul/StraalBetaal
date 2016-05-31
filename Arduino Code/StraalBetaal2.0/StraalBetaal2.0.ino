@@ -64,6 +64,7 @@ void setup() {
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
   if (mode == "start") {
+    language();
     rfid();
   } else if (mode == "pincode") {
     pincodeInvoer();
@@ -83,10 +84,33 @@ void loop() {
     reset();
   }
 
-  if (!stillThere()) {
+  if (!stillThere() && mode != "start") {
     reset();
   }
-  delay(100);
+  delay(50);
+}
+
+void language() {
+  keyPad();
+  switch (key) {
+    case 'A':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"EN\"}"
+      );
+      break;
+    case 'B':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"GER\"}"
+      );
+      break;
+    case 'C':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"NL\"}"
+      );
+      break;
+    default:
+    break;
+  }
 }
 
 //_______________________________________________________keyPad_______________________________________________________//
@@ -218,21 +242,21 @@ void pincodeInvoer() {
     case '0':
       pincodeKeyInvoer();
       break;
-	case 'A':
-	  Serial.println(
-			{\"event\":\"language\",\"option\":\"EN\"}
-		);
-	  break;
-	case 'B':
-	  Serial.println(
-			{\"event\":\"language\",\"option\":\"GER\"}
-		);
-	  break;
-	case 'C':
-	  Serial.println(
-			{\"event\":\"language\",\"option\":\"NL\"}
-		);
-	  break;
+    case 'A':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"EN\"}"
+      );
+      break;
+    case 'B':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"GER\"}"
+      );
+      break;
+    case 'C':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"NL\"}"
+      );
+      break;
     case '*':
       reset();
       delay(3000);
@@ -271,6 +295,21 @@ void keuzeMenu() {
       mode = "amount";
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"c\"}"
+      );
+      break;
+    case '1':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"EN\"}"
+      );
+      break;
+    case '2':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"GER\"}"
+      );
+      break;
+    case '3':
+      Serial.println(
+        "{\"event\":\"language\",\"option\":\"NL\"}"
       );
       break;
     case '*':

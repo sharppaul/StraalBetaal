@@ -3,6 +3,7 @@ package nl.hr.project3_4.straalbetaal.client;
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.gui.*;
+import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.printer.LabelWriter;
 import nl.hr.project3_4.straalbetaal.throwables.*;
 
@@ -12,8 +13,10 @@ public class Client {
 	private ArduinoData data;
 	private Read reader;
 	private ClientBackEnd backend;
-	private int transNummer;
+	private long transNummer;
 	private boolean didDonate = false;
+	private String language = "EN";
+	public static final int BANKID = 0;
 
 	public static void main(String[] args) {
 
@@ -33,6 +36,7 @@ public class Client {
 				frame.setMode("start");
 				while (!cardInserted()) {
 					sleep(100);
+					checkLanguage();
 				}
 
 				shouldReset();
@@ -44,6 +48,7 @@ public class Client {
 					frame.addDotToPin(data.getPinLength());
 					pinErrorOccured();
 					shouldReset();
+					checkLanguage();
 				}
 
 				frame.setMode("loading");
@@ -61,6 +66,7 @@ public class Client {
 						// WAIT FOR USER
 						sleep(100);
 						shouldReset();
+						checkLanguage();
 					}
 
 					frame.setMode("loading");
@@ -109,7 +115,7 @@ public class Client {
 
 						frame.setMode("loading");
 						if (data.getBon()) {
-							new LabelWriter().printLabel(Integer.toString(transNummer), (long) data.getAmount(),
+							new LabelWriter().printLabel(Long.toString(transNummer), (long) data.getAmount(),
 									data.getCard(), this.didDonate);
 						}
 						userNotDone = false;
@@ -144,15 +150,14 @@ public class Client {
 	}
 
 	private void checkPinValid() throws Reset {
-		
-		
-		CheckPinRequest rq = new CheckPinRequest(data.getPinEncrypted());
+
+		CheckPinRequest rq = new CheckPinRequest(Client.BANKID, data.getCard(), data.getPinEncrypted());
 		CheckPinResponse rs = backend.checkPincode(rq);
-		if (rs.getUserID().equals("wrong")) {
+		if (!rs.isCorrect()) {
 			data.reset();
 			throw new Reset("incorrect");
 		}
-		if (rs.getUserID().equals("blocked")) {
+		if (rs.isBlocked()) {
 			data.reset();
 			throw new Reset("blocked");
 		}
@@ -164,9 +169,9 @@ public class Client {
 	}
 
 	private void snelPinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest(7000L);
+		WithdrawRequest rq = new WithdrawRequest(Client.BANKID, data.getCard(), 7000L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
-		if (rs.getResponse().equals("succes")) {
+		if (rs.isSucceeded()) {
 			// store transaction number and amount etc.
 		} else {
 			data.reset();
@@ -175,11 +180,11 @@ public class Client {
 	}
 
 	private void pinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest((long) (data.getAmount() * 100));
+		WithdrawRequest rq = new WithdrawRequest(Client.BANKID, data.getCard(), (long) (data.getAmount() * 100));
 		WithdrawResponse rs = backend.withdrawMoney(rq);
-		System.out.println(rs.getResponse());
-		if (rs.getResponse().equals("succes")) {
-			this.transNummer = rs.getTransactionNumber();
+		System.out.println("Pinning succeeded: " + rs.isSucceeded());
+		if (rs.isSucceeded()) {
+			this.transNummer = rs.getTransactieNummer();
 		} else {
 			data.reset();
 			throw new Reset("toolow");
@@ -225,15 +230,15 @@ public class Client {
 
 	private void donate() {
 		long saldo = this.requestSaldo();
-		long donateAmount = saldo - (long)((int)(saldo / 100)*100);
+		long donateAmount = saldo - (long) ((int) (saldo / 100) * 100);
 
-		if(donateAmount == 0)
+		if (donateAmount == 0)
 			donateAmount = 50;
 		if (data.getDonate() && saldo >= 0) {
-			WithdrawRequest rq = new WithdrawRequest(donateAmount);
+			WithdrawRequest rq = new WithdrawRequest(Client.BANKID, data.getCard(), donateAmount);
 			WithdrawResponse rs = backend.withdrawMoney(rq);
-			System.out.println(rs.getResponse());
-			if (rs.getResponse().equals("succes")) {
+			System.out.println("Donating succeeded: " + rs.isSucceeded());
+			if (rs.isSucceeded()) {
 				this.didDonate = true;
 			}
 		}
@@ -251,6 +256,18 @@ public class Client {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	private void checkLanguage() {
+		if (!this.language.equals(data.getLanguage())) {
+			this.language = data.getLanguage();
+			if (this.language.equals("EN"))
+				frame.setLanguage(Language.EN);
+			if (this.language.equals("GER"))
+				frame.setLanguage(Language.GER);
+			if (this.language.equals("NL"))
+				frame.setLanguage(Language.NL);
 		}
 	}
 

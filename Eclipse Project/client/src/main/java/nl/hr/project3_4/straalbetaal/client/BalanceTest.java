@@ -10,33 +10,35 @@ public class BalanceTest {
 	public static void main(String[] args) {
 		System.out.println("Connecting...");
 		ClientBackEnd backend = new ClientBackEnd("123456789");
-		
+
 		System.out.println("Logging in...");
-		CheckPinRequest pinRequest = new CheckPinRequest("3025");
+		CheckPinRequest pinRequest = new CheckPinRequest(Client.BANKID, "123456789", "3025");
 		CheckPinResponse pinResponse = backend.checkPincode(pinRequest);
-		if (pinResponse.getUserID().equals("wrong")) {
+		if (!pinResponse.isCorrect()) {
 			System.out.println("Wrong pin.");
 		}
-		if (pinResponse.getUserID().equals("blocked")) {
-			System.out.println("Card blocked.");
+		if (pinResponse.isBlocked()) {
+			System.out.println("Card Blocked.");
 		}
-		
+
 		System.out.println("Obtaining balance...");
 		BalanceResponse balanceResponse = backend.checkBalance();
 		long saldo = balanceResponse.getBalance();
-		
+
 		String saldoString = Long.toString(saldo);
-		System.out.println("Saldo: €" + saldoString.substring(0, saldoString.length()-2) + "," + saldoString.substring(saldoString.length()-2, saldoString.length()));
+		System.out.println("Saldo: €" + saldoString.substring(0, saldoString.length() - 2) + ","
+				+ saldoString.substring(saldoString.length() - 2, saldoString.length()));
+
 		
-		System.out.println("Donating...");
-		long donateAmount = saldo - (long)((int)(saldo / 100)*100);
-		
+		long donateAmount = saldo - (long) ((int) (saldo / 100) * 100);
+
 		if (saldo >= 0) {
-			if(donateAmount == 0)
+			System.out.println("Donating...");
+			if (donateAmount == 0)
 				donateAmount = 50;
-			WithdrawRequest rq = new WithdrawRequest(donateAmount);
+			WithdrawRequest rq = new WithdrawRequest(Client.BANKID, "123456789", donateAmount);
 			WithdrawResponse rs = backend.withdrawMoney(rq);
-			if (rs.getResponse().equals("succes")) {
+			if (rs.isSucceeded()) {
 				System.out.println("Successfully donated " + donateAmount + " cents!");
 			} else {
 				System.out.println("Donating failed!");

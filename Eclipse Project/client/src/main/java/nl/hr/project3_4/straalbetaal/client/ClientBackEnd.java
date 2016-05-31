@@ -81,13 +81,13 @@ public class ClientBackEnd {
 	// Not tested!
 	public WithdrawResponse withdrawMoney(WithdrawRequest request) {
 		String path = "/" + iban + "/withdraw";
-
+		LOG.info("Client - Withdraw Request send to server!");
 		WithdrawResponse response = client.target(TARGET).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);
-		if(response.getTransactionNumber() == 0) {
-			response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");
+		if(!response.isSucceeded()) {
+			//response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");
 		}
-		LOG.info("Client - Withdraw Response send to server!");
+		LOG.info("Client - Withdraw response received from server!");
 		return response;
 	}
 
