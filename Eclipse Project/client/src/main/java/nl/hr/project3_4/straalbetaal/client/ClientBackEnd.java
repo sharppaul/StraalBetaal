@@ -21,7 +21,6 @@ public class ClientBackEnd {
 	
 	private static final String TARGET = "http://145.24.222.208:8025";
 
-	private String iban;
 
 	/*
 	 * I did it this way - get the IBAN and pincode on initialization - ,
@@ -30,7 +29,6 @@ public class ClientBackEnd {
 	 */
 	
 	public ClientBackEnd(String iban) {
-		this.iban = iban;
 		cBuilder.register(JacksonFeature.class);
 		client = cBuilder.build();
 	}
@@ -61,7 +59,7 @@ public class ClientBackEnd {
 	 */
 
 	public CheckPinResponse checkPincode(CheckPinRequest request) {
-		String path = "/" + iban + "/check";
+		String path = "/checkpin";
 
 		LOG.info("Client - CheckPincode Response send to server!");
 		CheckPinResponse response = client.target(TARGET).path(path).request()
@@ -69,18 +67,18 @@ public class ClientBackEnd {
 		return response;
 	}
 
-	public BalanceResponse checkBalance() {
-		String path = "/" + iban + "/balance";
+	public BalanceResponse checkBalance(BalanceRequest request) {
+		String path = "/balance";
 
 		LOG.info("Client - Balance Response send to server!");
 		BalanceResponse response = client.target(TARGET).path(path).request()
-				.post(Entity.entity(null, MediaType.APPLICATION_JSON), BalanceResponse.class);
+				.post(Entity.entity(request, MediaType.APPLICATION_JSON), BalanceResponse.class);
 		return response;
 	}
 
 	// Not tested!
 	public WithdrawResponse withdrawMoney(WithdrawRequest request) {
-		String path = "/" + iban + "/withdraw";
+		String path = "/withdraw";
 		LOG.info("Client - Withdraw Request send to server!");
 		WithdrawResponse response = client.target(TARGET).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);

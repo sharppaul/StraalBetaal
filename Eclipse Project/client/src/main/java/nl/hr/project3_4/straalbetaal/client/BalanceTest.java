@@ -1,5 +1,6 @@
 package nl.hr.project3_4.straalbetaal.client;
 
+import nl.hr.project3_4.straalbetaal.api.BalanceRequest;
 import nl.hr.project3_4.straalbetaal.api.BalanceResponse;
 import nl.hr.project3_4.straalbetaal.api.CheckPinRequest;
 import nl.hr.project3_4.straalbetaal.api.CheckPinResponse;
@@ -22,7 +23,7 @@ public class BalanceTest {
 		}
 
 		System.out.println("Obtaining balance...");
-		BalanceResponse balanceResponse = backend.checkBalance();
+		BalanceResponse balanceResponse = backend.checkBalance(new BalanceRequest(Client.BANKID, "123456789"));
 		long saldo = balanceResponse.getBalance();
 
 		String saldoString = Long.toString(saldo);

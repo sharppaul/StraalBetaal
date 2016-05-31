@@ -164,7 +164,7 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance();
+		BalanceResponse rs = backend.checkBalance(new BalanceRequest(Client.BANKID,  data.getCard()));
 		return rs.getBalance();
 	}
 
@@ -251,7 +251,7 @@ public class Client {
 	}
 
 	private boolean userEnteredAmount() {
-		frame.setPinAmount(data.getAmount());
+		//frame.setPinAmount(data.getAmount());
 		if (data.isAmountDone()) {
 			return true;
 		} else {
