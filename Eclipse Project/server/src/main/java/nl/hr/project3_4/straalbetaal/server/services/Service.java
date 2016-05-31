@@ -20,7 +20,7 @@ public class Service {
 		pincodeChecked = false;
 	}
 
-	public boolean checkCorrectBank(int bankID, String pasID) {
+	public boolean checkPasExist(int bankID, String pasID) {
 		boolean onzeBank = true;
 		if (onzeBank)
 			return true;
