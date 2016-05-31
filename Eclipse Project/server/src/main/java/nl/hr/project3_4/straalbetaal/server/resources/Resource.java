@@ -18,10 +18,15 @@ public class Resource {
 	private static Service serv = new Service();
 
 	@POST
-	@Path("checkpas") // Check if pas is a StraalBetaal pas
+	@Path("checkpas") // Check if pas bestaat
 	public CheckPasResponse checkPas(CheckPasRequest request) {
+		// Check which bank its from and forward request to that server. That server generates a response and forward that response to the client!
+		if(request.getBankID() != 0){
+			//return new CheckPasResponse(request.getBankID(), request.getPasID());
+		}
+		
 		CheckPasResponse response = new CheckPasResponse(
-				serv.checkCorrectBank(request.getBankID(), request.getPasID()));
+				serv.checkPasExist(request.getBankID(), request.getPasID()));
 
 		LOG.info("Post request for checkpas with bankID: " + request.getBankID() + " + pasID: " + request.getPasID());
 
@@ -37,6 +42,7 @@ public class Resource {
 
 		if (response.isBlocked()) {
 			LOG.info("Post request for correct pin, but pin is blocked!");
+			response.setCorrect(false);
 			return response;
 		} else {
 			response.setCorrect(serv.isPinCorrect(request.getPasID(), request.getPinCode()));

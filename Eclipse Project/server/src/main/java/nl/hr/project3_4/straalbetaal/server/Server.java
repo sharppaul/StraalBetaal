@@ -35,6 +35,7 @@ public class Server {
 		config.register(JacksonJaxbJsonProvider.class);
 		URI uri = URI.create("http://0.0.0.0:" + 8025);
 
+		/*
 		// NOT WORKING CODE!!!
 		SSLContextConfigurator sslConf = new SSLContextConfigurator();
 		sslConf.setKeyStoreFile("./keystore_server"); // contains server keypair
@@ -50,7 +51,8 @@ public class Server {
 		sslEngine.setWantClientAuth(false);
 
 		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true, sslEngine);
-		// return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
+		*/
+		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
 	}
 
 }
