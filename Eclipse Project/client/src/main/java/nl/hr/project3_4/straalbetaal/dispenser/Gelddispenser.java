@@ -50,7 +50,7 @@ public class Gelddispenser {
 	}
 
 	/*
-	 * De arduino neemt deze string in met de aantal biljetten van elke soort
+	 * De arduino neemt deze string in met het aantal biljetten van elke soort
 	 * die moet worden afgegeven.
 	 * 
 	 * Gare methodes maar kon niks beter verzinnen. Hoe kon dit netter?
