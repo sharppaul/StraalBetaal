@@ -332,3 +332,9 @@
 2016-05-31 12:08:44,300  INFO client.ClientBackEnd:73 - Client - Balance Response send to server!
 2016-05-31 12:11:36,863  INFO client.ClientBackEnd:64 - Client - CheckPincode Response send to server!
 2016-05-31 12:11:38,548  INFO client.ClientBackEnd:73 - Client - Balance Response send to server!
+2016-05-31 13:31:24,927  INFO client.ClientBackEnd:64 - Client - CheckPincode Response send to server!
+2016-05-31 13:32:06,493  INFO client.ClientBackEnd:82 - Client - Withdraw Request send to server!
+2016-05-31 13:32:06,573  INFO client.ClientBackEnd:88 - Client - Withdraw response received from server!
+2016-05-31 13:32:10,194  INFO client.ClientBackEnd:73 - Client - Balance Response send to server!
+2016-05-31 13:32:10,214  INFO client.ClientBackEnd:82 - Client - Withdraw Request send to server!
+2016-05-31 13:32:10,223  INFO client.ClientBackEnd:88 - Client - Withdraw response received from server!

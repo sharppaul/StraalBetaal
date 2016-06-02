@@ -33,17 +33,23 @@ public class Server {
 	private HttpServer initWebserver() {
 		ResourceConfig config = new ResourceConfig(Resource.class);
 		config.register(JacksonJaxbJsonProvider.class);
-		URI uri = URI.create("http://0.0.0.0:" + 8025);
+		URI uri = URI.create("https://0.0.0.0:" + 8025);
 
-		/*
+		
 		// NOT WORKING CODE!!!
 		SSLContextConfigurator sslConf = new SSLContextConfigurator();
+		System.out.println("Stap1");
 		sslConf.setKeyStoreFile("./keystore_server"); // contains server keypair
+		System.out.println("Stap2");
 		sslConf.setKeyStorePass("33fm3K");
+		System.out.println("Stap3");
 		sslConf.setTrustStoreFile("./truststore_server"); // client cert.
+		System.out.println("Stap4");
 		sslConf.setTrustStorePass("33fm3K");
+		System.out.println("Stap6");
 		SSLEngineConfigurator sslEngine = new SSLEngineConfigurator(sslConf);
-
+		System.out.println("Stap7");
+		System.out.println();
 		// comment next three lines to enable client authentication (If it works
 		// at all)
 		sslEngine.setClientMode(false);
@@ -51,8 +57,7 @@ public class Server {
 		sslEngine.setWantClientAuth(false);
 
 		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true, sslEngine);
-		*/
-		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
+		//return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
 	}
 
 }

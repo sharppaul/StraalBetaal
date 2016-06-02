@@ -19,6 +19,7 @@ public class Client {
 	private String language = "EN";
 	public static final int BANKID = 0;
 	private Gelddispenser dispenser;
+	
 
 	public static void main(String[] args) {
 
