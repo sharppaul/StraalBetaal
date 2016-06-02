@@ -19,7 +19,27 @@ public class DataAccessObject extends DbTemplate {
 	public DataAccessObject() {
 	}
 
-	public String getCorrectPin(String pasID) {
+	public boolean doesPasExist(String pasID) {
+		String checkIban = "SELECT COUNT(card.IBAN) FROM card WHERE card.IBAN = ?";
+		boolean doesExist = false;
+		try {
+			con = getConnection();
+			stmt = con.prepareStatement(checkIban);
+			stmt.setString(1, pasID);
+			rs = stmt.executeQuery();
+			if (rs.next())
+				doesExist = rs.getInt(1) > 0;
+			LOG.info("MYSQL Checking if card exists.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOG.error("MYSQL ERROR when checking card! " + e.getMessage());
+		} finally {
+			closeResources(con, stmt, rs);
+		}
+		return doesExist;
+	}
+
+	public String getPin(String pasID) {
 		String sqlPin = null;
 		String getUserSQL = "SELECT card.pincode FROM card WHERE card.IBAN = ?";
 
@@ -30,13 +50,12 @@ public class DataAccessObject extends DbTemplate {
 			rs = stmt.executeQuery();
 			if (rs.next())
 				sqlPin = rs.getString(1);
-			LOG.info("getCorrectPin method!");
+			LOG.info("MYSQL Request for pin.");
 			if (rs.next()) // If the resultSet contains a second row.
-				throw new Exception("Multiple pincodes for one pasID!");
-		} catch (Exception e) {
+				throw new SQLException("Multiple pincodes for one pasID!");
+		} catch (SQLException e) {
 			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN GETTING PINCODE!!!");
-			LOG.error("ERROR MESSAGE: " + e.getMessage());
+			LOG.error("MYSQL ERROR when getting pin! " + e.getMessage());
 		} finally {
 			closeResources(con, stmt, rs);
 		}
@@ -44,7 +63,7 @@ public class DataAccessObject extends DbTemplate {
 		return sqlPin;
 	}
 
-	public int getWrongPin_Counter(String pasID) {
+	public int getPinAttempts(String pasID) {
 		int counter = 0;
 		String getCounterSQL = "SELECT card.wrongPinCounter FROM card WHERE card.IBAN = ?";
 
@@ -55,11 +74,10 @@ public class DataAccessObject extends DbTemplate {
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				counter = rs.getInt(1);
-				LOG.info("checkWrongPinCounter method!");
+				LOG.info("MYSQL Checking pin attempts.");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN CHECKING WRONG PIN COUNTER!!!");
+			LOG.error("MYSQL ERROR when checking pincounter! " + e.getMessage());
 		} finally {
 			closeResources(con, stmt, rs);
 		}
@@ -67,11 +85,11 @@ public class DataAccessObject extends DbTemplate {
 		return counter;
 	}
 
-	public int incrementWrongPinCounter(String pasID) {
+	public int incrementPinAttempts(String pasID) {
 		int counter = 0;
 		String updateIncrementedCounterSQL = "UPDATE card SET card.wrongPinCounter = ? WHERE IBAN = ?";
 
-		counter = getWrongPin_Counter(pasID) + 1;
+		counter = getPinAttempts(pasID) + 1;
 
 		try {
 			con = getConnection();
@@ -79,10 +97,9 @@ public class DataAccessObject extends DbTemplate {
 			stmt.setInt(1, counter);
 			stmt.setString(2, pasID);
 			stmt.executeUpdate();
-			LOG.info("incrementWrongPincodeCounter method, inserted counter: " + counter + " into cards!");
+			LOG.info("MYSQL Incrementing pin attempt: " + counter);
 		} catch (SQLException e) {
-			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN INCREMENTING WRONG PIN COUNTER!!!");
+			LOG.error("MYSQL ERROR While incrementing pin attempts! " + e.getMessage());
 		}
 
 		closeResources(con, stmt, rs);
@@ -90,7 +107,7 @@ public class DataAccessObject extends DbTemplate {
 		return counter;
 	}
 
-	public void resetWrongPinCounter(String pasID) {
+	public void resetPinAttempts(String pasID) {
 		String updateIncrementedCounterSQL = "UPDATE card SET card.wrongPinCounter = ? WHERE IBAN = ?";
 
 		try {
@@ -99,9 +116,9 @@ public class DataAccessObject extends DbTemplate {
 			stmt.setInt(1, 0);
 			stmt.setString(2, pasID);
 			stmt.executeUpdate();
-			LOG.info("resetWrongPinCounter method");
+			LOG.info("MYSQL Resetting pin attempts.");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("MYSQL ERROR When resetting pin attempts! " + e.getMessage());
 		} finally {
 			closeResources(con, stmt, rs);
 		}
@@ -121,16 +138,14 @@ public class DataAccessObject extends DbTemplate {
 			else
 				throw new SQLException("Saldo with given IBAN does not exist!");
 		} catch (SQLException e) {
-			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN GETTING BALANCE!!!");
-			LOG.error("ERROR MESSAGE: " + e.getMessage());
+			LOG.error("MYSQL ERROR When getting balance from database! " + e.getMessage());
 		} finally {
 			closeResources(con, stmt, rs);
 		}
 		return balance;
 	}
 
-	public void withdraw(String pasID, long amount, long currentSaldo) {
+	public int withdraw(String pasID, long amount, long currentSaldo) {
 		String getMoneySQL = "UPDATE saldo SET saldo.cardSaldo = ? WHERE IBAN = ?";
 		String betaalGeschiedenisSQL = "INSERT INTO betaalgeschiedenis (IBAN, afgeschreven, datum) VALUE( ?, ?, ?)";
 
@@ -141,24 +156,24 @@ public class DataAccessObject extends DbTemplate {
 			stmt.setString(2, pasID);
 			if (stmt.executeUpdate() == 1) {
 				closeResources(null, stmt, rs);
-				LOG.info("Withdraw method, updated saldo!");
+				LOG.info("MYSQL Withdraw method, updated saldo.");
 				stmt = con.prepareStatement(betaalGeschiedenisSQL);
 				stmt.setString(1, pasID);
 				stmt.setLong(2, amount);
 				stmt.setTimestamp(3, java.sql.Timestamp.from(java.time.Instant.now()));
 				if (stmt.executeUpdate() == 1)
-					LOG.info("Withdraw method, inserted data into betaalgeschiedenis!");
+					LOG.info("MYSQL Inserted data into betaalgeschiedenis.");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			LOG.error("DATABASE ERROR WHEN DOING WITHDRAW!!!");
-			LOG.error("ERROR MESSAGE: " + e.getMessage());
+			LOG.error("MYSQL ERROR When withdrawing money! " + e.getMessage());
 		} finally {
 			closeResources(con, stmt, rs);
 		}
+
+		return getTransactionNumber();
 	}
 
-	public int getTransactieBon() {
+	private int getTransactionNumber() {
 		int transactieBon = 0;
 		String getTransactieBonSQL = "SELECT transactieNummer FROM betaalgeschiedenis ORDER BY transactieNummer DESC LIMIT 1";
 		Statement stmt = null;
@@ -168,14 +183,13 @@ public class DataAccessObject extends DbTemplate {
 			rs = stmt.executeQuery(getTransactieBonSQL);
 			if (rs.next())
 				transactieBon = rs.getInt(1);
+			LOG.info("MYSQL Getting transaction number.");
 			stmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("MYSQL ERROR When getting transaction number! " + e.getMessage());
 		} finally {
 			closeResources(con, stmt, rs);
 		}
-
-		LOG.info("getTransactionBon method");
 
 		return transactieBon;
 	}

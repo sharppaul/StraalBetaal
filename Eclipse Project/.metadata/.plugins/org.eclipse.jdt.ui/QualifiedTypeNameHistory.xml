@@ -12,4 +12,8 @@
 <fullyQualifiedTypeName name="java.awt.FontMetrics"/>
 <fullyQualifiedTypeName name="nl.hr.project3_4.straalbetaal.print.LabelWriter"/>
 <fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="nl.hr.project3_4.straalbetaal.api.CheckPasRequest"/>
+<fullyQualifiedTypeName name="nl.hr.project3_4.straalbetaal.api.CheckPasResponse"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 </qualifiedTypeNameHistroy>

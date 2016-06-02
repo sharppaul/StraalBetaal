@@ -42,7 +42,8 @@ public class Client {
 					sleep(100);
 					checkLanguage();
 				}
-
+				
+				checkPas();
 				shouldReset();
 
 				frame.setMode("login");
@@ -54,9 +55,9 @@ public class Client {
 					shouldReset();
 					checkLanguage();
 				}
-
+				
 				frame.setMode("loading");
-				backend = new ClientBackEnd(data.getCard());
+				backend = new ClientBackEnd();
 
 				checkPinValid();
 
@@ -153,9 +154,18 @@ public class Client {
 		}
 	}
 
+	private void checkPas() throws Reset {
+		CheckPasRequest rq = new CheckPasRequest(Client.BANKID, data.getCard());
+		CheckPasResponse rs = backend.checkPas(rq);
+		if (!rs.doesExist()) {
+			data.reset();
+			throw new Reset("unreadable");
+		}
+	}
+	
+	
 	private void checkPinValid() throws Reset {
-
-		CheckPinRequest rq = new CheckPinRequest(Client.BANKID, data.getCard(), data.getPinEncrypted());
+		CheckPinRequest rq = new CheckPinRequest(Client.BANKID, data.getCard(), data.getPin());
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (!rs.isCorrect()) {
 			data.reset();

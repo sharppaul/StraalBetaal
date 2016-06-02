@@ -3,11 +3,8 @@ package nl.hr.project3_4.straalbetaal.server;
 import java.net.URI;
 
 import org.apache.log4j.Logger;
-
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.ssl.SSLContextConfigurator;
-import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -35,21 +32,14 @@ public class Server {
 		config.register(JacksonJaxbJsonProvider.class);
 		URI uri = URI.create("https://0.0.0.0:" + 8025);
 
-		
+		/*
 		// NOT WORKING CODE!!!
 		SSLContextConfigurator sslConf = new SSLContextConfigurator();
-		System.out.println("Stap1");
 		sslConf.setKeyStoreFile("./keystore_server"); // contains server keypair
-		System.out.println("Stap2");
 		sslConf.setKeyStorePass("33fm3K");
-		System.out.println("Stap3");
 		sslConf.setTrustStoreFile("./truststore_server"); // client cert.
-		System.out.println("Stap4");
 		sslConf.setTrustStorePass("33fm3K");
-		System.out.println("Stap6");
 		SSLEngineConfigurator sslEngine = new SSLEngineConfigurator(sslConf);
-		System.out.println("Stap7");
-		System.out.println();
 		// comment next three lines to enable client authentication (If it works
 		// at all)
 		sslEngine.setClientMode(false);
@@ -57,7 +47,8 @@ public class Server {
 		sslEngine.setWantClientAuth(false);
 
 		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true, sslEngine);
-		//return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
+		*/
+		return GrizzlyHttpServerFactory.createHttpServer(uri, config, true);
 	}
 
 }

@@ -5,7 +5,7 @@ public class ArduinoData {
 	private int pinLength = 0;
 	private Boolean wantsBon = null;
 	private Boolean wantDonate = null;
-	private String pinEncrypted;
+	private String pinCode;
 	private String cardId;
 	private String billOption;
 	private int pinAmount;
@@ -27,7 +27,7 @@ public class ArduinoData {
 		this.pinLength = 0;
 		this.wantsBon = null;
 		this.setDonate(null);
-		this.pinEncrypted = null;
+		this.pinCode = null;
 		this.cardId = null;
 		this.billOption = null;
 		this.pinAmount = 0;
@@ -42,19 +42,24 @@ public class ArduinoData {
 	}
 
 	////////////////////// CARD RECEIVED::
-	public void cardReceived() {
+	public boolean isCardReceived() {
+		return this.cardReceived;
+	}
+	
+	public void receiveCard(String kaartid){
+		this.cardId = kaartid;
 		this.cardReceived = true;
 		this.isReset = false;
 	}
-
-	public boolean isCardReceived() {
-		return this.cardReceived;
+	
+	public String getCard() {
+		return this.cardId;
 	}
 
 	////////////////////// PIN STUFF:
 	public void resetPin() {
 		this.pinLength = 0;
-		this.pinEncrypted = null;
+		this.pinCode = null;
 	}
 
 	public int getPinLength() {
@@ -65,7 +70,7 @@ public class ArduinoData {
 		this.pinLength++;
 	}
 
-	public void receivePin(String pin, String kaartid) {
+	public void receivePin(String pin) {
 		String random = pin.substring(pin.length() - 4, pin.length());
 		String pinCut = pin.substring(0, pin.length() - 4);
 		String pinPlain = Integer.toString(Integer.parseInt(pinCut) / Integer.parseInt(random) / 17);
@@ -74,19 +79,17 @@ public class ArduinoData {
 			pinPlain = "0" + pinPlain;
 		}
 		
-		this.pinEncrypted = pinPlain;		
-		this.cardId = kaartid;
+		this.pinCode = pinPlain;		
+		
 		this.setPinReceived(true);
-		System.out.println(pinPlain);
 	}
 
-	public String getPinEncrypted() {
-		return this.pinEncrypted;
+	
+	public String getPin() {
+		return this.pinCode;
 	}
 
-	public String getCard() {
-		return this.cardId;
-	}
+	
 
 	////////////////////// BON STUFF:
 	public void setBon(Boolean option) {

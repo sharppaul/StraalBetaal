@@ -16,38 +16,34 @@ public class Resource {
 	private static final Logger LOG = Logger.getLogger(Resource.class.getName());
 
 	private static Service serv = new Service();
+	public static final int BANKID = 0;
 
 	@POST
 	@Path("checkpas") // Check if pas bestaat
 	public CheckPasResponse checkPas(CheckPasRequest request) {
-		// Check which bank its from and forward request to that server. That server generates a response and forward that response to the client!
-		if(request.getBankID() != 0){
-			//return new CheckPasResponse(request.getBankID(), request.getPasID());
+		LOG.info("POST: CheckPasRequest, bankID: " + request.getBankID() + " pasID: " + request.getPasID());
+		if (request.getBankID() != BANKID) {
+			// sent to other bank.
 		}
-		
-		CheckPasResponse response = new CheckPasResponse(
-				serv.checkPasExist(request.getBankID(), request.getPasID()));
-
-		LOG.info("Post request for checkpas with bankID: " + request.getBankID() + " + pasID: " + request.getPasID());
-
+		CheckPasResponse response = new CheckPasResponse(serv.checkPasExist(request.getPasID()));
 		return response;
 	}
 
 	@POST
 	@Path("checkpin")
 	public CheckPinResponse checkPinCorrect(CheckPinRequest request) {
+		LOG.info("POST: CheckPinRequest, CARD: " + request.getPasID());
+		if (request.getBankID() != BANKID) {
+			// sent to other bank.
+		}
 		CheckPinResponse response = new CheckPinResponse();
-
 		response.setBlocked(serv.isPasBlocked(request.getPasID()));
 
 		if (response.isBlocked()) {
-			LOG.info("Post request for correct pin, but pin is blocked!");
 			response.setCorrect(false);
 			return response;
 		} else {
 			response.setCorrect(serv.isPinCorrect(request.getPasID(), request.getPinCode()));
-			LOG.info("Post request for checkpin with pincode: " + request.getPinCode());
-
 			return response;
 		}
 	}
@@ -55,37 +51,35 @@ public class Resource {
 	@GET
 	@Path("test")
 	public String testPage() {
-		return "<h1>test</h1>";
+		return "{\"test\":\"test\"}";
 	}
 
 	@POST
 	@Path("balance")
 	public BalanceResponse getBalance(BalanceRequest request) {
+		LOG.info("POST: BalanceRequest with CARD: " + request.getPasID());
+		if (request.getBankID() != BANKID) {
+			// sent to other bank.
+		}
 		BalanceResponse response = new BalanceResponse(serv.getBalance(request.getPasID()));
-
-		LOG.info("Post request for balance with pasID: " + request.getPasID());
-
 		return response;
 	}
 
 	@POST
 	@Path("withdraw")
 	public WithdrawResponse withdraw(WithdrawRequest request) {
-		WithdrawResponse response = new WithdrawResponse();
-
-		// Beetje verwarrende benamingen, maar dus transactie is gefaald als
-		// transactieBon = 0;
-		long transactieBon = serv.withdraw(request.getPasID(), request.getPinAmount());
-		if (transactieBon > 0) {
-			response.setSucceeded(true);
-			response.setTransactieNummer(transactieBon);
+		LOG.info("POST: WithdrawRequest, CARD: " + request.getPasID() + " AMOUNT: " + request.getPinAmount());
+		if (request.getBankID() != BANKID) {
+			// sent to other bank.
 		}
-		else {
+		WithdrawResponse response = new WithdrawResponse();
+		long transactieNummer = serv.withdraw(request.getPasID(), request.getPinAmount());
+		if (transactieNummer > 0) {
+			response.setSucceeded(true);
+			response.setTransactieNummer(transactieNummer);
+		} else {
 			response.setSucceeded(false);
 		}
-
-		LOG.info("Post request for withdraw with pasID: " + request.getPasID() + " and amount: " + request.getPinAmount());
-
 		return response;
 	}
 

@@ -168,6 +168,18 @@ public class Frame extends JFrame {
 					+ Arrays.toString(modes));
 		}
 	}
+	
+	public String formatAmount(long amount) {
+		String amountStr = (amount / 100) + ",";
+		long decimals = amount - ((amount / 100) * 100);
+		if (decimals > 9) {
+			amountStr += decimals;
+		} else {
+			amountStr += "0" + decimals;
+		}
+
+		return amountStr;
+	}
 
 	public String[] getBillOption() {
 		return billOption;
@@ -330,7 +342,7 @@ public class Frame extends JFrame {
 		instr = new JLabel(language.getString("balance") + ": ");
 		instr.setFont(bigfont);
 
-		saldotxt = new JLabel("G " + saldo / 100 + "," + (saldo - (saldo / 100) * 100));
+		saldotxt = new JLabel("G " + formatAmount(saldo));
 
 		saldotxt.setFont(bigfont);
 

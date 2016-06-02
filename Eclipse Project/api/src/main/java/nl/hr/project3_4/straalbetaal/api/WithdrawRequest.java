@@ -5,8 +5,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class WithdrawRequest {
 
 	@JsonProperty
-	private
-	long pinAmount;
+	private long pinAmount;
 	@JsonProperty
 	private int bankID;
 	@JsonProperty
@@ -28,12 +27,12 @@ public class WithdrawRequest {
 	public void setBankID(int bankID) {
 		this.bankID = bankID;
 	}
-	
-	public String getPasID(){
+
+	public String getPasID() {
 		return this.pasID;
 	}
-	
-	public void setPasID(String pasID){
+
+	public void setPasID(String pasID) {
 		this.pasID = pasID;
 	}
 

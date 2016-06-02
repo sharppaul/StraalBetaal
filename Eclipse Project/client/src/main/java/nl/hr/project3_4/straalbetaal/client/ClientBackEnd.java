@@ -17,46 +17,32 @@ public class ClientBackEnd {
 	// private SSLContext s;
 	private ClientBuilder cBuilder = ClientBuilder.newBuilder();
 	private Client client;
-	
-	
-	private static final String TARGET = "http://145.24.222.208:8025";
 
+	private static final String TARGET = "http://localhost:8025";
+	// private static final String TARGET = "http://145.24.222.208:8025";
+
+	// IP JASPER:
+	// private static final String TARGET = "http://145.24.222.211:8025";
 
 	/*
-	 * I did it this way - get the IBAN and pincode on initialization - ,
-	 * and not get the IBAN and pincode per method, because that is how we
-	 * set our arduino code to also send the data to the client! (06-03-2016)
+	 * I did it this way - get the IBAN and pincode on initialization - , and
+	 * not get the IBAN and pincode per method, because that is how we set our
+	 * arduino code to also send the data to the client! (06-03-2016)
 	 */
-	
-	public ClientBackEnd(String iban) {
+
+	public ClientBackEnd() {
 		cBuilder.register(JacksonFeature.class);
 		client = cBuilder.build();
 	}
 
+	public CheckPasResponse checkPas(CheckPasRequest request) {
+		String path = "/checkpas";
 
-	/* This is for testing purposes, this main will be in the Client class,
-	 * together with the ArduinoData and GUI.
-	
-	public static void main(String[] args) {
-		// ClientBackEnd backEnd = new ClientBackEnd();
-		ClientBackEnd backEnd = new ClientBackEnd("123456789", "3025");
-		
-		System.out.println("UserId: \t\t" + backEnd.checkPincode().getUserID());
-		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
-
-		WithdrawRequest request = new WithdrawRequest();
-		request.setAmount(5);
-		
-		WithdrawResponse response = backEnd.withdrawMoney(request);
-		
-		System.out.println("Withdraw Response: \t" + response.getResponse());
-		System.out.println("Transaction Number: \t" + response.getTransactionNumber());
-		
-		backEnd = new ClientBackEnd("123456789", "3025");
-		backEnd.checkPincode().getUserID();
-		System.out.println("Balance: \t\t" + backEnd.checkBalance().getBalance());
+		LOG.info("Client - CheckPincode Response send to server!");
+		CheckPasResponse response = client.target(TARGET).path(path).request()
+				.post(Entity.entity(request, MediaType.APPLICATION_JSON), CheckPasResponse.class);
+		return response;
 	}
-	 */
 
 	public CheckPinResponse checkPincode(CheckPinRequest request) {
 		String path = "/checkpin";
@@ -82,8 +68,9 @@ public class ClientBackEnd {
 		LOG.info("Client - Withdraw Request send to server!");
 		WithdrawResponse response = client.target(TARGET).path(path).request()
 				.post(Entity.entity(request, MediaType.APPLICATION_JSON), WithdrawResponse.class);
-		if(!response.isSucceeded()) {
-			//response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende saldo?");
+		if (!response.isSucceeded()) {
+			// response.setResponse("Pinnen is helaas mislukt. Hebt u voldoende
+			// saldo?");
 		}
 		LOG.info("Client - Withdraw response received from server!");
 		return response;

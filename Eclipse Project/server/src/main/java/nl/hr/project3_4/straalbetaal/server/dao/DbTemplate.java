@@ -22,10 +22,10 @@ public abstract class DbTemplate {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(host, uName, uPass);
-			LOG.info("Connection with mysql server made sucessfully.");
+			LOG.info("MYSQL Server Connection SUCCESS");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			LOG.error("CONNECTION WITH MYSQL SERVER FAILED!!!");
+			LOG.error("MYSQL Server Connection FAILED!");
 		}
 
 		return con;
@@ -39,10 +39,10 @@ public abstract class DbTemplate {
 				stmt.close();
 			if (rs != null)
 				rs.close();
-			LOG.info("Sql Resources closed succesfully.");
+			LOG.info("MYSQL Resources Closed.");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			LOG.error("ERROR CLOSING RESOURCES!!!");
+			LOG.error("MYSQL Resources Closing ERROR!");
 		}
 	}
 
@@ -54,10 +54,10 @@ public abstract class DbTemplate {
 				stmt.close();
 			if (rs != null)
 				rs.close();
-			LOG.info("Sql Resources closed succesfully.");
+			LOG.info("MYSQL Resources Closed.");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			LOG.error("ERROR CLOSING RESOURCES!!!");
+			LOG.error("MYSQL Resources Closing ERROR!");
 		}
 	}
 
