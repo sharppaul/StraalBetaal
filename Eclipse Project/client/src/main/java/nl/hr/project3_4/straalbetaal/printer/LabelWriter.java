@@ -65,7 +65,7 @@ public class LabelWriter {
 								g.drawString("Tijd:  " + TIMEFORMAT.format(now), 5, FONTSIZE * 6);
 								g.drawString("==Pin Transactie==", 5, FONTSIZE * 8);
 								g.drawString("Bedrag:", 5, FONTSIZE * 10);
-								g.drawString("\u20AC " + bedrag, 5, FONTSIZE * 11);
+								g.drawString("G " + formatAmount(bedrag), 5, FONTSIZE * 11);
 								g.drawString("Transactie Nr.:", 5, FONTSIZE * 13);
 								g.drawString(transNr, 5, FONTSIZE * 14);
 								g.drawString("Rekening Nr.:", 5, FONTSIZE * 16);
@@ -96,6 +96,18 @@ public class LabelWriter {
 		}
 	}
 
+	public String formatAmount(long amount) {
+		String amountStr = (amount / 100) + ",";
+		long decimals = amount - ((amount / 100) * 100);
+		if (decimals > 9) {
+			amountStr += decimals;
+		} else {
+			amountStr += "0" + decimals;
+		}
+
+		return amountStr;
+	}
+	
 	protected static double CMtoPPI(double cm) {
 		return toPPI(cm * 0.393700787);
 	}

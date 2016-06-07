@@ -3,11 +3,8 @@ package nl.hr.project3_4.straalbetaal.server;
 import java.net.URI;
 
 import org.apache.log4j.Logger;
-
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.ssl.SSLContextConfigurator;
-import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -33,7 +30,7 @@ public class Server {
 	private HttpServer initWebserver() {
 		ResourceConfig config = new ResourceConfig(Resource.class);
 		config.register(JacksonJaxbJsonProvider.class);
-		URI uri = URI.create("http://0.0.0.0:" + 8025);
+		URI uri = URI.create("https://0.0.0.0:" + 8025);
 
 		/*
 		// NOT WORKING CODE!!!
@@ -43,7 +40,6 @@ public class Server {
 		sslConf.setTrustStoreFile("./truststore_server"); // client cert.
 		sslConf.setTrustStorePass("33fm3K");
 		SSLEngineConfigurator sslEngine = new SSLEngineConfigurator(sslConf);
-
 		// comment next three lines to enable client authentication (If it works
 		// at all)
 		sslEngine.setClientMode(false);

@@ -138,7 +138,7 @@ void rfid() {
       currentCardID += uid3;
       currentCardID += uid4;
       mode = "pincode";
-      Serial.println("{\"event\":\"cardreceived\"}");
+      Serial.println("{\"event\":\"cardreceived\",\"card\":\"" + currentCardID + "\"}");
     }
   }
   myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
@@ -180,7 +180,7 @@ void encryptAndSend() {
   pincodePlain = String(pincodePlain.toInt() * randNumber * 17);
   pincodePlain += (randNumber);
 
-  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\",\"card\":\"" + currentCardID + "\"}");
+  Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\"");
   mode = "choice";
 }
 

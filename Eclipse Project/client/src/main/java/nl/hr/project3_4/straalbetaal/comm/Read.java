@@ -96,8 +96,7 @@ public class Read implements SerialPortEventListener {
 				if (Arrays.asList(incomingJson.keySet().toArray()).contains("event")) {
 					// EVENT: pin received from arduino.
 					if (incomingJson.getString("event").equals("pinsend")) {
-						data.receivePin(incomingJson.getString("pin"), incomingJson.getString("card"));
-						//data.receivePin("1239590025909", "382505325");
+						data.receivePin(incomingJson.getString("pin"));
 						System.out.println("event OK");
 					}
 
@@ -175,7 +174,7 @@ public class Read implements SerialPortEventListener {
 
 					// EVENT: reset pin digits.
 					if (incomingJson.getString("event").equals("cardreceived")) {
-						data.cardReceived();
+						data.receiveCard(incomingJson.getString("card"));
 						System.out.println("event OK");
 					}
 					
