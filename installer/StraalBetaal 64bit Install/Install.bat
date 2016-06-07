@@ -31,6 +31,7 @@ REM  ##########################  Copy files: ###########################
 echo # Copying files...
 if not exist "%PROGRAMFILES%\StraalBetaal" mkdir "%PROGRAMFILES%\StraalBetaal"
 copy "%~dp0client\Client.jar" "%PROGRAMFILES%\StraalBetaal\Client.jar"
+copy "%~dp0client\logo.ico" "%PROGRAMFILES%\StraalBetaal\logo.ico"
 copy "%~dp0rxtx\rxtxParallel.dll" "%JAVA_HOME%\bin\rxtxParallel.dll"
 copy "%~dp0rxtx\rxtxSerial.dll" "%JAVA_HOME%\bin\rxtxSerial.dll"
 copy "%~dp0rxtx\RXTXcomm.jar" "%JAVA_HOME%\lib\ext\RXTXcomm.jar"
@@ -48,9 +49,10 @@ echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
 echo sLinkFile = "%USERPROFILE%\Desktop\StraalBetaal.lnk" >> %SCRIPT%
 echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
 echo oLink.TargetPath = "%PROGRAMFILES%\StraalBetaal\Client.jar" >> %SCRIPT%
-echo oLink.IconLocation = "%~dp0\client\logo.ico" >> %SCRIPT%
+echo oLink.IconLocation = "%PROGRAMFILES%\StraalBetaal\logo.ico" >> %SCRIPT%
 echo oLink.Save >> %SCRIPT%
 cscript /nologo %SCRIPT%
+echo %SCRIPT%
 del %SCRIPT%
 
 echo # Done installing StraalBetaal Client...
