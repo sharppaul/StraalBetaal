@@ -18,6 +18,30 @@ public class DataAccessObject extends DbTemplate {
 
 	public DataAccessObject() {
 	}
+	
+	public String getBankIP(int bankID){
+		String ip = null;
+		String getBankSQL = "SELECT bank.IP, bank.port FROM bank WHERE bank.ID = ?";
+
+		try {
+			con = getConnection();
+			stmt = con.prepareStatement(getBankSQL);
+			stmt.setInt(1, bankID); 
+			rs = stmt.executeQuery();
+			if (rs.next())
+				ip = "http://"+rs.getString(1)+":"+rs.getString(2);
+			LOG.info("MYSQL Request for bank IP.");
+			if (rs.next()) // If the resultSet contains a second row.
+				throw new SQLException("Multiple IPs for one bankID!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOG.error("MYSQL ERROR when getting bank IP! " + e.getMessage());
+		} finally {
+			closeResources(con, stmt, rs);
+		}
+
+		return ip;
+	}
 
 	public boolean doesPasExist(String pasID) {
 		String checkIban = "SELECT COUNT(card.IBAN) FROM card WHERE card.IBAN = ?";

@@ -2,6 +2,7 @@ package nl.hr.project3_4.straalbetaal.server.resources;
 
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.server.services.Service;
+import nl.hr.project4_4.straalbetaal.server.repeater.Repeater;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,14 +17,15 @@ public class Resource {
 	private static final Logger LOG = Logger.getLogger(Resource.class.getName());
 
 	private static Service serv = new Service();
+	private static Repeater repeater = new Repeater();
 	public static final int BANKID = 0;
 
 	@POST
-	@Path("checkpas") // Check if pas bestaat
+	@Path("checkpas") // Check if pas exists
 	public CheckPasResponse checkPas(CheckPasRequest request) {
 		LOG.info("POST: CheckPasRequest, bankID: " + request.getBankID() + " pasID: " + request.getPasID());
 		if (request.getBankID() != BANKID) {
-			// sent to other bank.
+			return repeater.checkPas(request);
 		}
 		CheckPasResponse response = new CheckPasResponse(serv.checkPasExist(request.getPasID()));
 		return response;
@@ -34,7 +36,7 @@ public class Resource {
 	public CheckPinResponse checkPinCorrect(CheckPinRequest request) {
 		LOG.info("POST: CheckPinRequest, CARD: " + request.getPasID());
 		if (request.getBankID() != BANKID) {
-			// sent to other bank.
+			return repeater.checkPincode(request);
 		}
 		CheckPinResponse response = new CheckPinResponse();
 		response.setBlocked(serv.isPasBlocked(request.getPasID()));
@@ -59,7 +61,7 @@ public class Resource {
 	public BalanceResponse getBalance(BalanceRequest request) {
 		LOG.info("POST: BalanceRequest with CARD: " + request.getPasID());
 		if (request.getBankID() != BANKID) {
-			// sent to other bank.
+			return repeater.checkBalance(request);
 		}
 		BalanceResponse response = new BalanceResponse(serv.getBalance(request.getPasID()));
 		return response;
@@ -70,7 +72,7 @@ public class Resource {
 	public WithdrawResponse withdraw(WithdrawRequest request) {
 		LOG.info("POST: WithdrawRequest, CARD: " + request.getPasID() + " AMOUNT: " + request.getPinAmount());
 		if (request.getBankID() != BANKID) {
-			// sent to other bank.
+			return repeater.withdrawMoney(request);
 		}
 		WithdrawResponse response = new WithdrawResponse();
 		long transactieNummer = serv.withdraw(request.getPasID(), request.getPinAmount());
