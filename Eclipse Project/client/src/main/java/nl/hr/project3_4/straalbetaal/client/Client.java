@@ -19,7 +19,6 @@ public class Client {
 	private String language = "EN";
 	public static final int BANKID = 0;
 	private Gelddispenser dispenser;
-	
 
 	public static void main(String[] args) {
 
@@ -42,7 +41,7 @@ public class Client {
 					sleep(100);
 					checkLanguage();
 				}
-				
+
 				checkPas();
 				shouldReset();
 
@@ -55,7 +54,7 @@ public class Client {
 					shouldReset();
 					checkLanguage();
 				}
-				
+
 				frame.setMode("loading");
 				backend = new ClientBackEnd();
 
@@ -162,8 +161,7 @@ public class Client {
 			throw new Reset("unreadable");
 		}
 	}
-	
-	
+
 	private void checkPinValid() throws Reset {
 		CheckPinRequest rq = new CheckPinRequest(Client.BANKID, data.getCard(), data.getPin());
 		CheckPinResponse rs = backend.checkPincode(rq);
@@ -178,7 +176,7 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance(new BalanceRequest(Client.BANKID,  data.getCard()));
+		BalanceResponse rs = backend.checkBalance(new BalanceRequest(Client.BANKID, data.getCard()));
 		return rs.getBalance();
 	}
 
@@ -199,9 +197,6 @@ public class Client {
 		System.out.println("Pinning succeeded: " + rs.isSucceeded());
 		if (rs.isSucceeded()) {
 			this.transNummer = rs.getTransactieNummer();
-			dispenser.setAmountGepindeBedrag(data.getAmount());
-			dispenser.setBiljetKeuzeByGepindeBedrag(data.getBillOption());
-			// data.setDataForDispenser(dispenser.calculate());
 		} else {
 			data.reset();
 			throw new Reset("toolow");
@@ -216,31 +211,7 @@ public class Client {
 	}
 
 	private void calculateBills() {
-		int amount = data.getAmount();
-		// TODO: Make a piece of software that checks up with
-		// the amount of bills in stock, and generates an available
-		// choice of bills.
-		String[] options = new String[3];
-
-		options[0] = "Keuze 1";
-		options[1] = "Keuze 2";
-		options[2] = "Keuze 3";
-
-		if (amount == 50) {
-			options[0] = "1x €50";
-			options[1] = "1x €10 & 2x €20";
-			options[2] = "5x €10";
-		}
-		if (amount == 100) {
-			options[0] = "1x €100";
-			options[1] = "2x €50";
-			options[2] = "5x €20";
-		}
-		if (amount == 200) {
-			options[0] = "2x €100";
-			options[1] = "4x €50";
-			options[2] = "2x €50 & 5x €20";
-		}
+		String[] options = dispenser.getBiljetOptiesBijWantedAmount();
 
 		frame.setBillOption(options);
 	}
@@ -268,9 +239,16 @@ public class Client {
 	}
 
 	private boolean userEnteredAmount() {
-		//frame.setPinAmount(data.getAmount());
+		// frame.setPinAmount(data.getAmount());
 		if (data.isAmountDone()) {
+			try {
+				dispenser.setAmountWanted(data.getAmount());
+			} catch (Exception e) {
+				// Return to choose amount page to add lower amount!
+				e.printStackTrace();
+			}
 			return true;
+
 		} else {
 			return false;
 		}
@@ -319,6 +297,7 @@ public class Client {
 		if (data.getChoice().equals("none")) {
 			return false;
 		} else {
+			dispenser.setChosenOption(data.getChoice());
 			return true;
 		}
 	}
