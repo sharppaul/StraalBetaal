@@ -19,6 +19,7 @@ public class Client {
 	private String language = "EN";
 	public static final int BANKID = 0;
 	private Gelddispenser dispenser;
+	
 
 	public static void main(String[] args) {
 
@@ -41,7 +42,7 @@ public class Client {
 					sleep(100);
 					checkLanguage();
 				}
-
+				
 				checkPas();
 				shouldReset();
 
@@ -54,7 +55,7 @@ public class Client {
 					shouldReset();
 					checkLanguage();
 				}
-
+				
 				frame.setMode("loading");
 				backend = new ClientBackEnd();
 
@@ -161,7 +162,8 @@ public class Client {
 			throw new Reset("unreadable");
 		}
 	}
-
+	
+	
 	private void checkPinValid() throws Reset {
 		CheckPinRequest rq = new CheckPinRequest(Client.BANKID, data.getCard(), data.getPin());
 		CheckPinResponse rs = backend.checkPincode(rq);
@@ -176,7 +178,7 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance(new BalanceRequest(Client.BANKID, data.getCard()));
+		BalanceResponse rs = backend.checkBalance(new BalanceRequest(Client.BANKID,  data.getCard()));
 		return rs.getBalance();
 	}
 
@@ -197,15 +199,9 @@ public class Client {
 		System.out.println("Pinning succeeded: " + rs.isSucceeded());
 		if (rs.isSucceeded()) {
 			this.transNummer = rs.getTransactieNummer();
-
-			 // If No bills available for given amount throw exception, Choose different amount!
-			try {
-				dispenser.setAmountWanted(data.getAmount());
-			} catch (Exception e) {
-				// Return to previous frame!
-				e.printStackTrace();
-			}
-
+			dispenser.setAmountGepindeBedrag(data.getAmount());
+			dispenser.setBiljetKeuzeByGepindeBedrag(data.getBillOption());
+			// data.setDataForDispenser(dispenser.calculate());
 		} else {
 			data.reset();
 			throw new Reset("toolow");
@@ -221,13 +217,10 @@ public class Client {
 
 	private void calculateBills() {
 		int amount = data.getAmount();
-
+		// TODO: Make a piece of software that checks up with
+		// the amount of bills in stock, and generates an available
+		// choice of bills.
 		String[] options = new String[3];
-
-		/*
-		 * Returns a string array with 3 or less options for given amount
-		 */
-		options = dispenser.getBiljetOptiesBijWantedAmount();
 
 		options[0] = "Keuze 1";
 		options[1] = "Keuze 2";
@@ -248,9 +241,6 @@ public class Client {
 			options[1] = "4x €50";
 			options[2] = "2x €50 & 5x €20";
 		}
-
-		// **************************************Waar moet dit precies?
-		dispenser.setChosenOption(data.getBillOption());
 
 		frame.setBillOption(options);
 	}
@@ -278,7 +268,7 @@ public class Client {
 	}
 
 	private boolean userEnteredAmount() {
-		// frame.setPinAmount(data.getAmount());
+		//frame.setPinAmount(data.getAmount());
 		if (data.isAmountDone()) {
 			return true;
 		} else {
