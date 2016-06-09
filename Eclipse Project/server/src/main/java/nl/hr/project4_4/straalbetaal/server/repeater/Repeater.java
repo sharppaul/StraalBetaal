@@ -50,7 +50,7 @@ public class Repeater {
 			LOG.info("Repeater - CheckPasResponse received from server!");
 			return response;
 		} else {
-			return new CheckPasResponse(false);
+			return new CheckPasResponse(false, false);
 		}
 	}
 

@@ -31,3 +31,224 @@
 2016-06-02 23:12:30,536  INFO dao.DataAccessObject:186 - MYSQL Getting transaction number.
 2016-06-02 23:12:30,537  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
 2016-06-02 23:12:30,537  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 10009 Transaction ID: 59
+2016-06-09 13:37:09,652  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 13:37:09,942 ERROR dao.DbTemplate:28 - MYSQL Server Connection FAILED!
+2016-06-09 13:37:09,942  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:15:54,430  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:15:54,468  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:15:54,481  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:15:54,482  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:15:54,487  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:15:54,488  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:15:54,488  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:15:54,566  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:15:54,571  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:15:54,572  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:15:54,573  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:36,949  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:16:36,955  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:36,956  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:16:36,957  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:36,962  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:36,962  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:16:36,963  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,012  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:16:37,018  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,018  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:16:37,019  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,026  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,027  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-09 14:16:37,028  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,034  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,037  INFO dao.DataAccessObject:143 - MYSQL Resetting pin attempts.
+2016-06-09 14:16:37,038  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,038  INFO services.Service:46 - Pincode DBRequest SUCCESS, Iban: 123456789
+2016-06-09 14:16:37,048  INFO resources.Resource:62 - POST: BalanceRequest with CARD: 123456789
+2016-06-09 14:16:37,056  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,059  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,059  INFO services.Service:54 - Balance DBRequest SUCCESS, Iban: 123456789 Balance: 670491 Cause: Balance request
+2016-06-09 14:16:37,090  INFO resources.Resource:73 - POST: WithdrawRequest, CARD: 123456789 AMOUNT: 300
+2016-06-09 14:16:37,096  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,097  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,097  INFO services.Service:67 - Balance DBRequest SUCCESS Iban: 123456789 Balance: 670491 Cause: Withdraw
+2016-06-09 14:16:37,097  INFO services.Service:68 - Withdraw DBRequest Iban: 123456789 Saldo left: 670191
+2016-06-09 14:16:37,102  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,105  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,106  INFO dao.DataAccessObject:183 - MYSQL Withdraw method, updated saldo.
+2016-06-09 14:16:37,113  INFO dao.DataAccessObject:189 - MYSQL Inserted data into betaalgeschiedenis.
+2016-06-09 14:16:37,113  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:37,118  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:37,118  INFO dao.DataAccessObject:210 - MYSQL Getting transaction number.
+2016-06-09 14:16:37,119  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
+2016-06-09 14:16:37,119  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 300 Transaction ID: 58
+2016-06-09 14:16:59,572  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:16:59,581  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,582  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:16:59,582  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,587  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,588  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:16:59,588  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,640  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:16:59,645  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,645  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:16:59,646  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,651  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,652  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-09 14:16:59,652  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,657  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,660  INFO dao.DataAccessObject:143 - MYSQL Resetting pin attempts.
+2016-06-09 14:16:59,660  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,660  INFO services.Service:46 - Pincode DBRequest SUCCESS, Iban: 123456789
+2016-06-09 14:16:59,668  INFO resources.Resource:62 - POST: BalanceRequest with CARD: 123456789
+2016-06-09 14:16:59,675  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,676  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,676  INFO services.Service:54 - Balance DBRequest SUCCESS, Iban: 123456789 Balance: 670191 Cause: Balance request
+2016-06-09 14:16:59,689  INFO resources.Resource:73 - POST: WithdrawRequest, CARD: 123456789 AMOUNT: 300
+2016-06-09 14:16:59,693  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,694  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,694  INFO services.Service:67 - Balance DBRequest SUCCESS Iban: 123456789 Balance: 670191 Cause: Withdraw
+2016-06-09 14:16:59,694  INFO services.Service:68 - Withdraw DBRequest Iban: 123456789 Saldo left: 669891
+2016-06-09 14:16:59,698  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,701  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,701  INFO dao.DataAccessObject:183 - MYSQL Withdraw method, updated saldo.
+2016-06-09 14:16:59,705  INFO dao.DataAccessObject:189 - MYSQL Inserted data into betaalgeschiedenis.
+2016-06-09 14:16:59,705  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:16:59,710  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:16:59,710  INFO dao.DataAccessObject:210 - MYSQL Getting transaction number.
+2016-06-09 14:16:59,711  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
+2016-06-09 14:16:59,711  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 300 Transaction ID: 59
+2016-06-09 14:47:52,975  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:47:52,982  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:52,983  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:47:52,983  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:52,989  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:52,990  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:47:52,990  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,056  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:47:53,062  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,063  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:47:53,064  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,069  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,070  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-09 14:47:53,070  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,075  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,080  INFO dao.DataAccessObject:143 - MYSQL Resetting pin attempts.
+2016-06-09 14:47:53,081  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,081  INFO services.Service:46 - Pincode DBRequest SUCCESS, Iban: 123456789
+2016-06-09 14:47:53,091  INFO resources.Resource:62 - POST: BalanceRequest with CARD: 123456789
+2016-06-09 14:47:53,104  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,106  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,106  INFO services.Service:54 - Balance DBRequest SUCCESS, Iban: 123456789 Balance: 669891 Cause: Balance request
+2016-06-09 14:47:53,118  INFO resources.Resource:73 - POST: WithdrawRequest, CARD: 123456789 AMOUNT: 301
+2016-06-09 14:47:53,125  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,126  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,126  INFO services.Service:67 - Balance DBRequest SUCCESS Iban: 123456789 Balance: 669891 Cause: Withdraw
+2016-06-09 14:47:53,126  INFO services.Service:68 - Withdraw DBRequest Iban: 123456789 Saldo left: 669590
+2016-06-09 14:47:53,132  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,136  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,136  INFO dao.DataAccessObject:183 - MYSQL Withdraw method, updated saldo.
+2016-06-09 14:47:53,139  INFO dao.DataAccessObject:189 - MYSQL Inserted data into betaalgeschiedenis.
+2016-06-09 14:47:53,139  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:47:53,144  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:47:53,145  INFO dao.DataAccessObject:210 - MYSQL Getting transaction number.
+2016-06-09 14:47:53,145  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
+2016-06-09 14:47:53,145  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 301 Transaction ID: 60
+2016-06-09 14:48:39,449  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:48:39,455  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,456  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:48:39,456  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,461  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,462  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:48:39,462  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,516  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:48:39,521  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,521  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:48:39,521  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,525  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,526  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-09 14:48:39,526  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,530  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,547  INFO dao.DataAccessObject:143 - MYSQL Resetting pin attempts.
+2016-06-09 14:48:39,547  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,547  INFO services.Service:46 - Pincode DBRequest SUCCESS, Iban: 123456789
+2016-06-09 14:48:39,556  INFO resources.Resource:62 - POST: BalanceRequest with CARD: 123456789
+2016-06-09 14:48:39,560  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,560  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,561  INFO services.Service:54 - Balance DBRequest SUCCESS, Iban: 123456789 Balance: 669590 Cause: Balance request
+2016-06-09 14:48:39,572  INFO resources.Resource:73 - POST: WithdrawRequest, CARD: 123456789 AMOUNT: 300
+2016-06-09 14:48:39,576  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,576  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,577  INFO services.Service:67 - Balance DBRequest SUCCESS Iban: 123456789 Balance: 669590 Cause: Withdraw
+2016-06-09 14:48:39,577  INFO services.Service:68 - Withdraw DBRequest Iban: 123456789 Saldo left: 669290
+2016-06-09 14:48:39,581  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,585  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,585  INFO dao.DataAccessObject:183 - MYSQL Withdraw method, updated saldo.
+2016-06-09 14:48:39,588  INFO dao.DataAccessObject:189 - MYSQL Inserted data into betaalgeschiedenis.
+2016-06-09 14:48:39,588  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:48:39,592  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:48:39,592  INFO dao.DataAccessObject:210 - MYSQL Getting transaction number.
+2016-06-09 14:48:39,593  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
+2016-06-09 14:48:39,593  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 300 Transaction ID: 61
+2016-06-09 14:49:54,100  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:49:54,414  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,426  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:49:54,427  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,434  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,434  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:49:54,435  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,528  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:49:54,534  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,534  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:49:54,535  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,541  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,541  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-09 14:49:54,542  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,546  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,550  INFO dao.DataAccessObject:143 - MYSQL Resetting pin attempts.
+2016-06-09 14:49:54,551  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,551  INFO services.Service:46 - Pincode DBRequest SUCCESS, Iban: 123456789
+2016-06-09 14:49:54,562  INFO resources.Resource:62 - POST: BalanceRequest with CARD: 123456789
+2016-06-09 14:49:54,569  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,570  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,570  INFO services.Service:54 - Balance DBRequest SUCCESS, Iban: 123456789 Balance: 669290 Cause: Balance request
+2016-06-09 14:49:54,593  INFO resources.Resource:73 - POST: WithdrawRequest, CARD: 123456789 AMOUNT: 5000
+2016-06-09 14:49:54,598  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,599  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,599  INFO services.Service:67 - Balance DBRequest SUCCESS Iban: 123456789 Balance: 669290 Cause: Withdraw
+2016-06-09 14:49:54,599  INFO services.Service:68 - Withdraw DBRequest Iban: 123456789 Saldo left: 664290
+2016-06-09 14:49:54,607  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,615  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,615  INFO dao.DataAccessObject:183 - MYSQL Withdraw method, updated saldo.
+2016-06-09 14:49:54,621  INFO dao.DataAccessObject:189 - MYSQL Inserted data into betaalgeschiedenis.
+2016-06-09 14:49:54,622  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:49:54,627  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:49:54,628  INFO dao.DataAccessObject:210 - MYSQL Getting transaction number.
+2016-06-09 14:49:54,629  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
+2016-06-09 14:49:54,629  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 5000 Transaction ID: 62
+2016-06-09 14:50:25,361  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 11235234
+2016-06-09 14:50:25,367  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:25,368  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:50:25,368  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:25,375  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:25,375  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:49,960  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-09 14:50:49,966  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:49,967  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-09 14:50:49,967  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:49,973  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:49,974  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:50:49,974  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:50,021  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-09 14:50:50,027  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:50,028  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:50:50,029  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:50,033  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:50,034  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-09 14:50:50,034  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:50,034  WARN services.Service:40 - Pincode DBRequest BLOCKED, Iban: 123456789
+2016-06-09 14:50:50,041  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:50,042  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-09 14:50:50,042  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-09 14:50:50,050  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-09 14:50:50,055  INFO dao.DataAccessObject:124 - MYSQL Incrementing pin attempt: 1
+2016-06-09 14:50:50,055  INFO dao.DbTemplate:57 - MYSQL Resources Closed.

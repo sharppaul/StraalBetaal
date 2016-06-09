@@ -14,7 +14,7 @@ import nl.hr.project3_4.straalbetaal.api.WithdrawResponse;
 
 public class ClientTest {
 	public static void main(String[] args) {
-		new ClientTest().testFormat();
+		new ClientTest().testServer();
 	}
 
 	public String formatAmount(long amount) {
@@ -23,7 +23,7 @@ public class ClientTest {
 		if (decimals > 9) {
 			amountStr += decimals;
 		} else {
-			amountStr += "0" + decimals;
+			amountStr += "0" + decimals;	
 		}
 
 		return amountStr;
@@ -80,7 +80,7 @@ public class ClientTest {
 			WithdrawRequest rq = new WithdrawRequest(bankid, cardid, amount);
 			WithdrawResponse rs = backend.withdrawMoney(rq);
 			if (rs.isSucceeded()) {
-				System.out.println("Successfully withdrawn €" + formatAmount(saldo));
+				System.out.println("Successfully withdrawn €" + formatAmount(amount));
 			} else {
 				System.out.println("Withdraw failed!");
 			}

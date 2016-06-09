@@ -6,12 +6,15 @@ public class CheckPasResponse {
 
 	@JsonProperty
 	private boolean doesExist;
+	@JsonProperty
+	private boolean blocked;
 
 	public CheckPasResponse() {
 	}
 
-	public CheckPasResponse(boolean doesExist) {
+	public CheckPasResponse(boolean doesExist, boolean blocked) {
 		this.setDoesExist(doesExist);
+		this.setBlocked(blocked);
 	}
 
 	public boolean doesExist() {
@@ -20,6 +23,14 @@ public class CheckPasResponse {
 
 	public void setDoesExist(boolean doesExist) {
 		this.doesExist = doesExist;
+	}
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
 	}
 
 }

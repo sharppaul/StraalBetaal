@@ -24,7 +24,7 @@ public class Gelddispenser {
 		Gelddispenser gd = new Gelddispenser(5, 5, 5);
 
 		String choice = "A";
-		int amount = 50;
+		int amount = 20;
 
 		gd.setAmountGepindeBedrag(amount);
 		gd.setBiljetKeuzeByGepindeBedrag(choice);
