@@ -408,13 +408,18 @@ public class Frame extends JFrame {
 
 		// LOTTA BUTTONS:
 		c.ipady = 35;
-		c.gridy++;
-		mainPanel.add(a, c);
-		c.gridy++;
-		mainPanel.add(b, c);
-		c.gridy++;
-		mainPanel.add(cc, c);
-
+		if (getBillOption()[0] == null) {
+			c.gridy++;
+			mainPanel.add(a, c);
+		}
+		if (getBillOption()[1] == null) {
+			c.gridy++;
+			mainPanel.add(b, c);
+		}
+		if (getBillOption()[2] == null) {
+			c.gridy++;
+			mainPanel.add(cc, c);
+		}
 		c.gridy++;
 		c.gridwidth = 1;
 		mainPanel.add(cancelButton(), c);
