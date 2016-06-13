@@ -30,7 +30,7 @@ public class Client {
 		data = new ArduinoData();
 		reader = new Read(data);
 		backend = new ClientBackEnd();
-	
+		dispenser = Gelddispenser.getGelddispenser();
 
 
 		while (true) {
@@ -230,9 +230,10 @@ public class Client {
 	}
 
 	private void calculateBills() {
+		dispenser.existAskedOption(data.getAmount());
 		String[] options = dispenser.getOptionsForSpecificAmount();
-		int amount = data.getAmount();
 
+		/*
 		if (amount == 50) {
 			options[0] = "1x €50";
 			options[1] = "1x €10 & 2x €20";
@@ -248,6 +249,7 @@ public class Client {
 			options[1] = "4x €50";
 			options[2] = "2x €50 & 5x €20";
 		}
+		*/
 
 		frame.setBillOption(options);
 	}
@@ -281,6 +283,7 @@ public class Client {
 
 	private boolean billSelected() {
 		if (data.getBillOption() != null) {
+			dispenser.removeChosenBillsFromDispenser(data.getBillOption());
 			return true;
 		}
 		return false;
