@@ -1,30 +1,50 @@
 package nl.hr.project3_4.straalbetaal.dispenser;
 
-public class Gelddispenser {
+/*************************************************
+ * amount = 50
+ * 	options[0] = "1x €50";
+ * 	options[1] = "1x €10 & 2x €20";
+ * 	options[2]= "5x €10";
+ *
+ * amount = 100
+ * 	options[0] = "1x €100"; BILJETTEN VAN 100 HEBBEN WIJ NIET, DUS 1*50 2*20 1*10
+ * 	options[1] = "2x €50";
+ * 	options[2] = "5x €20";
+ *
+ * amount = 200
+ * 	options[0] = "2x €100"; DIT WORDT OP ZIJN BEURT 3*50 2*20 1*10 --> Beetje raar, zeg wat je het best vindt.
+ * 	options[1] = "4x €50";
+ * 	options[2] = "2x €50 & 5x €20";
+ *************************************************/
 
-	// Testing
+public final class Gelddispenser {
+
 	private void printBiljettenRemaining() {
 		System.out.println("Biljetten remaining: " + availableBiljettenVanTien + " " + availableBiljettenVanTwintig
 				+ " " + availableBiljettenVanVijftig);
 	}
 	public static void main(String[] args) {
-		Gelddispenser gd = new Gelddispenser(10, 10, 10);
-		try {
-			gd.setAmountWanted(300);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			System.exit(0);
-		}
-		System.out.println(gd.getBiljetOptiesBijWantedAmount()[0] + gd.getBiljetOptiesBijWantedAmount()[1]
-				+ gd.getBiljetOptiesBijWantedAmount()[2]);
-		gd.setChosenOption("A");
-		gd.printBiljettenRemaining();
-	}
+		Gelddispenser gd = new Gelddispenser(5, 5, 5);
 
-	private int amountWanted;
-	private int[][] optiesGenerated;
-	private String[] biljetOptiesBijWantedAmount;
-	private String chosenOption;
+		String choice = "A";
+		int amount = 50;
+
+		
+		
+		try {
+			gd.existAskedBiljetten(gd.keuzes50());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		/*
+		gd.setAmountGepindeBedrag(amount);
+		gd.setBiljetKeuzeByGepindeBedrag(choice);
+
+		System.out.println("Amount gepind: " + gd.getAmountGepindeBedrag());
+		System.out.println("Biljet keuze: " + gd.getBiljetKeuzeByGepindeBedrag());
+		System.out.println("Keuze naar arduino: " + gd.calculate());
+		*/
+	}
 
 	private int availableBiljettenVanTien;
 	private int availableBiljettenVanTwintig;
@@ -34,120 +54,102 @@ public class Gelddispenser {
 	private int wantedBiljettenVanTwintig;
 	private int wantedBiljettenVanVijftig;
 
-	public Gelddispenser(int tien, int twintig, int vijftig) {
+	private String[][] allPossibleOptionsSentToArduino; // String with all 9 options
+	private String[] optionsForSpecificAmount;
+
+	private static Gelddispenser DISPENSER;
+	
+	private Gelddispenser(int tien, int twintig, int vijftig) {
 		this.availableBiljettenVanTien = tien;
 		this.availableBiljettenVanTwintig = twintig;
 		this.availableBiljettenVanVijftig = vijftig;
-		this.biljetOptiesBijWantedAmount = new String[3];
-		optiesGenerated = new int[3][3];
+		optionsForSpecificAmount = new String[3];
+		allPossibleOptionsSentToArduino = new String[3][3];
 	}
 
-	private void generateBillOptions() throws Exception {
-		if (amountWanted > 100)
-			optiesBijBedragBoven100();
+	public boolean existAskedOption(int choice) {
+		if (choice == 50) 
+			return existAskedBiljetten(keuzes50());
+		else if (choice == 100)
+			return existAskedBiljetten(keuzes100());
+		else if (choice == 200)
+			return existAskedBiljetten(keuzes200());
 		else
-			optiesBijBedragOnder100();
-
-		existAskedBiljetten();
+			return false;
 	}
 
-	private void optiesBijBedragBoven100() {
-		for (int i = 0; i < optiesGenerated.length; i++) {
-			int resterendBedrag = amountWanted;
+	private boolean existAskedBiljetten(int[][] opties) {
+		int counter = 0;
+		for (int i = 0; i < opties.length; i++) {
+			if (availableBiljettenVanTien >= opties[i][0]
+					&& availableBiljettenVanTwintig >= opties[i][1]
+					&& availableBiljettenVanVijftig >= opties[i][2]) {
 
-			wantedBiljettenVanVijftig = (resterendBedrag / 50) * (i % 2);
-			resterendBedrag -= wantedBiljettenVanVijftig * 50;
-
-			wantedBiljettenVanTwintig = (resterendBedrag / 20);
-			resterendBedrag -= wantedBiljettenVanTwintig * 20;
-
-			wantedBiljettenVanTien = (resterendBedrag / 10);
-			resterendBedrag -= wantedBiljettenVanTien * 10;
-
-			if (wantedBiljettenVanTwintig > 2 && i == 2) {
-				wantedBiljettenVanTien += 2;
-				wantedBiljettenVanTwintig -= 1;
+				optionsForSpecificAmount[i] = "";
+				if (opties[i][0] != 0) {
+					optionsForSpecificAmount[i] = opties[i][0] + "x €10 ";
+				}
+				if (opties[i][1] != 0) {
+					optionsForSpecificAmount[i] += opties[i][1] + "x €20 ";
+				}
+				if (opties[i][2] != 0) {
+					optionsForSpecificAmount[i] += opties[i][2] + "x €50 ";
+				}
+				counter++;
+			
 			}
-			while (wantedBiljettenVanTien > 2) {
-				wantedBiljettenVanTien -= 2;
-				wantedBiljettenVanTwintig += 1;
-			}
-			while (wantedBiljettenVanTwintig > 4) {
-				wantedBiljettenVanTwintig -= 5;
-				wantedBiljettenVanVijftig += 2;
-			}
-
-			optiesGenerated[i][0] = wantedBiljettenVanTien;
-			optiesGenerated[i][1] = wantedBiljettenVanTwintig;
-			optiesGenerated[i][2] = wantedBiljettenVanVijftig;
 		}
+
+		if (counter == 0) {
+			return false;
+		}
+		return true;
 	}
 
-	private void optiesBijBedragOnder100() {
-		if (amountWanted == 10)
-			optiesGenerated[0][0] = 1;
-
-		for (int i = 0; i < optiesGenerated.length; i++) {
-			int resterendBedrag = amountWanted;
-
-			wantedBiljettenVanVijftig = (resterendBedrag / 50) * (i % 2);
-			resterendBedrag -= wantedBiljettenVanVijftig * 50;
-
-			wantedBiljettenVanTwintig = (resterendBedrag / 20);
-			resterendBedrag -= wantedBiljettenVanTwintig * 20;
-
-			wantedBiljettenVanTien = (resterendBedrag / 10);
-			resterendBedrag -= wantedBiljettenVanTien * 10;
-
-			while (wantedBiljettenVanTien > 4) {
-				wantedBiljettenVanTien -= 2;
-				wantedBiljettenVanTwintig += 1;
-			}
-			if (wantedBiljettenVanTwintig > 2 && i == 2) {
-				wantedBiljettenVanTien += 2;
-				wantedBiljettenVanTwintig -= 1;
-			}
-			if (amountWanted < 50 && i > 0) {
-				optiesGenerated[i][0] = resterendBedrag / 10;
-			}
-
-			optiesGenerated[i][0] = wantedBiljettenVanTien;
-			optiesGenerated[i][1] = wantedBiljettenVanTwintig;
-			optiesGenerated[i][2] = wantedBiljettenVanVijftig;
-		}
+	private int[][] keuzes50() {
+		int[][] optiesGenerated = new int[3][3];
+		optiesGenerated[0][2] = 1;
+		allPossibleOptionsSentToArduino[0][0] = "0 0 1";
+		optiesGenerated[1][0] = 1;
+		optiesGenerated[1][1] = 2;
+		allPossibleOptionsSentToArduino[0][1] = "1 2 0";
+		optiesGenerated[2][0] = 5;
+		allPossibleOptionsSentToArduino[0][2] = "5 0 0";
+		return optiesGenerated;
 	}
 
-	private void existAskedBiljetten() throws Exception {
-		for (int i = 0; i < biljetOptiesBijWantedAmount.length; i++) {
-			if (availableBiljettenVanTien >= optiesGenerated[i][0]
-					&& availableBiljettenVanTwintig >= optiesGenerated[i][1]
-					&& availableBiljettenVanVijftig >= optiesGenerated[i][2]) {
-				int counter = 0;
-				biljetOptiesBijWantedAmount[i] = "";
-				if (optiesGenerated[i][0] != 0) {
-					biljetOptiesBijWantedAmount[i] = optiesGenerated[i][0] + "x €10 ";
-					counter++;
-				}
-				if (optiesGenerated[i][1] != 0) {
-					biljetOptiesBijWantedAmount[i] += optiesGenerated[i][1] + "x €20 ";
-					counter++;
-				}
-				if (optiesGenerated[i][2] != 0) {
-					biljetOptiesBijWantedAmount[i] += optiesGenerated[i][2] + "x €50 ";
-					counter++;
-				}
-				if (counter == 0)
-					biljetOptiesBijWantedAmount[i] = "No Bill Option";
-			} else
-				throw new Exception("Amount not available at dispenser!");
-		}
+	private int[][] keuzes100() {
+		int[][] optiesGenerated = new int[3][3];
+		optiesGenerated[0][0] = 1;
+		optiesGenerated[0][1] = 2;
+		optiesGenerated[0][2] = 1;
+		allPossibleOptionsSentToArduino[0][0] =  "1 2 1";
+		optiesGenerated[1][1] = 5;
+		allPossibleOptionsSentToArduino[0][1] = "0 5 0";
+		optiesGenerated[2][2] = 2;
+		allPossibleOptionsSentToArduino[0][2] = "0 0 2";
+		return optiesGenerated;
+	}
+
+	private int[][] keuzes200() {
+		int[][] optiesGenerated = new int[3][3];
+		optiesGenerated[0][0] = 1;
+		optiesGenerated[0][1] = 2;
+		optiesGenerated[0][2] = 3;
+		allPossibleOptionsSentToArduino[0][0] =  "1 2 3";
+		optiesGenerated[1][2] = 4;
+		allPossibleOptionsSentToArduino[0][1] = "0 0 4";
+		optiesGenerated[2][1] = 5;
+		optiesGenerated[2][2] = 2;
+		allPossibleOptionsSentToArduino[0][2] = "0 5 2";
+		return optiesGenerated;
 	}
 
 	private void removeChosenBillsFromDispenser() {
 		String[] possibleAnswers = { "A", "B", "C" };
 
 		for (int i = 0; i < possibleAnswers.length; i++) {
-			if (chosenOption.equals(possibleAnswers[i])) {
+			if (allPossibleOptionsSentToArduino.equals(possibleAnswers[i])) {
 				availableBiljettenVanTien -= optiesGenerated[i][0];
 				availableBiljettenVanTwintig -= optiesGenerated[i][1];
 				availableBiljettenVanVijftig -= optiesGenerated[i][2];
@@ -155,18 +157,16 @@ public class Gelddispenser {
 		}
 	}
 
-	public void setAmountWanted(int amountWanted) throws Exception {
-		this.amountWanted = amountWanted;
-		generateBillOptions();
+	public static Gelddispenser getGelddispenser() {
+		if (DISPENSER == null)
+			DISPENSER = new Gelddispenser(5, 5, 5);
+		
+		return DISPENSER;
 	}
 
-	public String[] getBiljetOptiesBijWantedAmount() {
-		return biljetOptiesBijWantedAmount;
+	public String[] getOptionsForSpecificAmount() {
+		return optionsForSpecificAmount;
 	}
 
-	public void setChosenOption(String chosenOption) {
-		this.chosenOption = chosenOption;
-		removeChosenBillsFromDispenser();
-	}
 
 }

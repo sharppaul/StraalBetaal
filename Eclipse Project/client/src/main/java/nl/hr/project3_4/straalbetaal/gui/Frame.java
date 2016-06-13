@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import nl.hr.project3_4.straalbetaal.dispenser.Gelddispenser;
 import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.sound.Sound;
 
@@ -100,7 +101,7 @@ public class Frame extends JFrame {
 		Frame f = new Frame();
 		// f.goRussian();
 		f.scrollMenus();
-		//f.setMode("choice");
+		// f.setMode("choice");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -112,10 +113,10 @@ public class Frame extends JFrame {
 				try {
 					this.setLanguage(Language.EN);
 					Thread.sleep(2000);
-					
+
 					this.setLanguage(Language.GER);
 					Thread.sleep(2000);
-					
+
 					this.setLanguage(Language.NL);
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
@@ -168,7 +169,7 @@ public class Frame extends JFrame {
 					+ Arrays.toString(modes));
 		}
 	}
-	
+
 	public String formatAmount(long amount) {
 		String amountStr = (amount / 100) + ",";
 		long decimals = amount - ((amount / 100) * 100);
@@ -423,6 +424,8 @@ public class Frame extends JFrame {
 		instr = new JLabel(language.getString("choice") + ":");
 		instr.setFont(bigfont);
 
+		Gelddispenser dispenser = Gelddispenser.getGelddispenser();
+
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
@@ -433,10 +436,10 @@ public class Frame extends JFrame {
 
 		ImageButton b = new ImageButton("G 100,-    ", "b.png");
 		b.setFont(bigfont);
-
+		
 		ImageButton cc = new ImageButton("G 200,-    ", "c.png");
 		cc.setFont(bigfont);
-
+	
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
@@ -444,12 +447,18 @@ public class Frame extends JFrame {
 
 		// LOTTA BUTTONS:
 		c.ipady = 35;
-		c.gridy++;
-		mainPanel.add(a, c);
-		c.gridy++;
-		mainPanel.add(b, c);
-		c.gridy++;
-		mainPanel.add(cc, c);
+		if (dispenser.existAskedOption(50)) {
+			c.gridy++;
+			mainPanel.add(a, c);
+		}
+		if (dispenser.existAskedOption(100)) {
+			c.gridy++;
+			mainPanel.add(b, c);
+		}
+		if (dispenser.existAskedOption(200)) {
+			c.gridy++;
+			mainPanel.add(cc, c);
+		}
 
 		c.gridy++;
 		c.gridwidth = 1;
@@ -496,7 +505,7 @@ public class Frame extends JFrame {
 
 		c.ipady = 0;
 		c.gridy++;
-		mainPanel.add(languageRow("1","2","3"), c);
+		mainPanel.add(languageRow("1", "2", "3"), c);
 	}
 
 	public void startMenu() {
@@ -521,10 +530,10 @@ public class Frame extends JFrame {
 		c.ipadx = img.getWidth();
 		c.ipady = img.getHeight();
 		mainPanel.add(img, c);
-		
+
 		c.ipady = 0;
 		c.gridy = 2;
-		mainPanel.add(languageRow("A","B","C"), c);
+		mainPanel.add(languageRow("A", "B", "C"), c);
 	}
 
 	public void loadingMenu() {
@@ -571,7 +580,7 @@ public class Frame extends JFrame {
 		Image img = new Image("error.png");
 		c.ipady = img.getHeight();
 		c.ipadx = img.getWidth();
-		
+
 		c.gridy++;
 		mainPanel.add(img, c);
 
@@ -637,7 +646,7 @@ public class Frame extends JFrame {
 		c.gridwidth = 3;
 		c.gridy++;
 		c.gridx = 0;
-		mainPanel.add(languageRow("A","B","C"), c);
+		mainPanel.add(languageRow("A", "B", "C"), c);
 
 	}
 
@@ -645,8 +654,8 @@ public class Frame extends JFrame {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		ImageButton en = new ImageButton(" "+a, "us.png"), ger = new ImageButton(" "+b, "ger.png"),
-				nl = new ImageButton(" "+c, "nl.png");
+		ImageButton en = new ImageButton(" " + a, "us.png"), ger = new ImageButton(" " + b, "ger.png"),
+				nl = new ImageButton(" " + c, "nl.png");
 		en.setFont(bigfont);
 		ger.setFont(bigfont);
 		nl.setFont(bigfont);
@@ -661,7 +670,7 @@ public class Frame extends JFrame {
 		p.add(ger, gbc);
 		gbc.gridx = 2;
 		p.add(nl, gbc);
-		p.setBackground(new Color(0,0,0,0));
+		p.setBackground(new Color(0, 0, 0, 0));
 		return p;
 	}
 
