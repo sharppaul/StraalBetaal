@@ -16,7 +16,7 @@ public class Client {
 	private ClientBackEnd backend;
 	private long transNummer;
 	private String language = "EN";
-	public static final int BANKID = 0;
+	public static final int BANKID = 0; //TEMP
 	private Gelddispenser dispenser;
 
 	public static void main(String[] args) {
@@ -30,8 +30,6 @@ public class Client {
 		data = new ArduinoData();
 		reader = new Read(data);
 		backend = new ClientBackEnd();
-	
-
 
 		while (true) {
 			try {
