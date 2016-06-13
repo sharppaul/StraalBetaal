@@ -16,8 +16,8 @@ import nl.hr.project3_4.straalbetaal.gui.Fonts;
 import javax.print.PrintService;
 
 public class LabelWriter {
-	// public static final String PRINTERNAME = "Microsoft Print to PDF";
-	public static final String PRINTERNAME = "DYMO LabelWriter 400";
+	public static final String PRINTERNAME = "Microsoft Print to PDF";
+	//public static final String PRINTERNAME = "DYMO LabelWriter 400";
 	public static final int FONTSIZE = 12;
 	public static final boolean PRINTMENU = false;
 	private static final DateFormat DATEFORMAT = new SimpleDateFormat("dd-MM-yyyy");
@@ -65,7 +65,7 @@ public class LabelWriter {
 								g.drawString("Tijd:  " + TIMEFORMAT.format(now), 5, FONTSIZE * 6);
 								g.drawString("==Pin Transactie==", 5, FONTSIZE * 8);
 								g.drawString("Bedrag:", 5, FONTSIZE * 10);
-								g.drawString("G " + formatAmount(bedrag), 5, FONTSIZE * 11);
+								g.drawString("G " + formatAmount(bedrag*100), 5, FONTSIZE * 11);
 								g.drawString("Transactie Nr.:", 5, FONTSIZE * 13);
 								g.drawString(transNr, 5, FONTSIZE * 14);
 								g.drawString("Rekening Nr.:", 5, FONTSIZE * 16);

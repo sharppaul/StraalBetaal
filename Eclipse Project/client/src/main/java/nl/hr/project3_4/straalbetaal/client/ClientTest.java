@@ -68,7 +68,7 @@ public class ClientTest {
 			if (!pinResponse.isCorrect()) {
 				throw new Exception("Wrong pin!");
 			}
-
+			
 			System.out.println("Obtaining balance...");
 			BalanceResponse balanceResponse = backend.checkBalance(new BalanceRequest(bankid, cardid));
 			long saldo = balanceResponse.getBalance();
@@ -76,7 +76,7 @@ public class ClientTest {
 			System.out.println("Saldo: €" + formatAmount(saldo));
 
 			System.out.println("Withdrawing...");
-
+			
 			WithdrawRequest rq = new WithdrawRequest(bankid, cardid, amount);
 			WithdrawResponse rs = backend.withdrawMoney(rq);
 			if (rs.isSucceeded()) {
@@ -84,6 +84,7 @@ public class ClientTest {
 			} else {
 				System.out.println("Withdraw failed!");
 			}
+			
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			e.printStackTrace();

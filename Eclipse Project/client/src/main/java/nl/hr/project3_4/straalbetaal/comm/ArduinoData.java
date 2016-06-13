@@ -47,9 +47,9 @@ public class ArduinoData {
 	}
 	
 	public void receiveCard(String kaartid){
+		this.isReset = false;
 		this.cardId = kaartid;
 		this.cardReceived = true;
-		this.isReset = false;
 	}
 	
 	public String getCard() {

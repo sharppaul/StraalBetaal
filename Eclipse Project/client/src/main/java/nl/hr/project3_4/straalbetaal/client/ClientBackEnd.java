@@ -16,16 +16,14 @@ public class ClientBackEnd {
 	private static final Logger LOG = Logger.getLogger(ClientBackEnd.class.getName());
 	private ClientBuilder cBuilder = ClientBuilder.newBuilder();
 	private Client client;
-
-	private static final String TARGET = "http://178.62.244.124:8000";
-	//private static final String TARGET = "http://145.24.222.208:8025";
+	/*
+	CostaMonday:	private static final String TARGET = "http://145.24.222.211:8025";
+	GetBenkt:		private static final String TARGET = "http://178.62.244.124:8000";
+	*/
+	
+	private static final String TARGET = "http://145.24.222.208:8025";
 	//private static final String TARGET = "http://localhost:8025";
 	
-	// private static final String TARGET = "http://145.24.222.211:8025";
-	// //Jasper or GetBenktM8
-	
-	// private static final String TARGET = "http://localhost:8025";
-	// //Localhost..
 
 	public ClientBackEnd() {
 		cBuilder.register(JacksonFeature.class);

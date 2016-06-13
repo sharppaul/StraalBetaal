@@ -27,7 +27,7 @@ public class Resource {
 		if (request.getBankID() != BANKID) {
 			return repeater.checkPas(request);
 		}
-		CheckPasResponse response = new CheckPasResponse(serv.checkPasExist(request.getPasID()),serv.isPasBlocked(request.getPasID()));
+		CheckPasResponse response = new CheckPasResponse(serv.checkPasExist(request.getPasID()), serv.isPasBlocked(request.getPasID()));
 		return response;
 	}
 

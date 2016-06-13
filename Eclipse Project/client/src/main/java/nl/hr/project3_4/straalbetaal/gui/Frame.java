@@ -99,8 +99,9 @@ public class Frame extends JFrame {
 	public static void main(String[] args) {
 		Frame f = new Frame();
 		// f.goRussian();
-		f.scrollMenus();
-		//f.setMode("choice");
+		// f.scrollMenus();
+		f.setMode("donate");
+		// f.setMode("choice");
 	}
 
 	// MANAGES WHICH MENU LOADS:
@@ -112,10 +113,10 @@ public class Frame extends JFrame {
 				try {
 					this.setLanguage(Language.EN);
 					Thread.sleep(2000);
-					
+
 					this.setLanguage(Language.GER);
 					Thread.sleep(2000);
-					
+
 					this.setLanguage(Language.NL);
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
@@ -168,7 +169,7 @@ public class Frame extends JFrame {
 					+ Arrays.toString(modes));
 		}
 	}
-	
+
 	public String formatAmount(long amount) {
 		String amountStr = (amount / 100) + ",";
 		long decimals = amount - ((amount / 100) * 100);
@@ -279,8 +280,10 @@ public class Frame extends JFrame {
 		clearPanel();
 
 		JLabel instr = new JLabel(language.getString("donate"));
+		JLabel desc = new JLabel(language.getString("donatedesc"));
 
 		instr.setFont(bigfont);
+		desc.setFont(bigfont);
 		ImageButton ja = new ImageButton(language.getString("yes") + "     ", "ok.png");
 		ja.setFont(bigfont);
 
@@ -294,6 +297,8 @@ public class Frame extends JFrame {
 		// INSTRUCTIES:
 		c.gridy = 0;
 		mainPanel.add(instr, c);
+		c.gridy++;
+		mainPanel.add(desc, c);
 
 		c.gridy++;
 		c.gridwidth = 1;
@@ -496,7 +501,7 @@ public class Frame extends JFrame {
 
 		c.ipady = 0;
 		c.gridy++;
-		mainPanel.add(languageRow("1","2","3"), c);
+		mainPanel.add(languageRow("1", "2", "3"), c);
 	}
 
 	public void startMenu() {
@@ -521,10 +526,10 @@ public class Frame extends JFrame {
 		c.ipadx = img.getWidth();
 		c.ipady = img.getHeight();
 		mainPanel.add(img, c);
-		
+
 		c.ipady = 0;
 		c.gridy = 2;
-		mainPanel.add(languageRow("A","B","C"), c);
+		mainPanel.add(languageRow("A", "B", "C"), c);
 	}
 
 	public void loadingMenu() {
@@ -571,7 +576,7 @@ public class Frame extends JFrame {
 		Image img = new Image("error.png");
 		c.ipady = img.getHeight();
 		c.ipadx = img.getWidth();
-		
+
 		c.gridy++;
 		mainPanel.add(img, c);
 
@@ -637,7 +642,7 @@ public class Frame extends JFrame {
 		c.gridwidth = 3;
 		c.gridy++;
 		c.gridx = 0;
-		mainPanel.add(languageRow("A","B","C"), c);
+		mainPanel.add(languageRow("A", "B", "C"), c);
 
 	}
 
@@ -645,8 +650,8 @@ public class Frame extends JFrame {
 		JPanel p = new JPanel();
 		p.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		ImageButton en = new ImageButton(" "+a, "us.png"), ger = new ImageButton(" "+b, "ger.png"),
-				nl = new ImageButton(" "+c, "nl.png");
+		ImageButton en = new ImageButton(" " + a, "us.png"), ger = new ImageButton(" " + b, "ger.png"),
+				nl = new ImageButton(" " + c, "nl.png");
 		en.setFont(bigfont);
 		ger.setFont(bigfont);
 		nl.setFont(bigfont);
@@ -661,7 +666,7 @@ public class Frame extends JFrame {
 		p.add(ger, gbc);
 		gbc.gridx = 2;
 		p.add(nl, gbc);
-		p.setBackground(new Color(0,0,0,0));
+		p.setBackground(new Color(0, 0, 0, 0));
 		return p;
 	}
 

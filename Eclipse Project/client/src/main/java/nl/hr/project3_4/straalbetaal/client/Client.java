@@ -15,7 +15,6 @@ public class Client {
 	private Read reader;
 	private ClientBackEnd backend;
 	private long transNummer;
-	private boolean didDonate = false;
 	private String language = "EN";
 	public static final int BANKID = 0;
 	private Gelddispenser dispenser;
@@ -30,20 +29,20 @@ public class Client {
 		frame = new Frame();
 		data = new ArduinoData();
 		reader = new Read(data);
+		backend = new ClientBackEnd();
 		dispenser = new Gelddispenser(5, 5, 5);
 
 		while (true) {
 			try {
 				this.transNummer = 0;
-				this.backend = null;
 				frame.setMode("start");
 				while (!cardInserted()) {
 					sleep(100);
 					checkLanguage();
 				}
-
-				checkPas();
-				shouldReset();
+				
+				this.checkPas();
+				this.shouldReset();
 
 				frame.setMode("login");
 				int dots = 0;
@@ -98,17 +97,16 @@ public class Client {
 						}
 						frame.setMode("loading");
 
-						pinnen();
-
 						shouldReset();
 						frame.setMode("donate");
 						while (!donateIsChosen()) { // user hasn't chosen ticket
 							sleep(100);
 							shouldReset();
 						}
+						
 						frame.setMode("loading");
 
-						donate();
+						pinnen();
 
 						shouldReset();
 						frame.setMode("ticket");
@@ -120,7 +118,7 @@ public class Client {
 						frame.setMode("loading");
 						if (data.getBon()) {
 							new LabelWriter().printLabel(Long.toString(transNummer), (long) data.getAmount(),
-									data.getCard(), this.didDonate);
+									data.getCard(), data.getDonate());
 						}
 						userNotDone = false;
 
@@ -149,6 +147,9 @@ public class Client {
 				this.sleep(5000);
 			} catch (Success succes) {
 				this.sleep(5000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.sleep(500);
 			}
 		}
 	}
@@ -160,6 +161,7 @@ public class Client {
 			data.reset();
 			throw new Reset("unreadable");
 		}
+
 	}
 
 	private void checkPinValid() throws Reset {
@@ -192,15 +194,31 @@ public class Client {
 	}
 
 	private void pinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest(Client.BANKID, data.getCard(), (long) (data.getAmount() * 100));
-		WithdrawResponse rs = backend.withdrawMoney(rq);
-		System.out.println("Pinning succeeded: " + rs.isSucceeded());
-		if (rs.isSucceeded()) {
-			this.transNummer = rs.getTransactieNummer();
+		long saldo = this.requestSaldo() - (data.getAmount() * 100);
+		long donateAmount = saldo - (long) ((int) (saldo / 100) * 100);
+		WithdrawRequest rq;
+
+		if (donateAmount == 0)
+			donateAmount = 50;
+
+		if (saldo >= 0) {
+			if (data.getDonate()) {
+				rq = new WithdrawRequest(Client.BANKID, data.getCard(), (long) (data.getAmount() * 100) + donateAmount);
+			} else {
+				rq = new WithdrawRequest(Client.BANKID, data.getCard(), (long) (data.getAmount() * 100));
+			}
+			WithdrawResponse rs = backend.withdrawMoney(rq);
+			System.out.println("Pinning succeeded: " + rs.isSucceeded());
+			if (rs.isSucceeded()) {
+				this.transNummer = rs.getTransactieNummer();
+			} else {
+				data.reset();
+				throw new Reset("toolow");
+			}
 		} else {
-			data.reset();
 			throw new Reset("toolow");
 		}
+
 	}
 
 	private void sleep(int millis) {
@@ -214,22 +232,6 @@ public class Client {
 		String[] options = dispenser.getBiljetOptiesBijWantedAmount();
 
 		frame.setBillOption(options);
-	}
-
-	private void donate() {
-		long saldo = this.requestSaldo();
-		long donateAmount = saldo - (long) ((int) (saldo / 100) * 100);
-
-		if (donateAmount == 0)
-			donateAmount = 50;
-		if (data.getDonate() && saldo >= 0) {
-			WithdrawRequest rq = new WithdrawRequest(Client.BANKID, data.getCard(), donateAmount);
-			WithdrawResponse rs = backend.withdrawMoney(rq);
-			System.out.println("Donating succeeded: " + rs.isSucceeded());
-			if (rs.isSucceeded()) {
-				this.didDonate = true;
-			}
-		}
 	}
 
 	private void finished() throws Success {
