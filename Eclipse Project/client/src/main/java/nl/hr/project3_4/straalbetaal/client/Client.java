@@ -30,7 +30,8 @@ public class Client {
 		data = new ArduinoData();
 		reader = new Read(data);
 		backend = new ClientBackEnd();
-		dispenser = new Gelddispenser(5, 5, 5);
+	
+
 
 		while (true) {
 			try {
@@ -229,7 +230,24 @@ public class Client {
 	}
 
 	private void calculateBills() {
-		String[] options = dispenser.getBiljetOptiesBijWantedAmount();
+		String[] options = dispenser.getOptionsForSpecificAmount();
+		int amount = data.getAmount();
+
+		if (amount == 50) {
+			options[0] = "1x €50";
+			options[1] = "1x €10 & 2x €20";
+			options[2] = "5x €10";
+		}
+		if (amount == 100) {
+			options[0] = "1x €100";
+			options[1] = "2x €50";
+			options[2] = "5x €20";
+		}
+		if (amount == 200) {
+			options[0] = "2x €100";
+			options[1] = "4x €50";
+			options[2] = "2x €50 & 5x €20";
+		}
 
 		frame.setBillOption(options);
 	}
@@ -243,14 +261,7 @@ public class Client {
 	private boolean userEnteredAmount() {
 		// frame.setPinAmount(data.getAmount());
 		if (data.isAmountDone()) {
-			try {
-				dispenser.setAmountWanted(data.getAmount());
-			} catch (Exception e) {
-				// Return to choose amount page to add lower amount!
-				e.printStackTrace();
-			}
 			return true;
-
 		} else {
 			return false;
 		}
@@ -299,7 +310,6 @@ public class Client {
 		if (data.getChoice().equals("none")) {
 			return false;
 		} else {
-			dispenser.setChosenOption(data.getChoice());
 			return true;
 		}
 	}

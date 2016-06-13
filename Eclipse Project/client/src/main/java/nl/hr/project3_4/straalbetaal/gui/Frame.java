@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import nl.hr.project3_4.straalbetaal.dispenser.Gelddispenser;
 import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.sound.Sound;
 
@@ -99,8 +100,7 @@ public class Frame extends JFrame {
 	public static void main(String[] args) {
 		Frame f = new Frame();
 		// f.goRussian();
-		// f.scrollMenus();
-		f.setMode("donate");
+
 		// f.setMode("choice");
 	}
 
@@ -428,6 +428,8 @@ public class Frame extends JFrame {
 		instr = new JLabel(language.getString("choice") + ":");
 		instr.setFont(bigfont);
 
+		Gelddispenser dispenser = Gelddispenser.getGelddispenser();
+
 		// GENERAL CONSTRAINTS:
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 50, 10, 50);
@@ -438,10 +440,10 @@ public class Frame extends JFrame {
 
 		ImageButton b = new ImageButton("G 100,-    ", "b.png");
 		b.setFont(bigfont);
-
+		
 		ImageButton cc = new ImageButton("G 200,-    ", "c.png");
 		cc.setFont(bigfont);
-
+	
 		// INSTRUCTIES:
 		c.gridwidth = 2;
 		c.gridy = 0;
@@ -449,12 +451,18 @@ public class Frame extends JFrame {
 
 		// LOTTA BUTTONS:
 		c.ipady = 35;
-		c.gridy++;
-		mainPanel.add(a, c);
-		c.gridy++;
-		mainPanel.add(b, c);
-		c.gridy++;
-		mainPanel.add(cc, c);
+		if (dispenser.existAskedOption(50)) {
+			c.gridy++;
+			mainPanel.add(a, c);
+		}
+		if (dispenser.existAskedOption(100)) {
+			c.gridy++;
+			mainPanel.add(b, c);
+		}
+		if (dispenser.existAskedOption(200)) {
+			c.gridy++;
+			mainPanel.add(cc, c);
+		}
 
 		c.gridy++;
 		c.gridwidth = 1;
