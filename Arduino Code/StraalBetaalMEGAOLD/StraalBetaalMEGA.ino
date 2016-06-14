@@ -1,21 +1,24 @@
-#include <MFRC522.h>
 #include <Keypad.h>
+#include <AddicoreRFID.h>
 #include <SPI.h>
 
-#define RST_PIN   9     // Configurable, see typical pin layout above
-#define SS_PIN    10    // Configurable, see typical pin layout above
+#define uchar unsigned char
+#define uint  unsigned int
+#define MAX_LEN 16
 
-MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
-MFRC522::MIFARE_Key rfidkey;
-// Init array that will store new NUID 
-byte nuidPICC[3];
+uchar serNumA[5];
+uchar fifobytes;
+uchar fifoValue;
 
+AddicoreRFID myRFID;
 
 const byte ROWS = 4;
 const byte COLS = 4;
 byte colPins[COLS] = {26, 27, 28, 29}; //connect to row pinouts
 byte rowPins[ROWS] = {22, 23, 24, 25}; //connect to column pinouts
 
+const int chipSelectPin = 10;
+const int NRSTPD = 5;
 
 char key;
 char keys[ROWS][COLS] = {
@@ -38,6 +41,24 @@ int pincodeLength = 0;
 int red = 40;
 int green = 41;
 
+
+// servo voor tientjes.
+const int servo1 = 7;
+const int servo2 = 8;
+
+// servo voor twintigjes.
+const int servo3 = 9;
+const int servo4 = 11; //already used by Addicore...
+
+// servo voor vijftigjes
+const int servo5 = 11;
+const int servo6 = 12;
+
+// servo middelpunt is 2445 mcs
+// linksom hoger
+// rechtsom lager
+
+
 int ledcounter = 0;
 long randNumber;
 
@@ -50,18 +71,19 @@ String mode = "start";
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
 void setup() {
-  
-  mfrc522.PCD_Init(); // Init MFRC522 
-  for (byte i = 0; i < 6; i++) {
-    rfidkey.keyByte[i] = 0xFF;
-  }
-  
   Serial.begin(57600);
 
   pinMode(red, OUTPUT);
   pinMode(green, OUTPUT);
   // start the SPI library:
   SPI.begin();
+
+  pinMode(chipSelectPin, OUTPUT);             // Set digital pin 10 as OUTPUT to connect it to the RFID /ENABLE pin
+  digitalWrite(chipSelectPin, LOW);         // Activate the RFID reader
+  pinMode(NRSTPD, OUTPUT);                    // Set digital pin 10 , Not Reset and Power-down
+  digitalWrite(NRSTPD, HIGH);
+
+  myRFID.AddicoreRFID_Init();
 
   digitalWrite(red, HIGH);
   digitalWrite(green, LOW);
@@ -88,13 +110,15 @@ void loop() {
   } else if (mode == "done") {
     reset();
   }
-
+  
 
   if (!stillThere() && mode != "start") {
     digitalWrite(red, HIGH);
     digitalWrite(green, LOW);
     reset();
   }
+
+  checkIfDispense();
   delay(50);
 }
 
@@ -129,57 +153,59 @@ void keyPad() {
 }
 //_______________________________________________________rfid_______________________________________________________//
 void rfid() {
-     if ( ! mfrc522.PICC_IsNewCardPresent())
-        return;
+  uchar i, tmp, checksum1;
+  uchar status;
+  uchar str[MAX_LEN];
+  uchar RC_size;
+  uchar blockAddr;  //Selection operation block address 0 to 63
+  String mynum = "";
 
-    // Select one of the cards
-    if ( ! mfrc522.PICC_ReadCardSerial())
-        return;
-        
-    
-
-    // In this sample we use the second sector,
-    // that is: sector #1, covering block #4 up to and including block #7
-    byte sector         = 1;
-    byte blockAddr      = 4;
-    byte trailerBlock   = 7;
-    MFRC522::StatusCode status;
-    byte buffer[18];
-    byte size = sizeof(buffer);
-
-    // Authenticate using key A
-    status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, trailerBlock, &rfidkey, &(mfrc522.uid));
-    if (status != MFRC522::STATUS_OK) {
-        Serial.print(F("PCD_Authenticate() failed: "));
-        Serial.println(mfrc522.GetStatusCodeName(status));
-        return;
-    }
-    // read data
-    status = (MFRC522::StatusCode) mfrc522.MIFARE_Read(blockAddr, buffer, &size);
-    if (status != MFRC522::STATUS_OK) {
-        Serial.print(F("MIFARE_Read() failed: "));
-        Serial.println(mfrc522.GetStatusCodeName(status));
-    }
-    //Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
-    //dump_byte_array(buffer, 16); Serial.println();
-    //Serial.println();
-
-    Serial.print(F("UID In hex: "));
-    printHex(mfrc522.uid.uidByte, mfrc522.uid.size);
-    Serial.println();
-    Serial.print("Bank ID: ");
-    Serial.println(buffer[0],DEC);
-    Serial.println();
-    
-    // Halt PICC
-    mfrc522.PICC_HaltA();
-    // Stop encryption on PCD
-    mfrc522.PCD_StopCrypto1();
-
+  str[1] = 0x4400;
+  //Find tags, return tag type
+  status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
+  //Anti-collision, return tag serial number 4 bytes
+  status = myRFID.AddicoreRFID_Anticoll(str);
+  if (status == MI_OK)
+  {
+    currentCardID = String(str[0], HEX);
+    currentCardID += String(str[1], HEX);
+    currentCardID += String(str[2], HEX);
+    currentCardID += String(str[3], HEX);
+    Serial.println("{\"event\":\"cardreceived\",\"card\":\"" + currentCardID + "\"}");
+    mode = "pincode";
+    digitalWrite(red, LOW);
+    digitalWrite(green, HIGH);
+  }
+  myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
 }
 
 boolean stillThere() { // checks if pas is still there.
-  
+  uchar i, tmp, checksum1;
+  uchar status;
+  uchar str[MAX_LEN];
+  uchar RC_size;
+  uchar blockAddr;  //Selection operation block address 0 to 63
+  String mynum = "";
+
+  str[1] = 0x4400;
+  //Find tags, return tag type
+  status = myRFID.AddicoreRFID_Request(PICC_REQIDL, str);
+  //Anti-collision, return tag serial number 4 bytes
+  status = myRFID.AddicoreRFID_Anticoll(str);
+  /*if (status == MI_OK)
+  {
+    String tempCardID = "";
+    tempCardID = String(str[0], HEX);
+    tempCardID += String(str[1], HEX);
+    tempCardID += String(str[2], HEX);
+    tempCardID += String(str[3], HEX);
+    myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
+    return (tempCardID == currentCardID);
+  } else {
+    return false;
+  }
+  */
+  myRFID.AddicoreRFID_Halt();      //Command tag into hibernation
 }
 //_______________________________________________________AES_______________________________________________________//
 void encryptAndSend() {
@@ -478,6 +504,45 @@ void bon() {
       break;
   }
 }
+//_______________________________________________________________dispenser________________________________________________________________//
+void checkIfDispense(){
+  int tien = 0, twintig = 0, vijftig = 0;
+  while (Serial.available())
+  {
+    // look for the next valid integer in the incoming serial stream:
+    tien    = Serial.parseInt();
+    twintig = Serial.parseInt();
+    vijftig = Serial.parseInt();
+  }
+  if (tien)
+  {
+    dispense(servo1, servo2, tien);
+  }
+  if (twintig)
+  {
+    dispense(servo3, servo4, twintig);
+  }
+  if (vijftig)
+  {
+    dispense(servo5, servo6, vijftig);
+  }
+}
+
+
+void dispense(int pin1, int pin2, int aantal) {
+  //Serial.println("Pins: " + String(pin1) + " " + String(pin2) + " Aantal: " + String(aantal));
+  for (int i = 0; i < aantal; i++)
+  {
+    analogWrite(pin1, 230);
+    analogWrite(pin2, 20);
+    delay(2000);
+    analogWrite(pin1, 30);
+    delay(1000);
+    analogWrite(pin1, 256);
+    analogWrite(pin2, 256);
+    delay(50);
+  }
+}
 //_______________________________________________________________reset________________________________________________________________//
 void reset() {
   Serial.println("{\"event\":\"reset\"}");
@@ -502,14 +567,3 @@ void pinReset() {
   Serial.println("{\"event\":\"pinreset\"}");
 }
 
-void printHex(byte *buffer, byte bufferSize) {
-  for (byte i = 0; i < bufferSize; i++) {
-    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
-    Serial.print(buffer[i], HEX);
-  }
-}
-void dump_byte_array(byte *buffer, byte bufferSize) {
-    for (byte i = 0; i < bufferSize; i++) {
-        Serial.print(buffer[i],HEX);
-    }
-}

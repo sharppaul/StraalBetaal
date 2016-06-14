@@ -83,6 +83,13 @@ public class Read implements SerialPortEventListener {
 			serialPort.close();
 		}
 	}
+	
+	public synchronized void serialWrite(String data){
+		try{
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
@@ -175,6 +182,7 @@ public class Read implements SerialPortEventListener {
 					// EVENT: reset pin digits.
 					if (incomingJson.getString("event").equals("cardreceived")) {
 						data.receiveCard(incomingJson.getString("card"));
+						data.setBankID(Integer.parseInt(incomingJson.getString("bankid")));
 						System.out.println("event OK");
 					}
 					

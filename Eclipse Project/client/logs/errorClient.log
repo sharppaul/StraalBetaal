@@ -616,3 +616,13 @@
 2016-06-13 15:09:07,771  INFO client.ClientBackEnd:49 - Client - CheckPincodeResponse received from server!
 2016-06-13 15:09:37,041  INFO client.ClientBackEnd:36 - Client - CheckPasRequest send to server!
 2016-06-13 15:09:37,140  INFO client.ClientBackEnd:39 - Client - CheckPasResponse received from server!
+2016-06-14 12:14:01,184  INFO client.ClientBackEnd:36 - Client - CheckPasRequest send to server!
+2016-06-14 12:15:56,280  INFO client.ClientBackEnd:37 - Client - CheckPasRequest send to server!
+2016-06-14 12:15:56,616  INFO client.ClientBackEnd:40 - Client - CheckPasResponse received from server!
+2016-06-14 12:15:56,617  INFO client.ClientBackEnd:47 - Client - CheckPincodeRequest send to server!
+2016-06-14 12:15:56,636  INFO client.ClientBackEnd:50 - Client - CheckPincodeResponse received from server!
+2016-06-14 12:15:56,637  INFO client.ClientBackEnd:57 - Client - BalanceRequest send to server!
+2016-06-14 12:15:56,655  INFO client.ClientBackEnd:60 - Client - BalanceResponse received from server!
+2016-06-14 12:15:56,655  INFO client.ClientBackEnd:66 - Client - WithdrawRequest send to server!
+2016-06-14 12:15:56,680  INFO client.ClientBackEnd:69 - Client - WithdrawResponse received from server!
+2016-06-14 12:27:25,859  INFO client.ClientBackEnd:37 - Client - CheckPasRequest send to server!

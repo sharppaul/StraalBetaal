@@ -6,8 +6,6 @@ public class BalanceResponse {
 
 	@JsonProperty
 	private long balance;
-	@JsonProperty
-	private boolean blocked;
 
 	public BalanceResponse() {
 	}

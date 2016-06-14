@@ -16,7 +16,6 @@ public class Client {
 	private ClientBackEnd backend;
 	private long transNummer;
 	private String language = "EN";
-	public static final int BANKID = 0; //TEMP
 	private Gelddispenser dispenser;
 
 	public static void main(String[] args) {
@@ -155,7 +154,7 @@ public class Client {
 	}
 
 	private void checkPas() throws Reset {
-		CheckPasRequest rq = new CheckPasRequest(Client.BANKID, data.getCard());
+		CheckPasRequest rq = new CheckPasRequest(data.getBankID(), data.getCard());
 		CheckPasResponse rs = backend.checkPas(rq);
 		if (!rs.doesExist()) {
 			data.reset();
@@ -165,7 +164,7 @@ public class Client {
 	}
 
 	private void checkPinValid() throws Reset {
-		CheckPinRequest rq = new CheckPinRequest(Client.BANKID, data.getCard(), data.getPin());
+		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), data.getCard(), data.getPin());
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (!rs.isCorrect()) {
 			data.reset();
@@ -178,12 +177,12 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance(new BalanceRequest(Client.BANKID, data.getCard()));
+		BalanceResponse rs = backend.checkBalance(new BalanceRequest(data.getBankID(), data.getCard()));
 		return rs.getBalance();
 	}
 
 	private void snelPinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest(Client.BANKID, data.getCard(), 7000L);
+		WithdrawRequest rq = new WithdrawRequest(data.getBankID(), data.getCard(), 7000L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		if (rs.isSucceeded()) {
 			// store transaction number and amount etc.
@@ -203,9 +202,9 @@ public class Client {
 
 		if (saldo >= 0) {
 			if (data.getDonate()) {
-				rq = new WithdrawRequest(Client.BANKID, data.getCard(), (long) (data.getAmount() * 100) + donateAmount);
+				rq = new WithdrawRequest(data.getBankID(), data.getCard(), (long) (data.getAmount() * 100) + donateAmount);
 			} else {
-				rq = new WithdrawRequest(Client.BANKID, data.getCard(), (long) (data.getAmount() * 100));
+				rq = new WithdrawRequest(data.getBankID(), data.getCard(), (long) (data.getAmount() * 100));
 			}
 			WithdrawResponse rs = backend.withdrawMoney(rq);
 			System.out.println("Pinning succeeded: " + rs.isSucceeded());
