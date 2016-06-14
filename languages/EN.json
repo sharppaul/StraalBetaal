@@ -13,6 +13,7 @@
 	"choice":"Make a choice",
 	"bills":"Choose bills",
 	"donate":"Would you like to donate to Unicef?",
+	"donatedesc":"We round off your bank balance to a whole number, and donate a maximum of G1,-",
 	"receipt":"Do you want a receipt?",
 	"done":"The session is finished, please remove your card",
 	"thanks":"Thanks for using StraalBetaal, goodbye",

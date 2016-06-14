@@ -13,6 +13,7 @@
 	"choice":"Wahlen bitte",
 	"bills":"Wahl Banknoten",
 	"donate":"Wollen Sie schenken an Unicef?",
+	"donatedesc":"Wir runden Ihr Bankbalance auf zu eine ganze Zahl ab, und spenden max. G1,-",
 	"receipt":"Wollen Sie ein Schein?",
 	"done":"Auftrag fertig, bitte Debit-Karte entfernen",
 	"thanks":"Danke fur das benutzen von StraalBetaal und auf wiedersehen",
