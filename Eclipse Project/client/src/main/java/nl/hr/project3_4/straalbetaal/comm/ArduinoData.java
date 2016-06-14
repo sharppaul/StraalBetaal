@@ -17,6 +17,8 @@ public class ArduinoData {
 	private boolean pressedBack = false;
 	private boolean pinReceived = false;
 	private String language = "EN";
+	private int bankID;
+	
 
 	public ArduinoData() {
 		reset();
@@ -54,6 +56,14 @@ public class ArduinoData {
 	
 	public String getCard() {
 		return this.cardId;
+	}
+	
+	public int getBankID() {
+		return this.bankID;
+	}
+	
+	public void setBankID(int bankid) {
+		this.bankID = bankid;
 	}
 
 	////////////////////// PIN STUFF:
