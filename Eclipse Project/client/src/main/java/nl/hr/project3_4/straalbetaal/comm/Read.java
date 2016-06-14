@@ -6,8 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
@@ -40,10 +38,7 @@ public class Read implements SerialPortEventListener {
 		this.data = data;
 		this.initialize();
 	}
-	public static void main(String[] args){
-		Read r = new Read(new ArduinoData());
-		r.dispense("1 0 0");
-	}
+
 	public void initialize() {
 		CommPortIdentifier portId = null;
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -86,16 +81,6 @@ public class Read implements SerialPortEventListener {
 		if (serialPort != null) {
 			serialPort.removeEventListener();
 			serialPort.close();
-		}
-	}
-	
-	public synchronized void dispense(String amount){
-		byte[] b = amount.getBytes(StandardCharsets.US_ASCII);
-		try {
-			output.write(b);
-			output.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -167,8 +152,6 @@ public class Read implements SerialPortEventListener {
 					if (incomingJson.getString("event").equals("bonchoice")) {
 						data.setBon(Boolean.valueOf(incomingJson.getString("option")));
 						System.out.println("event OK");
-						// DISPENSER
-						
 					}
 					
 					// EVENT: chooses the donation option. 
