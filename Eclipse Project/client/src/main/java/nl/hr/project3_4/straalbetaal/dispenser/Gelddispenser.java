@@ -2,20 +2,32 @@ package nl.hr.project3_4.straalbetaal.dispenser;
 
 public final class Gelddispenser {
 
+	public void currectBalanceInDispenser() {
+		System.out.println("Tien: " + availableBiljettenVanTien + " Twintig: " + availableBiljettenVanTwintig + " Vifjtig: " + availableBiljettenVanVijftig); 
+	}
+	public static void main(String[] args) {
+		Gelddispenser dispenser = Gelddispenser.getGelddispenser();
+		dispenser.existAskedOption(50);
+		for (String i : dispenser.getOptionsForSpecificAmount())
+			System.out.println(i);
+		dispenser.removeChosenBillsFromDispenser("C");
+		System.out.println(dispenser.getFinalArduinoChoice());
+		dispenser.currectBalanceInDispenser();
+	}
+
 	private int availableBiljettenVanTien;
 	private int availableBiljettenVanTwintig;
 	private int availableBiljettenVanVijftig;
 
 	private int finalAmountChoice;
 	private String finalArduinoChoice;
-	 
 
 	// String with all 9 options
 	private String[][] allPossibleOptionsSentToArduino;
 	private String[] optionsForSpecificAmount;
 	private int[][] finalAmountOpties;
 
-	private static Gelddispenser DISPENSER;
+	private static Gelddispenser DISPENSER = new Gelddispenser(5, 5, 5);
 
 	private Gelddispenser(int tien, int twintig, int vijftig) {
 		this.availableBiljettenVanTien = tien;
@@ -112,7 +124,8 @@ public final class Gelddispenser {
 				availableBiljettenVanTien -= finalAmountOpties[i][0];
 				availableBiljettenVanTwintig -= finalAmountOpties[i][1];
 				availableBiljettenVanVijftig -= finalAmountOpties[i][2];
-				System.out.println(finalAmountOpties[i][0] + " " + finalAmountOpties[i][1] + " " + finalAmountOpties[i][2]);
+				System.out.println(
+						finalAmountOpties[i][0] + " " + finalAmountOpties[i][1] + " " + finalAmountOpties[i][2]);
 			}
 			switch (this.finalAmountChoice) {
 			case 50:
@@ -128,9 +141,6 @@ public final class Gelddispenser {
 	}
 
 	public static Gelddispenser getGelddispenser() {
-		if (DISPENSER == null)
-			DISPENSER = new Gelddispenser(5, 5, 5);
-
 		return DISPENSER;
 	}
 
