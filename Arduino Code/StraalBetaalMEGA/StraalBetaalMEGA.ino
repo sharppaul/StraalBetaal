@@ -26,10 +26,6 @@ String pincodePlain;
 String bedrag;
 String currentCardID = "none";
 
-int uid1;
-int uid2;
-int uid3;
-int uid4;
 int pincodeEncrypted;
 int pincodeLength = 0;
 int red = 40;
@@ -72,7 +68,7 @@ void setup() {
   Serial.begin(57600);
 
   pinMode(red, OUTPUT);
-  pinMode(green, OUTPUT);b
+  pinMode(green, OUTPUT);
   SPI.begin();// start the SPI library:
 
   digitalWrite(red, HIGH);
