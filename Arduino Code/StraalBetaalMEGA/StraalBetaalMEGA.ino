@@ -7,15 +7,12 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Instance of the class
 MFRC522::MIFARE_Key rfidkey;
-// Init array that will store new NUID
-byte nuidPICC[3];
-
+byte nuidPICC[3];// Init array that will store new NUID
 
 const byte ROWS = 4;
 const byte COLS = 4;
 byte colPins[COLS] = {26, 27, 28, 29}; //connect to row pinouts
 byte rowPins[ROWS] = {22, 23, 24, 25}; //connect to column pinouts
-
 
 char key;
 char keys[ROWS][COLS] = {
@@ -71,13 +68,12 @@ void setup() {
   for (byte i = 0; i < 6; i++) {
     rfidkey.keyByte[i] = 0xFF;
   }
-
+  
   Serial.begin(57600);
 
   pinMode(red, OUTPUT);
-  pinMode(green, OUTPUT);
-  // start the SPI library:
-  SPI.begin();
+  pinMode(green, OUTPUT);b
+  SPI.begin();// start the SPI library:
 
   digitalWrite(red, HIGH);
   digitalWrite(green, LOW);
@@ -105,17 +101,15 @@ void loop() {
     reset();
   }
 
-
   if (!stillThere() && mode != "start") {
     digitalWrite(red, HIGH);
     digitalWrite(green, LOW);
     reset();
   }
-
   checkIfDispense();
   delay(50);
 }
-
+//_______________________________________________________change lnguage_______________________________________________________//
 void language() {
   keyPad();
   switch (key) {
@@ -138,7 +132,6 @@ void language() {
       break;
   }
 }
-
 //_______________________________________________________keyPad_______________________________________________________//
 void keyPad() {
   key = keypad.getKey();
@@ -192,7 +185,6 @@ void rfid() {
   mfrc522.PICC_HaltA();
   // Stop encryption on PCD
   mfrc522.PCD_StopCrypto1();
-
 }
 
 boolean stillThere() { // checks if pas is still there.
@@ -203,7 +195,7 @@ boolean stillThere() { // checks if pas is still there.
   mfrc522.PICC_HaltA();
   return result;
 }
-//_______________________________________________________AES_______________________________________________________//
+//_______________________________________________________Encryptie_______________________________________________________//
 void encryptAndSend() {
 
   randNumber = random(1000, 9999);
@@ -213,8 +205,6 @@ void encryptAndSend() {
   Serial.println("{\"event\":\"pinsend\",\"pin\":\"" + pincodePlain + "\"}");
   mode = "choice";
 }
-
-
 //_______________________gedeelte waar de pincode wordt ingevoerd en gechecked____________________________________//
 void pincodeInvoer() {
   if (pincodeLength < 1)
@@ -310,7 +300,6 @@ void keuzeMenu() {
   switch (key) {
     case 'A': //SnelPinnen
       mode = "bon";
-
       Serial.println(
         "{\"event\":\"choice\",\"option\":\"a\"}"
       );
@@ -546,20 +535,16 @@ void checkIfDispense(){
     twintig = Serial.parseInt();
     vijftig = Serial.parseInt();
   }
-  if (tien)
-  {
+  if (tien){
     dispense(servo1, servo2, tien);
   }
-  if (twintig)
-  {
+  if (twintig){
     dispense(servo3, servo4, twintig);
   }
-  if (vijftig)
-  {
+  if (vijftig){
     dispense(servo5, servo6, vijftig);
   }
 }
-
 
 void dispense(int pin1, int pin2, int aantal) {
   //Serial.println("Pins: " + String(pin1) + " " + String(pin2) + " Aantal: " + String(aantal));
