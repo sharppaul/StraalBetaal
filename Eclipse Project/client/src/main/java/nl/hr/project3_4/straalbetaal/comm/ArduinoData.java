@@ -17,13 +17,9 @@ public class ArduinoData {
 	private boolean pressedBack = false;
 	private boolean pinReceived = false;
 	private String language = "EN";
-<<<<<<< HEAD
 	private String dispenserAmounts;
-=======
 	private int bankID;
 	
->>>>>>> origin/master
-
 	public ArduinoData() {
 		reset();
 	}
