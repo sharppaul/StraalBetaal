@@ -78,6 +78,7 @@ void setup() {
   pinMode(green, OUTPUT);
   // start the SPI library:
   SPI.begin();
+
   digitalWrite(red, HIGH);
   digitalWrite(green, LOW);
 }

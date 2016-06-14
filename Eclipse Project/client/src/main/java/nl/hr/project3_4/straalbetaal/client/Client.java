@@ -260,7 +260,9 @@ public class Client {
 
 	private boolean userEnteredAmount() {
 		// frame.setPinAmount(data.getAmount());
+		
 		if (data.isAmountDone()) {
+			dispenser.existAskedOption(data.getAmount());
 			return true;
 		} else {
 			return false;
