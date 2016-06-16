@@ -284,6 +284,7 @@ public class Client {
 	private boolean billSelected() {
 		if (data.getBillOption() != null) {
 			dispenser.removeChosenBillsFromDispenser(data.getBillOption());
+			data.setDispenserAmounts(dispenser.getFinalArduinoChoice());
 			return true;
 		}
 		return false;

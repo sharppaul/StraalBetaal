@@ -20,7 +20,6 @@ public class ArduinoData {
 	private String dispenserAmounts;
 	private int bankID;
 	
-
 	public ArduinoData() {
 		reset();
 	}

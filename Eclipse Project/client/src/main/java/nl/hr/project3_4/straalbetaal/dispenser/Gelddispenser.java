@@ -2,6 +2,7 @@ package nl.hr.project3_4.straalbetaal.dispenser;
 
 public final class Gelddispenser {
 
+	/* 
 	public void currectBalanceInDispenser() {
 		System.out.println("Tien: " + availableBiljettenVanTien + " Twintig: " + availableBiljettenVanTwintig + " Vifjtig: " + availableBiljettenVanVijftig); 
 	}
@@ -14,6 +15,7 @@ public final class Gelddispenser {
 		System.out.println(dispenser.getFinalArduinoChoice());
 		dispenser.currectBalanceInDispenser();
 	}
+	*/
 
 	private int availableBiljettenVanTien;
 	private int availableBiljettenVanTwintig;
@@ -61,11 +63,11 @@ public final class Gelddispenser {
 
 				optionsForSpecificAmount[i] = "";
 				if (opties[i][0] != 0)
-					optionsForSpecificAmount[i] = opties[i][0] + "x €10 ";
+					optionsForSpecificAmount[i] = opties[i][0] + "x G10 ";
 				if (opties[i][1] != 0)
-					optionsForSpecificAmount[i] += opties[i][1] + "x €20 ";
+					optionsForSpecificAmount[i] += opties[i][1] + "x G20 ";
 				if (opties[i][2] != 0)
-					optionsForSpecificAmount[i] += opties[i][2] + "x €50 ";
+					optionsForSpecificAmount[i] += opties[i][2] + "x G50 ";
 				counter++;
 
 			}

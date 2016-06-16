@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
@@ -97,9 +99,16 @@ public class Read implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 
+				String dispenserValues = data.getDispenserAmounts();
+				byte[] forArduino = dispenserValues.getBytes(StandardCharsets.US_ASCII);
+				output.write(forArduino);
+				output.flush();
+
 				JSONObject incomingJson = new JSONObject(inputLine);
 				System.out.println(incomingJson.toString());
 				System.out.println(Arrays.toString(incomingJson.keySet().toArray()));
+				
+				
 				if (Arrays.asList(incomingJson.keySet().toArray()).contains("event")) {
 					// EVENT: pin received from arduino.
 					if (incomingJson.getString("event").equals("pinsend")) {
