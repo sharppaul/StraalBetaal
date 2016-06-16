@@ -720,3 +720,11 @@
 2016-06-16 11:25:51,504  INFO client.ClientBackEnd:61 - Client - BalanceResponse received from server!
 2016-06-16 11:25:51,507  INFO client.ClientBackEnd:67 - Client - WithdrawRequest send to server!
 2016-06-16 11:25:51,564  INFO client.ClientBackEnd:70 - Client - WithdrawResponse received from server!
+2016-06-16 12:10:40,364  INFO client.ClientBackEnd:38 - Client - CheckPasRequest send to server!
+2016-06-16 12:10:43,103  INFO client.ClientBackEnd:41 - Client - CheckPasResponse received from server!
+2016-06-16 12:10:43,107  INFO client.ClientBackEnd:48 - Client - CheckPincodeRequest send to server!
+2016-06-16 12:10:43,266  INFO client.ClientBackEnd:51 - Client - CheckPincodeResponse received from server!
+2016-06-16 12:10:43,268  INFO client.ClientBackEnd:58 - Client - BalanceRequest send to server!
+2016-06-16 12:10:43,377  INFO client.ClientBackEnd:61 - Client - BalanceResponse received from server!
+2016-06-16 12:10:43,379  INFO client.ClientBackEnd:67 - Client - WithdrawRequest send to server!
+2016-06-16 12:10:43,527  INFO client.ClientBackEnd:70 - Client - WithdrawResponse received from server!
