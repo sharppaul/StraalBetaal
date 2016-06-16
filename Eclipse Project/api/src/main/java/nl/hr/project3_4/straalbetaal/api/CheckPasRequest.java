@@ -2,13 +2,15 @@ package nl.hr.project3_4.straalbetaal.api;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class CheckPasRequest {
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 
+public class CheckPasRequest {
 	@JsonProperty
 	private int bankID;
 	@JsonProperty
 	private String pasID;
 
+	
 	public CheckPasRequest() {
 	}
 
@@ -26,11 +28,12 @@ public class CheckPasRequest {
 	}
 
 	public String getPasID() {
-		return this.pasID;
+		return BlackBox.b.decrypt(this.pasID);
+		
 	}
 
 	public void setPasID(String pasID) {
-		this.pasID = pasID;
+		this.pasID = BlackBox.b.encrypt(pasID);
 	}
 
 }

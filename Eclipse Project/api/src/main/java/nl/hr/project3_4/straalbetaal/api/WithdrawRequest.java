@@ -2,6 +2,8 @@ package nl.hr.project3_4.straalbetaal.api;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
+
 public class WithdrawRequest {
 
 	@JsonProperty
@@ -12,6 +14,7 @@ public class WithdrawRequest {
 	private String pasID;
 
 	public WithdrawRequest() {
+		
 	}
 
 	public WithdrawRequest(int bankID, String pasID, long pinAmount) {
@@ -29,11 +32,11 @@ public class WithdrawRequest {
 	}
 
 	public String getPasID() {
-		return this.pasID;
+		return BlackBox.b.decrypt(this.pasID);
 	}
 
 	public void setPasID(String pasID) {
-		this.pasID = pasID;
+		this.pasID = BlackBox.b.encrypt(pasID);
 	}
 
 	public long getPinAmount() {

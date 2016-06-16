@@ -408,15 +408,15 @@ public class Frame extends JFrame {
 
 		// LOTTA BUTTONS:
 		c.ipady = 35;
-		if (getBillOption()[0] == null) {
+		if (getBillOption()[0] != null) {
 			c.gridy++;
 			mainPanel.add(a, c);
 		}
-		if (getBillOption()[1] == null) {
+		if (getBillOption()[1] != null) {
 			c.gridy++;
 			mainPanel.add(b, c);
 		}
-		if (getBillOption()[2] == null) {
+		if (getBillOption()[2] != null) {
 			c.gridy++;
 			mainPanel.add(cc, c);
 		}

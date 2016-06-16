@@ -252,3 +252,45 @@
 2016-06-09 14:50:50,050  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
 2016-06-09 14:50:50,055  INFO dao.DataAccessObject:124 - MYSQL Incrementing pin attempt: 1
 2016-06-09 14:50:50,055  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-15 12:54:37,575  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 69850735665438#118084551612300#124786647784890#128339822581152#109382464835826#36765784718208#90105959653710#132254697805776#133403628578220#
+2016-06-15 12:54:37,913  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-15 12:54:37,944  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-15 12:54:37,944  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-15 12:54:37,960  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-15 12:54:37,960  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:50,934  INFO resources.Resource:26 - POST: CheckPasRequest, bankID: 0 pasID: 123456789
+2016-06-16 11:25:51,271  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,290  INFO dao.DataAccessObject:56 - MYSQL Checking if card exists.
+2016-06-16 11:25:51,291  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,298  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,298  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-16 11:25:51,299  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,421  INFO resources.Resource:37 - POST: CheckPinRequest, CARD: 123456789
+2016-06-16 11:25:51,429  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,430  INFO dao.DataAccessObject:101 - MYSQL Checking pin attempts.
+2016-06-16 11:25:51,431  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,440  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,440  INFO dao.DataAccessObject:77 - MYSQL Request for pin.
+2016-06-16 11:25:51,441  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,447  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,452  INFO dao.DataAccessObject:143 - MYSQL Resetting pin attempts.
+2016-06-16 11:25:51,454  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,454  INFO services.Service:46 - Pincode DBRequest SUCCESS, Iban: 123456789
+2016-06-16 11:25:51,470  INFO resources.Resource:62 - POST: BalanceRequest with CARD: 123456789
+2016-06-16 11:25:51,478  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,484  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,484  INFO services.Service:54 - Balance DBRequest SUCCESS, Iban: 123456789 Balance: 664290 Cause: Balance request
+2016-06-16 11:25:51,517  INFO resources.Resource:73 - POST: WithdrawRequest, CARD: 123456789 AMOUNT: 1
+2016-06-16 11:25:51,525  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,526  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,526  INFO services.Service:67 - Balance DBRequest SUCCESS Iban: 123456789 Balance: 664290 Cause: Withdraw
+2016-06-16 11:25:51,527  INFO services.Service:68 - Withdraw DBRequest Iban: 123456789 Saldo left: 664289
+2016-06-16 11:25:51,536  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,541  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,542  INFO dao.DataAccessObject:183 - MYSQL Withdraw method, updated saldo.
+2016-06-16 11:25:51,555  INFO dao.DataAccessObject:189 - MYSQL Inserted data into betaalgeschiedenis.
+2016-06-16 11:25:51,555  INFO dao.DbTemplate:57 - MYSQL Resources Closed.
+2016-06-16 11:25:51,559  INFO dao.DbTemplate:25 - MYSQL Server Connection SUCCESS
+2016-06-16 11:25:51,560  INFO dao.DataAccessObject:210 - MYSQL Getting transaction number.
+2016-06-16 11:25:51,560  INFO dao.DbTemplate:42 - MYSQL Resources Closed.
+2016-06-16 11:25:51,561  INFO services.Service:71 - Withdraw DBRequest SUCCESS, Iban: 123456789 Amount: 1 Transaction ID: 63

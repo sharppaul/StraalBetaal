@@ -17,6 +17,7 @@ public class ArduinoData {
 	private boolean pressedBack = false;
 	private boolean pinReceived = false;
 	private String language = "EN";
+	private String dispenserAmounts;
 	private int bankID;
 	
 
@@ -99,8 +100,6 @@ public class ArduinoData {
 		return this.pinCode;
 	}
 
-	
-
 	////////////////////// BON STUFF:
 	public void setBon(Boolean option) {
 		this.wantsBon = option;
@@ -108,6 +107,15 @@ public class ArduinoData {
 
 	public Boolean getBon() {
 		return this.wantsBon;
+	}
+
+	////////////////////// DISPENSER STUFF:
+	public void setDispenserAmounts(String amounts) {
+		this.dispenserAmounts = amounts;
+	}
+	
+	public String getDispenserAmounts() {
+		return dispenserAmounts;
 	}
 
 	////////////////////// BILL STUFF:

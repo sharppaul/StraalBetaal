@@ -21,9 +21,10 @@ public class ClientBackEnd {
 	GetBenkt:		private static final String TARGET = "http://178.62.244.124:8000";
 	*/
 	// BD96FA35E4E4
-	//private static final String TARGET = "http://145.24.222.211:8025";
-	private static final String TARGET = "http://145.24.222.208:8025";
-	//private static final String TARGET = "http://localhost:8025";
+	// private static final String TARGET = "http://145.24.222.211:8025";
+	// private static final String TARGET = "http://145.24.222.208:8025";
+	private static final String TARGET = "http://localhost:8025";
+	// private static final String TARGET = "http://178.62.244.124:8000";
 	
 
 	public ClientBackEnd() {

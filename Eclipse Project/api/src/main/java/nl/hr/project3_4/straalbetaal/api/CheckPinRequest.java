@@ -2,6 +2,8 @@ package nl.hr.project3_4.straalbetaal.api;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
+
 public class CheckPinRequest {
 
 	@JsonProperty
@@ -11,6 +13,7 @@ public class CheckPinRequest {
 	@JsonProperty
 	private String pasID;
 
+	
 	public CheckPinRequest() {
 	}
 
@@ -29,19 +32,19 @@ public class CheckPinRequest {
 	}
 
 	public String getPasID() {
-		return this.pasID;
+		return BlackBox.b.decrypt(this.pasID);
 	}
 
 	public void setPasID(String pasID) {
-		this.pasID = pasID;
+		this.pasID = BlackBox.b.encrypt(pasID);
 	}
 
 	public String getPinCode() {
-		return pinCode;
+		return BlackBox.b.decrypt(this.pinCode);
 	}
 
 	public void setPinCode(String pinCode) {
-		this.pinCode = pinCode;
+		this.pinCode = BlackBox.b.encrypt(pinCode);
 	}
 
 }
