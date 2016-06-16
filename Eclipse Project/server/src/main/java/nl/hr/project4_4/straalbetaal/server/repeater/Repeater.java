@@ -22,27 +22,25 @@ public class Repeater {
 	private static final Logger LOG = Logger.getLogger(Repeater.class.getName());
 	private ClientBuilder cBuilder = ClientBuilder.newBuilder();
 	private Client client;
-	private DataAccessObject dao;
+	public DataAccessObject dao;
 
 	private String target = null;
 
 	public Repeater() {
 		cBuilder.register(JacksonFeature.class);
 		client = cBuilder.build();
+		dao = new DataAccessObject();
 
 	}
 
+	
 	public boolean target(int bankID) {
 		this.target = dao.getBankIP(bankID);
-		if (this.target == null)
-			return false;
-		else
-			return true;
+		return (this.target != null);
 	}
 
 	public CheckPasResponse checkPas(CheckPasRequest request) {
 		String path = "/checkpas";
-
 		if (target(request.getBankID())) {
 			LOG.info("Repeater - CheckPasRequest send to server!");
 			CheckPasResponse response = client.target(target).path(path).request()
@@ -50,6 +48,7 @@ public class Repeater {
 			LOG.info("Repeater - CheckPasResponse received from server!");
 			return response;
 		} else {
+			System.out.println("IP IS NULL");
 			return new CheckPasResponse(false, false);
 		}
 	}

@@ -1,6 +1,7 @@
 package nl.hr.project3_4.straalbetaal.server.resources;
 
 import nl.hr.project3_4.straalbetaal.api.*;
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 import nl.hr.project3_4.straalbetaal.server.services.Service;
 import nl.hr.project4_4.straalbetaal.server.repeater.Repeater;
 
@@ -23,7 +24,7 @@ public class Resource {
 	@POST
 	@Path("checkpas") // Check if pas exists
 	public CheckPasResponse checkPas(CheckPasRequest request) {
-		LOG.info("POST: CheckPasRequest, bankID: " + request.getBankID() + " pasID: " + request.getPasID());
+		LOG.info("POST: CheckPasRequest, bankID: " + request.getBankID() + " pasID: " + BlackBox.b.decrypt(request.getPasID()));
 		if (request.getBankID() != BANKID) {
 			return repeater.checkPas(request);
 		}
