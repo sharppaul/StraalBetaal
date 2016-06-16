@@ -34,6 +34,10 @@ public class Read implements SerialPortEventListener {
 
 	/** Stuff for arduino data parsing: */
 	ArduinoData data;
+	
+	public static void main(String[] args){
+		Read r = new Read(new ArduinoData());
+	}
 
 	public Read(ArduinoData data) {
 		this.data = data;
@@ -98,10 +102,6 @@ public class Read implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 
-				String dispenserValues = data.getDispenserAmounts();
-				byte[] forArduino = dispenserValues.getBytes(StandardCharsets.US_ASCII);
-				output.write(forArduino);
-				output.flush();
 
 				JSONObject incomingJson = new JSONObject(inputLine);
 				System.out.println(incomingJson.toString());

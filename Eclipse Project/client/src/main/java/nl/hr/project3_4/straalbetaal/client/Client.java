@@ -3,6 +3,7 @@ package nl.hr.project3_4.straalbetaal.client;
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.dispenser.Gelddispenser;
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 import nl.hr.project3_4.straalbetaal.gui.*;
 import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.printer.LabelWriter;
@@ -35,6 +36,7 @@ public class Client {
 			try {
 				this.transNummer = 0;
 				frame.setMode("start");
+				data.reset();
 				while (!cardInserted()) {
 					sleep(100);
 					checkLanguage();
@@ -154,7 +156,7 @@ public class Client {
 	}
 
 	private void checkPas() throws Reset {
-		CheckPasRequest rq = new CheckPasRequest(data.getBankID(), data.getCard());
+		CheckPasRequest rq = new CheckPasRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()));
 		CheckPasResponse rs = backend.checkPas(rq);
 		if (!rs.doesExist()) {
 			data.reset();
@@ -164,7 +166,7 @@ public class Client {
 	}
 
 	private void checkPinValid() throws Reset {
-		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), data.getCard(), data.getPin());
+		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), BlackBox.b.encrypt(data.getPin()));
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (!rs.isCorrect()) {
 			data.reset();
@@ -177,12 +179,12 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance(new BalanceRequest(data.getBankID(), data.getCard()));
+		BalanceResponse rs = backend.checkBalance(new BalanceRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard())));
 		return rs.getBalance();
 	}
 
 	private void snelPinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest(data.getBankID(), data.getCard(), 7000L);
+		WithdrawRequest rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), 7000L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		if (rs.isSucceeded()) {
 			// store transaction number and amount etc.
