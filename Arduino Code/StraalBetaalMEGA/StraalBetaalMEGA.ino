@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <MFRC522.h>
 #include <Keypad.h>
 #include <SPI.h>
@@ -60,15 +61,18 @@ String mode = "start";
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
 void setup() {
+  Serial.begin(57600);
+  while (!Serial);
+
   mfrc522.PCD_Init(); // Init MFRC522
   SPI.begin();
-  Serial.begin(57600);
+
 
   pinMode(red, OUTPUT);
   pinMode(green, OUTPUT);
   pinMode(ledOut, OUTPUT);
   pinMode(servoGround, OUTPUT);
-  
+
   digitalWrite(servoGround, LOW);
   digitalWrite(ledOut, HIGH);
   digitalWrite(red, HIGH);
@@ -80,6 +84,8 @@ void setup() {
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
+  delay(100);
+
   if (mode == "start") {
     language();
     rfid();
@@ -101,14 +107,19 @@ void loop() {
     reset();
   }
 
-  if (!stillThere() && mode != "start") {
-    digitalWrite(red, HIGH);
-    digitalWrite(green, LOW);
-    reset();
+  delay(100);
+
+  if ( mode != "start") {
+    if (!stillThere()) {
+      digitalWrite(red, HIGH);
+      digitalWrite(green, LOW);
+      reset();
+    }
   }
+
   checkIfDispense();
-  delay(50);
 }
+
 //_______________________________________________________change lnguage_______________________________________________________//
 void language() {
   keyPad();
@@ -158,15 +169,15 @@ void rfid() {
   // Authenticate using key A
   status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, trailerBlock, &rfidkey, &(mfrc522.uid));
   if (status != MFRC522::STATUS_OK) {
-    //Serial.print(F("PCD_Authenticate() failed: "));
-    //Serial.println(mfrc522.GetStatusCodeName(status));
+    Serial.print(F("PCD_Authenticate() failed: "));
+    Serial.println(mfrc522.GetStatusCodeName(status));
     return;
   }
   // read data
   status = (MFRC522::StatusCode) mfrc522.MIFARE_Read(blockAddr, buffer, &size);
   if (status != MFRC522::STATUS_OK) {
-    //Serial.print(F("MIFARE_Read() failed: "));
-    //Serial.println(mfrc522.GetStatusCodeName(status));
+    Serial.print(F("MIFARE_Read() failed: "));
+    Serial.println(mfrc522.GetStatusCodeName(status));
   }
   //Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
   //dump_byte_array(buffer, 16); Serial.println();
@@ -495,7 +506,7 @@ void reset() {
   mode = "start";
   pincodePlain = "";
   pincodeLength = 0;
-  delay(3000);
+  delay(1500);
 }
 
 void resetWithoutError() {
@@ -503,7 +514,7 @@ void resetWithoutError() {
   mode = "start";
   pincodePlain = "";
   pincodeLength = 0;
-  delay(3000);
+  delay(1500);
 }
 
 void pinReset() {
@@ -526,7 +537,7 @@ void dump_byte_array(byte *buffer, byte bufferSize) {
 }
 
 //_______________________________________________________________dispenser________________________________________________________________//
-void checkIfDispense(){
+void checkIfDispense() {
   int tien = 0, twintig = 0, vijftig = 0;
   while (Serial.available())
   {
@@ -535,13 +546,13 @@ void checkIfDispense(){
     twintig = Serial.parseInt();
     vijftig = Serial.parseInt();
   }
-  if (tien){
+  if (tien) {
     dispense(servo1, servo2, tien);
   }
-  if (twintig){
+  if (twintig) {
     dispense(servo3, servo4, twintig);
   }
-  if (vijftig){
+  if (vijftig) {
     dispense(servo5, servo6, vijftig);
   }
 }
@@ -560,3 +571,4 @@ void dispense(int pin1, int pin2, int aantal) {
     delay(50);
   }
 }
+
