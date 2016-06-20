@@ -28,16 +28,13 @@ public class Read implements SerialPortEventListener {
 
 	private static final String PORT_NAMES[] = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7" };
 	private BufferedReader input;
+	@SuppressWarnings("unused")
 	private OutputStream output;
 	private static final int TIME_OUT = 2000;
 	private static final int DATA_RATE = 57600;
 
 	/** Stuff for arduino data parsing: */
 	ArduinoData data;
-	
-	public static void main(String[] args){
-		Read r = new Read(new ArduinoData());
-	}
 
 	public Read(ArduinoData data) {
 		this.data = data;
@@ -88,10 +85,10 @@ public class Read implements SerialPortEventListener {
 			serialPort.close();
 		}
 	}
-	
-	public synchronized void serialWrite(String data){
-		try{
-		} catch(Exception e){
+
+	public synchronized void serialWrite(String data) {
+		try {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -102,12 +99,10 @@ public class Read implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 
-
 				JSONObject incomingJson = new JSONObject(inputLine);
 				System.out.println(incomingJson.toString());
 				System.out.println(Arrays.toString(incomingJson.keySet().toArray()));
-				
-				
+
 				if (Arrays.asList(incomingJson.keySet().toArray()).contains("event")) {
 					// EVENT: pin received from arduino.
 					if (incomingJson.getString("event").equals("pinsend")) {
@@ -168,8 +163,8 @@ public class Read implements SerialPortEventListener {
 						data.setBon(Boolean.valueOf(incomingJson.getString("option")));
 						System.out.println("event OK");
 					}
-					
-					// EVENT: chooses the donation option. 
+
+					// EVENT: chooses the donation option.
 					if (incomingJson.getString("event").equals("donatechoice")) {
 						data.setDonate(Boolean.valueOf(incomingJson.getString("option")));
 						System.out.println("event OK");
@@ -193,13 +188,12 @@ public class Read implements SerialPortEventListener {
 						data.setBankID(Integer.parseInt(incomingJson.getString("bankid")));
 						System.out.println("event OK");
 					}
-					
+
 					// EVENT: language.
 					if (incomingJson.getString("event").equals("language")) {
 						data.setLanguage(incomingJson.getString("option"));
 						System.out.println("event OK");
 					}
-
 
 					// EVENT: if no event matches...
 					// {
@@ -239,18 +233,30 @@ public class Read implements SerialPortEventListener {
 			selfClosingMessage("Error, verbinding met het keypad verbroken. Verwijder uw pas.");
 		}
 	}
-	
-	public void selfClosingMessage(String message){
-		JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
-        JDialog dialog = pane.createDialog(null, "Error");
-        dialog.setModal(false);
-        dialog.setVisible(true);
 
-        new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dialog.setVisible(false);
-            }
-        }).start();
+	public void selfClosingMessage(String message) {
+		JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+		JDialog dialog = pane.createDialog(null, "Error");
+		dialog.setModal(false);
+		dialog.setVisible(true);
+
+		new Timer(3000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialog.setVisible(false);
+			}
+		}).start();
 	}
+
+	public void dispense(String dispenserValues) {
+		try {
+			byte[] forArduino = dispenserValues.getBytes(StandardCharsets.US_ASCII);
+			output.write(forArduino);
+			output.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }
