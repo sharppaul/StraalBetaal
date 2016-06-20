@@ -26,6 +26,7 @@ char keys[ROWS][COLS] = {
 String pincodePlain;
 String bedrag;
 String currentCardID = "none";
+String currentBankID = "none";
 
 int pincodeEncrypted;
 int pincodeLength = 0;
@@ -81,14 +82,17 @@ void setup() {
   for (byte i = 0; i < 6; i++) {
     rfidkey.keyByte[i] = 0xFF;
   }
+  
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
-  delay(100);
+  delay(50);
 
   if (mode == "start") {
     language();
-    rfid();
+    if (mfrc522.PICC_IsNewCardPresent()) {
+      rfid();
+    }
   } else if (mode == "pincode") {
     pincodeInvoer();
   } else if (mode == "choice") {
@@ -102,12 +106,14 @@ void loop() {
   } else if (mode == "donate") {
     donate();
   } else if (mode == "bon") {
+    checkIfDispense();
     bon();
   } else if (mode == "done") {
+    checkIfDispense();
     reset();
   }
-
-  delay(100);
+  checkIfDispense();
+  delay(50);
 
   if ( mode != "start") {
     if (!stillThere()) {
@@ -116,8 +122,6 @@ void loop() {
       reset();
     }
   }
-
-  checkIfDispense();
 }
 
 //_______________________________________________________change lnguage_______________________________________________________//
@@ -151,14 +155,8 @@ void keyPad() {
 }
 //_______________________________________________________rfid_______________________________________________________//
 void rfid() {
-  if ( ! mfrc522.PICC_IsNewCardPresent())
-    return;
+  if (! mfrc522.PICC_ReadCardSerial()) return;
 
-  // Select one of the cards
-  if ( ! mfrc522.PICC_ReadCardSerial())
-    return;
-  // In this sample we use the second sector,
-  // that is: sector #1, covering block #4 up to and including block #7
   byte sector         = 1;
   byte blockAddr      = 4;
   byte trailerBlock   = 7;
@@ -166,36 +164,32 @@ void rfid() {
   byte buffer[18];
   byte size = sizeof(buffer);
 
-  // Authenticate using key A
   status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, trailerBlock, &rfidkey, &(mfrc522.uid));
   if (status != MFRC522::STATUS_OK) {
     Serial.print(F("PCD_Authenticate() failed: "));
     Serial.println(mfrc522.GetStatusCodeName(status));
     return;
   }
-  // read data
+
   status = (MFRC522::StatusCode) mfrc522.MIFARE_Read(blockAddr, buffer, &size);
   if (status != MFRC522::STATUS_OK) {
     Serial.print(F("MIFARE_Read() failed: "));
     Serial.println(mfrc522.GetStatusCodeName(status));
   }
-  //Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
-  //dump_byte_array(buffer, 16); Serial.println();
-  //Serial.println();
 
   currentCardID =   (String(mfrc522.uid.uidByte[0], HEX));
   currentCardID +=  (String(mfrc522.uid.uidByte[1], HEX));
   currentCardID +=  (String(mfrc522.uid.uidByte[2], HEX));
   currentCardID +=  (String(mfrc522.uid.uidByte[3], HEX));
-  Serial.println("{\"event\":\"cardreceived\",\"card\":\"" + currentCardID + "\",\"bankid\":\"" + String(buffer[0]) + "\"}");
+  currentBankID = String(buffer[0]);
+  mfrc522.PICC_HaltA(); // Stop reading
+  mfrc522.PCD_StopCrypto1();
+  Serial.println("{\"event\":\"cardreceived\",\"card\":\"" + currentCardID + "\",\"bankid\":\"" + currentBankID + "\"}");
+
   mode = "pincode";
   digitalWrite(red, LOW);
   digitalWrite(green, HIGH);
-
-  // Halt PICC
-  mfrc522.PICC_HaltA();
-  // Stop encryption on PCD
-  mfrc522.PCD_StopCrypto1();
+  return;
 }
 
 boolean stillThere() { // checks if pas is still there.
@@ -203,7 +197,9 @@ boolean stillThere() { // checks if pas is still there.
   byte size = sizeof(buffer);
   mfrc522.PICC_WakeupA(buffer, &size);
   boolean result = mfrc522.PICC_ReadCardSerial();
+  
   mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
   return result;
 }
 //_______________________________________________________Encryptie_______________________________________________________//
@@ -546,6 +542,7 @@ void checkIfDispense() {
     twintig = Serial.parseInt();
     vijftig = Serial.parseInt();
   }
+  delay(10);
   if (tien) {
     dispense(servo1, servo2, tien);
   }
@@ -566,9 +563,12 @@ void dispense(int pin1, int pin2, int aantal) {
     delay(2000);
     analogWrite(pin1, 30);
     delay(1200);
-    analogWrite(pin1, 256);
-    analogWrite(pin2, 256);
+    analogWrite(pin1, 0);
+    delay(800);
+    analogWrite(pin2, 0);
     delay(50);
   }
+  //analogWrite(pin1, 0);
+  //analogWrite(pin2, 0);
 }
 

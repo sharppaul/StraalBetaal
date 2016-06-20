@@ -99,7 +99,7 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		Frame f = new Frame();
-		// f.goRussian();
+		f.goRussian();
 
 		// f.setMode("choice");
 	}

@@ -3,6 +3,7 @@ package nl.hr.project3_4.straalbetaal.client;
 import nl.hr.project3_4.straalbetaal.api.*;
 import nl.hr.project3_4.straalbetaal.comm.*;
 import nl.hr.project3_4.straalbetaal.dispenser.Gelddispenser;
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 import nl.hr.project3_4.straalbetaal.gui.*;
 import nl.hr.project3_4.straalbetaal.language.Language;
 import nl.hr.project3_4.straalbetaal.printer.LabelWriter;
@@ -33,6 +34,7 @@ public class Client {
 
 		while (true) {
 			try {
+				data.reset();
 				this.transNummer = 0;
 				frame.setMode("start");
 				while (!cardInserted()) {
@@ -81,13 +83,13 @@ public class Client {
 
 						frame.setMode("pin");
 						while (!userEnteredAmount()) { // user hasn't entered
-														// amount
+												// amount
 							sleep(100);
 							shouldReset();
 						}
-
 						shouldReset();
 						data.chooseBill(null);
+						
 						calculateBills();
 						frame.setMode("billselect");
 						while (!billSelected()) { // user hasn't chosen bills
@@ -105,7 +107,7 @@ public class Client {
 						
 						frame.setMode("loading");
 
-						pinnen();
+						
 
 						shouldReset();
 						frame.setMode("ticket");
@@ -113,6 +115,8 @@ public class Client {
 							sleep(100);
 							shouldReset();
 						}
+						frame.setMode("loading");
+						pinnen();
 
 						frame.setMode("loading");
 						if (data.getBon()) {
@@ -145,6 +149,7 @@ public class Client {
 				frame.setMode("error");
 				this.sleep(5000);
 			} catch (Success succes) {
+				frame.setMode("success");
 				this.sleep(5000);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -154,7 +159,7 @@ public class Client {
 	}
 
 	private void checkPas() throws Reset {
-		CheckPasRequest rq = new CheckPasRequest(data.getBankID(), data.getCard());
+		CheckPasRequest rq = new CheckPasRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()));
 		CheckPasResponse rs = backend.checkPas(rq);
 		if (!rs.doesExist()) {
 			data.reset();
@@ -164,7 +169,7 @@ public class Client {
 	}
 
 	private void checkPinValid() throws Reset {
-		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), data.getCard(), data.getPin());
+		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), BlackBox.b.encrypt(data.getPin()));
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (!rs.isCorrect()) {
 			data.reset();
@@ -177,12 +182,12 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance(new BalanceRequest(data.getBankID(), data.getCard()));
+		BalanceResponse rs = backend.checkBalance(new BalanceRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard())));
 		return rs.getBalance();
 	}
 
 	private void snelPinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest(data.getBankID(), data.getCard(), 7000L);
+		WithdrawRequest rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), 7000L);
 		WithdrawResponse rs = backend.withdrawMoney(rq);
 		if (rs.isSucceeded()) {
 			// store transaction number and amount etc.
@@ -202,15 +207,16 @@ public class Client {
 
 		if (saldo >= 0) {
 			if (data.getDonate()) {
-				rq = new WithdrawRequest(data.getBankID(), data.getCard(), (long) (data.getAmount() * 100) + donateAmount);
+				rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), (long) (data.getAmount() * 100) + donateAmount);
 			} else {
-				rq = new WithdrawRequest(data.getBankID(), data.getCard(), (long) (data.getAmount() * 100));
+				rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), (long) (data.getAmount() * 100));
 			}
 			WithdrawResponse rs = backend.withdrawMoney(rq);
 			System.out.println("Pinning succeeded: " + rs.isSucceeded());
 			if (rs.isSucceeded()) {
 				this.transNummer = rs.getTransactieNummer();
-				reader.dispense(data.getDispenserAmounts());
+				System.out.println(dispenser.getDispenserAmounts());
+				reader.dispense(dispenser.getDispenserAmounts());
 			} else {
 				data.reset();
 				throw new Reset("toolow");
@@ -284,8 +290,9 @@ public class Client {
 
 	private boolean billSelected() {
 		if (data.getBillOption() != null) {
-			dispenser.removeChosenBillsFromDispenser(data.getBillOption());
+			
 			data.setDispenserAmounts(dispenser.getFinalArduinoChoice());
+			dispenser.removeChosenBillsFromDispenser(data.getBillOption());
 			return true;
 		}
 		return false;
