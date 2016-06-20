@@ -77,8 +77,8 @@ public class Service {
 				LOG.info("Withdraw DBRequest Iban: " + pasID + " Saldo left: " + currentSaldo);
 				if (currentSaldo >= 0) {
 					transactieBon = dao.withdraw(pasID, amount, currentSaldo);
-					if (amount > 100) { // zodat er niet 2 mails worden verzonden door donate
-						String emailUser = dao.getMailAdres(pasID);
+					String emailUser = dao.getMailAdres(pasID);
+					if (emailUser != null) {
 						new MailService(emailUser).sendMailContainingTransactiebon(transactieBon, pasID, amount);
 						LOG.info("Mail send to user with transactiebon!");
 					}

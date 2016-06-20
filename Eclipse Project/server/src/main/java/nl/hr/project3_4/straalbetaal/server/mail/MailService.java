@@ -16,12 +16,14 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 
+	/*
 	public static void main(String[] args) {
 		new MailService("yosh.nahar@gmail.com").sendMailContainingTransactiebon(1, "123456789", 50L);
 	}
+	*/
 	
-	private final String emailSender = "stupidnerd69@gmail.com";
-	private final String passwordSender = "compaq9500";
+	private final String emailSender = "straalbetaal@gmail.com";
+	private final String passwordSender = "straalBetaalOP4";
 	private String emailReceiver;
 
 	private Properties props;
