@@ -28,7 +28,6 @@ public class Read implements SerialPortEventListener {
 
 	private static final String PORT_NAMES[] = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7" };
 	private BufferedReader input;
-	@SuppressWarnings("unused")
 	private OutputStream output;
 	private static final int TIME_OUT = 2000;
 	private static final int DATA_RATE = 57600;

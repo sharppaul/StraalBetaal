@@ -41,7 +41,7 @@ public class Client {
 					sleep(100);
 					checkLanguage();
 				}
-				
+
 				this.checkPas();
 				this.shouldReset();
 
@@ -83,13 +83,13 @@ public class Client {
 
 						frame.setMode("pin");
 						while (!userEnteredAmount()) { // user hasn't entered
-												// amount
+							// amount
 							sleep(100);
 							shouldReset();
 						}
 						shouldReset();
 						data.chooseBill(null);
-						
+
 						calculateBills();
 						frame.setMode("billselect");
 						while (!billSelected()) { // user hasn't chosen bills
@@ -104,10 +104,8 @@ public class Client {
 							sleep(100);
 							shouldReset();
 						}
-						
-						frame.setMode("loading");
 
-						
+						frame.setMode("loading");
 
 						shouldReset();
 						frame.setMode("ticket");
@@ -169,7 +167,8 @@ public class Client {
 	}
 
 	private void checkPinValid() throws Reset {
-		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), BlackBox.b.encrypt(data.getPin()));
+		CheckPinRequest rq = new CheckPinRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()),
+				BlackBox.b.encrypt(data.getPin()));
 		CheckPinResponse rs = backend.checkPincode(rq);
 		if (!rs.isCorrect()) {
 			data.reset();
@@ -182,18 +181,25 @@ public class Client {
 	}
 
 	private long requestSaldo() {
-		BalanceResponse rs = backend.checkBalance(new BalanceRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard())));
+		BalanceResponse rs = backend
+				.checkBalance(new BalanceRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard())));
 		return rs.getBalance();
 	}
 
 	private void snelPinnen() throws Reset {
-		WithdrawRequest rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), 7000L);
-		WithdrawResponse rs = backend.withdrawMoney(rq);
-		if (rs.isSucceeded()) {
-			// store transaction number and amount etc.
+		if (dispenser.existAskedOption(70)) { // No other methods needed!
+			WithdrawRequest rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), 7000L);
+			WithdrawResponse rs = backend.withdrawMoney(rq);
+			if (rs.isSucceeded()) {
+				reader.dispense(dispenser.getFinalArduinoChoice());
+				// data.setDispenserAmounts(dispenser.getFinalArduinoChoice());
+			} else {
+				data.reset();
+				throw new Reset("toolow");
+			}
 		} else {
 			data.reset();
-			throw new Reset("toolow");
+			throw new Reset("toolow"); // Dit moet veranderen naar biljetten niet beschikbaar!
 		}
 	}
 
@@ -207,16 +213,18 @@ public class Client {
 
 		if (saldo >= 0) {
 			if (data.getDonate()) {
-				rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), (long) (data.getAmount() * 100) + donateAmount);
+				rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()),
+						(long) (data.getAmount() * 100) + donateAmount);
 			} else {
-				rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()), (long) (data.getAmount() * 100));
+				rq = new WithdrawRequest(data.getBankID(), BlackBox.b.encrypt(data.getCard()),
+						(long) (data.getAmount() * 100));
 			}
 			WithdrawResponse rs = backend.withdrawMoney(rq);
 			System.out.println("Pinning succeeded: " + rs.isSucceeded());
 			if (rs.isSucceeded()) {
 				this.transNummer = rs.getTransactieNummer();
-				System.out.println(dispenser.getDispenserAmounts());
-				reader.dispense(dispenser.getDispenserAmounts());
+				System.out.println(dispenser.getFinalArduinoChoice());
+				reader.dispense(dispenser.getFinalArduinoChoice());
 			} else {
 				data.reset();
 				throw new Reset("toolow");
@@ -239,22 +247,12 @@ public class Client {
 		String[] options = dispenser.getOptionsForSpecificAmount();
 
 		/*
-		if (amount == 50) {
-			options[0] = "1x €50";
-			options[1] = "1x €10 & 2x €20";
-			options[2] = "5x €10";
-		}
-		if (amount == 100) {
-			options[0] = "1x €100";
-			options[1] = "2x €50";
-			options[2] = "5x €20";
-		}
-		if (amount == 200) {
-			options[0] = "2x €100";
-			options[1] = "4x €50";
-			options[2] = "2x €50 & 5x €20";
-		}
-		*/
+		 * if (amount == 50) { options[0] = "1x €50"; options[1] =
+		 * "1x €10 & 2x €20"; options[2] = "5x €10"; } if (amount == 100) {
+		 * options[0] = "1x €100"; options[1] = "2x €50"; options[2] = "5x €20";
+		 * } if (amount == 200) { options[0] = "2x €100"; options[1] = "4x €50";
+		 * options[2] = "2x €50 & 5x €20"; }
+		 */
 
 		frame.setBillOption(options);
 	}
@@ -267,7 +265,7 @@ public class Client {
 
 	private boolean userEnteredAmount() {
 		// frame.setPinAmount(data.getAmount());
-		
+
 		if (data.isAmountDone()) {
 			dispenser.existAskedOption(data.getAmount());
 			return true;
@@ -290,7 +288,7 @@ public class Client {
 
 	private boolean billSelected() {
 		if (data.getBillOption() != null) {
-			
+
 			data.setDispenserAmounts(dispenser.getFinalArduinoChoice());
 			dispenser.removeChosenBillsFromDispenser(data.getBillOption());
 			return true;

@@ -2,17 +2,31 @@ package nl.hr.project3_4.straalbetaal.dispenser;
 
 public final class Gelddispenser {
 
-	/*
-	 * public void currectBalanceInDispenser() { System.out.println("Tien: " +
-	 * availableBiljettenVanTien + " Twintig: " + availableBiljettenVanTwintig +
-	 * " Vifjtig: " + availableBiljettenVanVijftig); } public static void
-	 * main(String[] args) { Gelddispenser dispenser =
-	 * Gelddispenser.getGelddispenser(); dispenser.existAskedOption(50); for
-	 * (String i : dispenser.getOptionsForSpecificAmount())
-	 * System.out.println(i); dispenser.removeChosenBillsFromDispenser("C");
-	 * System.out.println(dispenser.getFinalArduinoChoice());
-	 * dispenser.currectBalanceInDispenser(); }
-	 */
+	public String currectBalanceInDispenser() {
+		return "Tien: " + availableBiljettenVanTien + " Twintig: " + availableBiljettenVanTwintig + " Vijftig: "
+				+ availableBiljettenVanVijftig;
+	}
+
+	public static void main(String[] args) {
+		Gelddispenser dispenser = Gelddispenser.getGelddispenser();
+
+		for (int i = 0; i < 5; i++) {
+			if (dispenser.existAskedOption(70)) {
+				 // choice 50/100/200
+
+				for (String ii : dispenser.getOptionsForSpecificAmount())
+					System.out.println(ii);
+
+				// For snelpinnen this doesn't have to be called!
+				//dispenser.removeChosenBillsFromDispenser("a"); // choice
+																// "a"/"b"/ "c"
+
+				System.out.println("Choice was: 'a' || To arduino: " + dispenser.getFinalArduinoChoice());
+
+				System.out.println(dispenser.currectBalanceInDispenser());
+			}
+		}
+	}
 
 	private int availableBiljettenVanTien;
 	private int availableBiljettenVanTwintig;
@@ -25,7 +39,6 @@ public final class Gelddispenser {
 	private String[][] allPossibleOptionsSentToArduino;
 	private String[] optionsForSpecificAmount;
 	private int[][] finalAmountOpties;
-	private String dispenserAmounts;
 
 	private static Gelddispenser DISPENSER = new Gelddispenser(5, 5, 5);
 
@@ -43,6 +56,11 @@ public final class Gelddispenser {
 		switch (choice) {
 		case 50:
 			return existAskedBiljetten(keuzes50());
+		case 70:
+			boolean b = existAskedBiljetten(snelPinnen70());
+			System.out.print(b);
+			removeChosenBillsFromDispenser("a");
+			return b;
 		case 100:
 			return existAskedBiljetten(keuzes100());
 		case 200:
@@ -58,7 +76,7 @@ public final class Gelddispenser {
 		for (int i = 0; i < opties.length; i++) {
 			if (availableBiljettenVanTien >= opties[i][0] && availableBiljettenVanTwintig >= opties[i][1]
 					&& availableBiljettenVanVijftig >= opties[i][2]) {
-
+				System.out.println(opties[i][0] + " " + opties[i][1] + " " + opties[i][2] + "THIS");
 				optionsForSpecificAmount[i] = "";
 				if (opties[i][0] != 0)
 					optionsForSpecificAmount[i] = opties[i][0] + "x G10 ";
@@ -67,14 +85,20 @@ public final class Gelddispenser {
 				if (opties[i][2] != 0)
 					optionsForSpecificAmount[i] += opties[i][2] + "x G50 ";
 				counter++;
-
 			}
 		}
-
 		if (counter == 0) {
 			return false;
 		}
 		return true;
+	}
+
+	private int[][] snelPinnen70() {
+		int[][] optiesGenerated = new int[3][3];
+		optiesGenerated[0][1] = 1;
+		optiesGenerated[0][2] = 1;
+		allPossibleOptionsSentToArduino[0][0] = "0 1 1";
+		return optiesGenerated;
 	}
 
 	private int[][] keuzes50() {
@@ -121,23 +145,28 @@ public final class Gelddispenser {
 
 		for (int i = 0; i < possibleAnswers.length; i++) {
 			if (choice.equals(possibleAnswers[i])) {
+				//System.out.println(availableBiljettenVanTwintig + "Pre");
 				availableBiljettenVanTien -= finalAmountOpties[i][0];
 				availableBiljettenVanTwintig -= finalAmountOpties[i][1];
 				availableBiljettenVanVijftig -= finalAmountOpties[i][2];
-				setDispenserAmounts(
-						finalAmountOpties[i][0] + " " + finalAmountOpties[i][1] + " " + finalAmountOpties[i][2]);
-				System.out.println(
-						finalAmountOpties[i][0] + " " + finalAmountOpties[i][1] + " " + finalAmountOpties[i][2]);
-			}
-			switch (this.finalAmountChoice) {
-			case 50:
-				finalArduinoChoice = allPossibleOptionsSentToArduino[0][i];
-			case 100:
-				finalArduinoChoice = allPossibleOptionsSentToArduino[1][i];
-			case 200:
-				finalArduinoChoice = allPossibleOptionsSentToArduino[2][i];
-			default:
-				finalArduinoChoice = "";
+				//System.out.println(availableBiljettenVanTwintig + "Post");
+
+				switch (finalAmountChoice) {
+				case 50:
+					finalArduinoChoice = allPossibleOptionsSentToArduino[0][i];
+					break;
+				case 70:
+					finalArduinoChoice = allPossibleOptionsSentToArduino[0][i];
+					break;
+				case 100:
+					finalArduinoChoice = allPossibleOptionsSentToArduino[1][i];
+					break;
+				case 200:
+					finalArduinoChoice = allPossibleOptionsSentToArduino[2][i];
+					break;
+				default:
+					finalArduinoChoice = "";
+				}
 			}
 		}
 	}
@@ -154,11 +183,4 @@ public final class Gelddispenser {
 		return finalArduinoChoice;
 	}
 
-	public void setDispenserAmounts(String amounts) {
-		this.dispenserAmounts = amounts;
-	}
-
-	public String getDispenserAmounts() {
-		return dispenserAmounts;
-	}
 }
