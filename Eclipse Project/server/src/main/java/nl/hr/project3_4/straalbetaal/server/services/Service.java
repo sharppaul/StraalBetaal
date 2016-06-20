@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 import nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject;
+import nl.hr.project3_4.straalbetaal.server.mail.MailService;
 
 public class Service {
 
@@ -76,6 +77,11 @@ public class Service {
 				LOG.info("Withdraw DBRequest Iban: " + pasID + " Saldo left: " + currentSaldo);
 				if (currentSaldo >= 0) {
 					transactieBon = dao.withdraw(pasID, amount, currentSaldo);
+					if (amount > 100) { // zodat er niet 2 mails worden verzonden door donate
+						String emailUser = dao.getMailAdres(pasID);
+						new MailService(emailUser).sendMailContainingTransactiebon(transactieBon, pasID, amount);
+						LOG.info("Mail send to user with transactiebon!");
+					}
 					LOG.info("Withdraw DBRequest SUCCESS, Iban: " + pasID + " Amount: " + amount + " Transaction ID: "
 							+ transactieBon);
 				}

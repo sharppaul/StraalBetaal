@@ -18,18 +18,18 @@ public class DataAccessObject extends DbTemplate {
 
 	public DataAccessObject() {
 	}
-	
-	public String getBankIP(int bankID){
+
+	public String getBankIP(int bankID) {
 		String ip = null;
 		String getBankSQL = "SELECT bank.IP, bank.port FROM bank WHERE bank.ID = ?";
 
 		try {
 			con = getConnection();
 			stmt = con.prepareStatement(getBankSQL);
-			stmt.setInt(1, bankID); 
+			stmt.setInt(1, bankID);
 			rs = stmt.executeQuery();
 			if (rs.next())
-				ip = "http://"+rs.getString(1)+":"+rs.getString(2);
+				ip = "http://" + rs.getString(1) + ":" + rs.getString(2);
 			LOG.info("MYSQL Request for bank IP.");
 			if (rs.next()) // If the resultSet contains a second row.
 				throw new SQLException("Multiple IPs for one bankID!");
@@ -216,6 +216,28 @@ public class DataAccessObject extends DbTemplate {
 		}
 
 		return transactieBon;
+	}
+
+	public String getMailAdres(String pasID) {
+		String mailadres = null;
+		String getMailAdresSQL = "SELECT users.email FROM users INNER JOIN card ON card.userID = users.userID WHERE card.IBAN = ?";
+		PreparedStatement stmt = null;
+		con = getConnection();
+		try {
+			stmt = con.prepareStatement(getMailAdresSQL);
+			stmt.setString(1, pasID);
+			rs = stmt.executeQuery();
+			if (rs.next())
+				mailadres = rs.getString(1);
+			LOG.info("MYSQL Getting user email for online transactiebon.");
+			stmt.close();
+		} catch (SQLException e) {
+			LOG.error("MYSQL ERROR when getting user email for online transactiebon");
+		} finally {
+			closeResources(con, stmt, rs);
+		}
+
+		return mailadres;
 	}
 
 }
