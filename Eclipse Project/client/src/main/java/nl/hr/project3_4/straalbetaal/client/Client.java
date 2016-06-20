@@ -210,7 +210,6 @@ public class Client {
 			System.out.println("Pinning succeeded: " + rs.isSucceeded());
 			if (rs.isSucceeded()) {
 				this.transNummer = rs.getTransactieNummer();
-				reader.dispense(data.getDispenserAmounts());
 			} else {
 				data.reset();
 				throw new Reset("toolow");
