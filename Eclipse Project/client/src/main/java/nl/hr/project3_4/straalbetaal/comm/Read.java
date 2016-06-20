@@ -28,13 +28,16 @@ public class Read implements SerialPortEventListener {
 
 	private static final String PORT_NAMES[] = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7" };
 	private BufferedReader input;
-	@SuppressWarnings("unused")
 	private OutputStream output;
 	private static final int TIME_OUT = 2000;
 	private static final int DATA_RATE = 57600;
 
 	/** Stuff for arduino data parsing: */
 	ArduinoData data;
+	
+	public static void main(String[] args){
+		Read r = new Read(new ArduinoData());
+	}
 
 	public Read(ArduinoData data) {
 		this.data = data;
@@ -99,10 +102,6 @@ public class Read implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 
-				String dispenserValues = data.getDispenserAmounts();
-				byte[] forArduino = dispenserValues.getBytes(StandardCharsets.US_ASCII);
-				output.write(forArduino);
-				output.flush();
 
 				JSONObject incomingJson = new JSONObject(inputLine);
 				System.out.println(incomingJson.toString());

@@ -2,6 +2,7 @@ package nl.hr.project3_4.straalbetaal.server.services;
 
 import org.apache.log4j.Logger;
 
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 import nl.hr.project3_4.straalbetaal.server.dao.DataAccessObject;
 
 public class Service {
@@ -21,10 +22,12 @@ public class Service {
 	}
 
 	public boolean checkPasExist(String pasID) {
+		pasID = BlackBox.b.decrypt(pasID);
 		return dao.doesPasExist(pasID);
 	}
 
 	public boolean isPasBlocked(String pasID) {
+		pasID = BlackBox.b.decrypt(pasID);
 		int counter = dao.getPinAttempts(pasID);
 
 		if (counter > 2)
@@ -34,6 +37,9 @@ public class Service {
 	}
 
 	public boolean isPinCorrect(String pasID, String pin) {
+		pasID = BlackBox.b.decrypt(pasID);
+		pin = BlackBox.b.decrypt(pin);
+		
 		String sqlPin = dao.getPin(pasID);
 
 		if (!sqlPin.equals(pin)) {
@@ -49,6 +55,7 @@ public class Service {
 	}
 
 	public Long getBalance(String pasID) {
+		pasID = BlackBox.b.decrypt(pasID);
 		if (pincodeChecked) {
 			balance = dao.getBalance(pasID);
 			LOG.info("Balance DBRequest SUCCESS, Iban: " + pasID + " Balance: " + balance + " Cause: Balance request");
@@ -59,6 +66,7 @@ public class Service {
 	}
 
 	public int withdraw(String pasID, long amount) {
+		pasID = BlackBox.b.decrypt(pasID);
 		int transactieBon = 0;
 
 		if (pincodeChecked) {

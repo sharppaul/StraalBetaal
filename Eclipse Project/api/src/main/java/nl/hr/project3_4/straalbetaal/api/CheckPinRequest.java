@@ -32,11 +32,11 @@ public class CheckPinRequest {
 	}
 
 	public String getPasID() {
-		return BlackBox.b.decrypt(this.pasID);
+		return this.pasID;
 	}
 
 	public void setPasID(String pasID) {
-		this.pasID = BlackBox.b.encrypt(pasID);
+		this.pasID = pasID;
 	}
 
 	public String getPinCode() {

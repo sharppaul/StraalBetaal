@@ -11,6 +11,7 @@ import nl.hr.project3_4.straalbetaal.api.CheckPinRequest;
 import nl.hr.project3_4.straalbetaal.api.CheckPinResponse;
 import nl.hr.project3_4.straalbetaal.api.WithdrawRequest;
 import nl.hr.project3_4.straalbetaal.api.WithdrawResponse;
+import nl.hr.project3_4.straalbetaal.encryption.BlackBox;
 
 public class ClientTest {
 	public static void main(String[] args) {
@@ -29,6 +30,9 @@ public class ClientTest {
 		return amountStr;
 	}
 	
+	public void testEncryption(){
+	}
+	
 	public void testFormat(){
 		System.out.println("€"+formatAmount(1000L));
 		System.out.println("€"+formatAmount(1009L));
@@ -40,10 +44,13 @@ public class ClientTest {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			System.out.print("Enter Bank ID\t");
 			int bankid = Integer.parseInt(br.readLine());
+			
 			System.out.print("Enter Card ID\t");
-			String cardid = br.readLine();
+			String cardid = BlackBox.b.encrypt(br.readLine());
+			
 			System.out.print("Enter PIN\t");
-			String pin = br.readLine();
+			String pin = BlackBox.b.encrypt(br.readLine());
+			
 			System.out.print("Enter withdraw amount\t");
 			int amount = Integer.parseInt(br.readLine());
 
@@ -51,6 +58,7 @@ public class ClientTest {
 			ClientBackEnd backend = new ClientBackEnd();
 
 			System.out.println("Checking if card exists...");
+			
 			CheckPasRequest pasRequest = new CheckPasRequest(bankid, cardid);
 			CheckPasResponse pasResponse = backend.checkPas(pasRequest);
 			if (pasResponse.doesExist()) {

@@ -30,24 +30,25 @@ int pincodeEncrypted;
 int pincodeLength = 0;
 int red = 40;
 int green = 41;
+int ledOut = 38;
 
+const int servoGround = 3;
 // servo voor tientjes.
-const int servo1 = 7;
-const int servo2 = 8;
+const int servo1 = 4;
+const int servo2 = 5;
 
 // servo voor twintigjes.
-const int servo3 = 9;
-const int servo4 = 11; //already used by Addicore...
+const int servo3 = 6;
+const int servo4 = 7; //already used by Addicore...
 
 // servo voor vijftigjes
-const int servo5 = 11;
-const int servo6 = 12;
+const int servo5 = 8;
+const int servo6 = 9;
 
 // servo middelpunt is 2445 mcs
 // linksom hoger
 // rechtsom lager
 
-int ledcounter = 0;
 long randNumber;
 
 boolean led = false;
@@ -59,25 +60,23 @@ String mode = "start";
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 //_______________________________________________________setup_______________________________________________________//
 void setup() {
-
   mfrc522.PCD_Init(); // Init MFRC522
-  for (byte i = 0; i < 6; i++) {
-    rfidkey.keyByte[i] = 0xFF;
-  }
-  
+  SPI.begin();
   Serial.begin(57600);
 
   pinMode(red, OUTPUT);
   pinMode(green, OUTPUT);
-<<<<<<< HEAD
-  // start the SPI library:
-  SPI.begin();
-=======
-  SPI.begin();// start the SPI library:
-
->>>>>>> 0c6f85ab6c87b008395b292350610f1c37df7ef7
+  pinMode(ledOut, OUTPUT);
+  pinMode(servoGround, OUTPUT);
+  
+  digitalWrite(servoGround, LOW);
+  digitalWrite(ledOut, HIGH);
   digitalWrite(red, HIGH);
   digitalWrite(green, LOW);
+
+  for (byte i = 0; i < 6; i++) {
+    rfidkey.keyByte[i] = 0xFF;
+  }
 }
 //_______________________________________________________main loop_______________________________________________________//
 void loop() {
