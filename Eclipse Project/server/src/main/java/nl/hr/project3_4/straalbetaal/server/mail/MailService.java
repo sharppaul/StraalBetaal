@@ -64,7 +64,7 @@ public class MailService {
 					+ "<p>Datum: " + DATEFORMAT.format(now)
 					+ "<br>Tijd: " + TIMEFORMAT.format(now)
 					+ "<h2>==Pin Transactie==</h2>"
-					+ "<br>Bedrag: G " + amount
+					+ "<br>Bedrag: G " + formatAmount(amount)
 					+ "<br>Transactie Nr.: " + transactieBon
 					+ "<br>Rekening Nr. :" + pasID
 					+ "</p>"
@@ -78,6 +78,17 @@ public class MailService {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private String formatAmount(long amount) {
+		String amountStr = (amount / 100) + ",";
+		long decimals = amount - ((amount / 100) * 100);
+		if (decimals > 9) {
+			amountStr += decimals;
+		} else {
+			amountStr += "0" + decimals;	
+		}
+		return amountStr;
 	}
 
 }
